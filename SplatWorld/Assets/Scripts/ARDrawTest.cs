@@ -9,7 +9,7 @@ using Niantic.ARDK.AR.HitTest;
 using Niantic.ARDK.External;
 using Niantic.ARDK.Utilities;
 using Niantic.ARDK.Utilities.Input.Legacy;
-using UnityEditor.PackageManager;
+//using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ARDrawTest : MonoBehaviour
