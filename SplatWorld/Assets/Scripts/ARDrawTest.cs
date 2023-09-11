@@ -69,12 +69,15 @@ public class ARDrawTest : MonoBehaviour
         var touch = PlatformAgnosticInput.GetTouch(0);
         hitPosition = GetPosition(touch);
 
+        if (hitPosition == new Vector3(float.MaxValue, float.MaxValue, float.MaxValue))
+            return;
+
         if (touch.phase == TouchPhase.Began)
         {
-            Draw();
+            StartDraw();
         }
         else if (touch.phase == TouchPhase.Moved) {
-            EndDraw();
+            Draw();
         }
     }
 
@@ -102,10 +105,12 @@ public class ARDrawTest : MonoBehaviour
         // Get the closest result
         var result = results[0];
 
-        return result.WorldTransform.ToPosition();
+        var fresult = result.WorldTransform.ToPosition();
+
+        return fresult;
     }
 
-    private void Draw()
+    private void StartDraw()
     {
         mesh = new Mesh();
 
@@ -140,7 +145,12 @@ public class ARDrawTest : MonoBehaviour
 
         lastMousePos = hitPosition;
     }
-    private void EndDraw() {
+    private void Draw() {
+        var currentFrame = _session.CurrentFrame;
+        if (currentFrame == null)
+        {
+            return;
+        }
         if (Vector3.Distance(hitPosition, lastMousePos) > minDistance)
         {
             Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
