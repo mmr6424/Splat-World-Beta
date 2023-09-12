@@ -102,13 +102,12 @@ public class ARDrawManager : MonoBehaviour
         }
         else if (touch.phase == TouchPhase.Ended)
             prevLR = null;
-        
     }
 
     private void AddNewLineRenderer(Vector3 position) {
         posCount = 2;
         GameObject temp = new GameObject($"LineRenderer_{lines.Count}");
-        temp.transform.parent = Camera.transform ?? transform;
+        temp.transform.parent = transform ?? Camera.transform;
         temp.transform.position = position;
         LineRenderer tempLineRenderer = temp.AddComponent<LineRenderer>();
         SetLine(tempLineRenderer);
