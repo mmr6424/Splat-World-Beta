@@ -31,7 +31,7 @@ public class ARDrawManager : MonoBehaviour
     [SerializeField]
     private bool ifSimplify;
     [SerializeField]
-    private float lineWidth = 0.05f;
+    private float lineWidth;
 
     private LineRenderer prevLR;
     private LineRenderer lineRender;
@@ -112,6 +112,7 @@ public class ARDrawManager : MonoBehaviour
         temp.transform.position = position;
         LineRenderer tempLineRenderer = temp.AddComponent<LineRenderer>();
         SetLine(tempLineRenderer);
+        UnityEngine.Debug.Log("SetLine() called");
         tempLineRenderer.useWorldSpace = true;
         tempLineRenderer.positionCount = posCount;
         tempLineRenderer.SetPosition(0, position);
@@ -145,8 +146,10 @@ public class ARDrawManager : MonoBehaviour
     }
 
     private void SetLine(LineRenderer currentLine) {
+        UnityEngine.Debug.Log("Original widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
         currentLine.startWidth = lineWidth;
         currentLine.endWidth = lineWidth;
+        UnityEngine.Debug.Log("New widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
         currentLine.numCornerVertices = cornerVertices;
         currentLine.numCapVertices = endCapVertices;
         if (ifSimplify) currentLine.Simplify(0.1f);
