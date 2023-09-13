@@ -28,6 +28,7 @@ public class MeshDrawer : MonoBehaviour
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         //transform.position = worldPosition;
 
+        // if the mouse button just went down, make a new mesh
         if (Input.GetMouseButtonDown(0))
         {
             mesh = new Mesh();
@@ -36,16 +37,20 @@ public class MeshDrawer : MonoBehaviour
             Vector2[] uv = new Vector2[4];
             int[] triangles = new int[6];
 
+            // vertices
             vertices[0] = worldPosition;
             vertices[1] = worldPosition;
             vertices[2] = worldPosition;
             vertices[3] = worldPosition;
 
+            // uv coordinates
+            // texture is plain solid color
             uv[0] = Vector2.zero;
             uv[1] = Vector2.zero;
             uv[2] = Vector2.zero;
             uv[3] = Vector2.zero;
 
+            // indexes of the vertices that make up each polygon
             triangles[0] = 0;
             triangles[1] = 3;
             triangles[2] = 1;
@@ -63,18 +68,23 @@ public class MeshDrawer : MonoBehaviour
 
             lastMousePos = worldPosition;
         }
+        // if the mouse button is currently being pressed
         if (Input.GetMouseButton(0))
         {
+            // if the new position is far enough away from the last position, extend mesh
             if (Vector3.Distance(worldPosition, lastMousePos) > minDistance)
             {
+                // allocate new arrays
                 Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
                 Vector2[] uv = new Vector2[mesh.uv.Length + 2];
                 int[] triangles = new int[mesh.triangles.Length + 6];
 
+                // copy arrays over
                 mesh.vertices.CopyTo(vertices, 0);
                 mesh.uv.CopyTo(uv, 0);
                 mesh.triangles.CopyTo(triangles, 0);
 
+                // get indexes for the new array spots
                 int vIndex = vertices.Length - 4;
                 int vIndex0 = vIndex + 0;
                 int vIndex1 = vIndex + 1;
