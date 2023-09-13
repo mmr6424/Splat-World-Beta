@@ -14,6 +14,10 @@ using UnityEngine;
 
 public class ARDrawTest : MonoBehaviour
 {
+    //
+    // FIELDS 
+    //
+
     /// The camera used to render the scene. Used to get the center of the screen.
     public Camera Camera;
 
@@ -30,6 +34,10 @@ public class ARDrawTest : MonoBehaviour
     public float lineThickness;
     public float minDistance;
 
+    //
+    // METHODS
+    //
+
     private void Start()
     {
         lineThickness = 0.01f;
@@ -37,12 +45,13 @@ public class ARDrawTest : MonoBehaviour
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
     }
 
+    // AR Session Initialize
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
     {
         _session = args.Session;
         _session.Deinitialized += OnSessionDeinitialized;
     }
-
+    // AR Session DE-Initialize
     private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
     {
     }
@@ -81,6 +90,7 @@ public class ARDrawTest : MonoBehaviour
         }
     }
 
+    // Get touch position
     private Vector3 GetPosition(Touch touch) {
         var currentFrame = _session.CurrentFrame;
         if (currentFrame == null)
