@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Crew.unity
     guid: 10217516ec541294ebcdde596d05434a
   - enabled: 0
-    path: Assets/Scenes/Socials.unity
+    path: Assets/Scenes/Profile.unity
     guid: 1018349fa8c19964a9506c74ac0bd8df
   m_configObjects: {}
