@@ -45,9 +45,12 @@ public class MeshDrawer : MonoBehaviour
     private List<Mesh> lines = new List<Mesh>();
     [SerializeField]
     private GameObject lineHolder;
-    //MeshFilter holderMeshfilter;
-    List<MeshFilter> meshFilters;
-    CombineInstance[] combine;
+    [SerializeField]
+    private MeshFilter targetMeshFilter;
+    [SerializeField]
+    private Material lineMaterial;
+    //private List<MeshFilter> meshFilters;
+    //private MeshFilter[] meshFilters;
 
     //
     // METHODS
@@ -65,12 +68,8 @@ public class MeshDrawer : MonoBehaviour
     {
         prevMesh = null;
         mesh = new Mesh();
+        //meshFilters = new List<MeshFilter>();
         
-        //AddMeshFilterCombine();
-
-        //lineHolder = new GameObject("Artwork");
-        //lineHolder.AddComponent<MeshRenderer>();
-        //holderMeshfilter = lineHolder.AddComponent<MeshFilter>();
     }
 
     /// <summary>
@@ -114,7 +113,7 @@ public class MeshDrawer : MonoBehaviour
         {
             DrawOnTouch();
         }
-        else mesh = null;
+        //else mesh = null;
     }
 
     /// <summary>
@@ -122,7 +121,7 @@ public class MeshDrawer : MonoBehaviour
     /// </summary>
     public void DrawOnTouch()
     {
-        Debug.Log("Draw on Touch called");
+        //Debug.Log("Draw on Touch called");
 
         // touch positioning
         var touch = PlatformAgnosticInput.GetTouch(0);
@@ -144,16 +143,37 @@ public class MeshDrawer : MonoBehaviour
         // if mouse button went up
         else if (Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended)
         {
-            // update references 
-            prevMesh = mesh;
+            // 
+
 
             // add mesh to mesh list
             //lines.Add(mesh);
             // https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
-            
 
-            //mesh = null;
+            CombineMeshes();
+            
+            // update references 
+            prevMesh = mesh;
         }
+    }
+
+    /// <summary>
+    /// Combine Line meshes
+    /// </summary>
+    private void CombineMeshes()
+    {
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+        
+
+        for (int i = 0; i < meshFilters.Length; i++)
+        {
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+        }
+
+        mesh.CombineMeshes(combine, false, false);
+        targetMeshFilter.mesh = mesh;
     }
 
     /// <summary>
@@ -199,8 +219,9 @@ public class MeshDrawer : MonoBehaviour
     /// </summary>
     private void StartDraw()
     {
-        Debug.Log("Start Draw called");
+        //Debug.Log("Start Draw called");
         Mesh tempMesh = new Mesh();
+        
 
         Vector3[] vertices = new Vector3[4];
         Vector2[] uv = new Vector2[4];
@@ -238,6 +259,17 @@ public class MeshDrawer : MonoBehaviour
         mesh = tempMesh;
 
         lastMousePos = hitPosition;
+
+        // LIST
+        //GameObject temp = new GameObject("temp", typeof(MeshRenderer)).AddComponent<MeshFilter>();
+        GameObject temp = new GameObject();
+        temp.AddComponent<MeshRenderer>().material = lineMaterial;
+        //temp.meshRenderer.material = lineMaterial;
+        MeshFilter tempFilter = temp.AddComponent<MeshFilter>();
+        tempFilter.sharedMesh = mesh;
+        temp.transform.SetParent(lineHolder.transform, true);
+        //meshFilters[meshFilters.Count - 1] = tempFilter;
+        //meshFilters[meshFilters.Count - 1].sharedMesh = mesh;
 
         Debug.Log("Successful mesh creation");
     }
