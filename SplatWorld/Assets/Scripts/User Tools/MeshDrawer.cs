@@ -96,6 +96,8 @@ public class MeshDrawer : MonoBehaviour
     {
         ARSessionFactory.SessionInitialized -= OnAnyARSessionDidInitialize;
         _session = null;
+        mesh = null;
+        prevMesh = null;
     }
 
     private void Update()
@@ -113,8 +115,10 @@ public class MeshDrawer : MonoBehaviour
         {
             DrawOnTouch();
         }
+
         //else mesh = null;
-    }
+
+        }
 
     /// <summary>
     /// Draw at touch location
