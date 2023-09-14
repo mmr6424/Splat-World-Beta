@@ -13,6 +13,8 @@ using Niantic.ARDK.Utilities.Input.Legacy;
 /// <summary>
 /// Creates a mesh line from touch input
 /// </summary>
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class MeshDrawer : MonoBehaviour
 {
     //
@@ -23,9 +25,8 @@ public class MeshDrawer : MonoBehaviour
     private Mesh prevMesh;
     private Mesh mesh;
     private Vector3 lastMousePos;
-    public Vector3 screenPosition;
-    public Vector3 worldPosition;
     public Vector3 hitPosition;
+    public Vector3 distanceToPoint = Vector3.zero;
     public float lineThickness;
     public float minDistance;
 
@@ -40,12 +41,36 @@ public class MeshDrawer : MonoBehaviour
     public Transform debugVisual1;
     public Transform debugVisual2;
 
+    // Multiple lines
+    private List<Mesh> lines = new List<Mesh>();
+    [SerializeField]
+    private GameObject lineHolder;
+    //MeshFilter holderMeshfilter;
+    List<MeshFilter> meshFilters;
+    CombineInstance[] combine;
+
+    //
+    // METHODS
+    //
 
     private void Awake()
     {
+        Debug.Log("Awake");
         lineThickness = 0.01f;
         minDistance = 0.01f;
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
+    }
+
+    private void Start()
+    {
+        prevMesh = null;
+        mesh = new Mesh();
+        
+        //AddMeshFilterCombine();
+
+        //lineHolder = new GameObject("Artwork");
+        //lineHolder.AddComponent<MeshRenderer>();
+        //holderMeshfilter = lineHolder.AddComponent<MeshFilter>();
     }
 
     /// <summary>
@@ -54,6 +79,7 @@ public class MeshDrawer : MonoBehaviour
     /// <param name="args">AR Session Initialized Args</param>
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
     {
+        Debug.Log("AR Session Initialized");
         _session = args.Session;
         _session.Deinitialized += OnSessionDeinitialized;
     }
@@ -64,7 +90,7 @@ public class MeshDrawer : MonoBehaviour
     /// <param name="args">AR Session DE-Initialized Args</param>
     private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
     {
-
+        _session = null;
     }
     
     private void OnDestroy()
@@ -75,15 +101,30 @@ public class MeshDrawer : MonoBehaviour
 
     private void Update()
     {
-        screenPosition = Input.mousePosition;
-        screenPosition.z = Camera.main.nearClipPlane + 1;
-        worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        //transform.position = worldPosition;
-
         // if no AR session or no touch, return
-        if (_session == null) return;
+        if (_session == null)
+        {
+            UnityEngine.Debug.Log("Update skipped - no AR Session.");
+            return;
+        }
         if (PlatformAgnosticInput.touchCount <= 0) return;
-        
+
+        // if touch input, draw
+        if (Input.GetMouseButton(0) || PlatformAgnosticInput.touchCount > 0)
+        {
+            DrawOnTouch();
+        }
+        else mesh = null;
+    }
+
+    /// <summary>
+    /// Draw at touch location
+    /// </summary>
+    public void DrawOnTouch()
+    {
+        Debug.Log("Draw on Touch called");
+
+        // touch positioning
         var touch = PlatformAgnosticInput.GetTouch(0);
         hitPosition = GetPosition(touch);
 
@@ -96,9 +137,22 @@ public class MeshDrawer : MonoBehaviour
             StartDraw();
         }
         // if the mouse button is currently being pressed
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) || touch.phase == TouchPhase.Moved)
         {
             Draw();
+        }
+        // if mouse button went up
+        else if (Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended)
+        {
+            // update references 
+            prevMesh = mesh;
+
+            // add mesh to mesh list
+            //lines.Add(mesh);
+            // https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
+            
+
+            //mesh = null;
         }
     }
 
@@ -113,6 +167,7 @@ public class MeshDrawer : MonoBehaviour
         // if no session return v3 with max float
         if (currentFrame == null)
         {
+            UnityEngine.Debug.Log("Get Position Failed - No AR Session");
             return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         }
 
@@ -144,17 +199,18 @@ public class MeshDrawer : MonoBehaviour
     /// </summary>
     private void StartDraw()
     {
-        mesh = new Mesh();
+        Debug.Log("Start Draw called");
+        Mesh tempMesh = new Mesh();
 
         Vector3[] vertices = new Vector3[4];
         Vector2[] uv = new Vector2[4];
         int[] triangles = new int[6];
 
         // vertices
-        vertices[0] = worldPosition;
-        vertices[1] = worldPosition;
-        vertices[2] = worldPosition;
-        vertices[3] = worldPosition;
+        vertices[0] = hitPosition;
+        vertices[1] = hitPosition;
+        vertices[2] = hitPosition;
+        vertices[3] = hitPosition;
 
         // uv coordinates
         // texture is plain solid color
@@ -172,14 +228,18 @@ public class MeshDrawer : MonoBehaviour
         triangles[4] = 3;
         triangles[5] = 2;
 
-        mesh.vertices = vertices;
-        mesh.uv = uv;
-        mesh.triangles = triangles;
-        mesh.MarkDynamic();
+        tempMesh.vertices = vertices;
+        tempMesh.uv = uv;
+        tempMesh.triangles = triangles;
+        tempMesh.MarkDynamic();
 
-        GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshFilter>().mesh = tempMesh;
 
-        lastMousePos = worldPosition;
+        mesh = tempMesh;
+
+        lastMousePos = hitPosition;
+
+        Debug.Log("Successful mesh creation");
     }
 
     /// <summary>
@@ -192,7 +252,7 @@ public class MeshDrawer : MonoBehaviour
         if (currentFrame == null) return;
 
         // if the new position is far enough away from the last position, extend mesh
-        if (Vector3.Distance(worldPosition, lastMousePos) > minDistance)
+        if (Vector3.Distance(hitPosition, lastMousePos) > minDistance)
         {
             // allocate new arrays
             Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
@@ -211,10 +271,10 @@ public class MeshDrawer : MonoBehaviour
             int vIndex2 = vIndex + 2;
             int vIndex3 = vIndex + 3;
 
-            Vector3 mouseForwardVector = (worldPosition - lastMousePos).normalized;
+            Vector3 mouseForwardVector = (hitPosition - lastMousePos).normalized;
             Vector3 normal2D = new Vector3(0, 0, -1f);
-            Vector3 newVertexUp = worldPosition + Vector3.Cross(mouseForwardVector, normal2D) * lineThickness;
-            Vector3 newVertexDown = worldPosition + Vector3.Cross(mouseForwardVector, normal2D * -1f) * lineThickness;
+            Vector3 newVertexUp = hitPosition + Vector3.Cross(mouseForwardVector, normal2D) * lineThickness;
+            Vector3 newVertexDown = hitPosition + Vector3.Cross(mouseForwardVector, normal2D * -1f) * lineThickness;
 
             //debugVisual1.position = newVertexUp;
             //debugVisual2.position = newVertexDown;
@@ -239,7 +299,7 @@ public class MeshDrawer : MonoBehaviour
             mesh.uv = uv;
             mesh.triangles = triangles;
 
-            lastMousePos = worldPosition;
+            lastMousePos = hitPosition;
         }
     }
 }
