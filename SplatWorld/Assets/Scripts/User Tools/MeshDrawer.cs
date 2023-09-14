@@ -1,16 +1,42 @@
+// Charles Begle and Moss Limpert
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Niantic.ARDK.AR;
+using Niantic.ARDK.AR.ARSessionEventArgs;
+using Niantic.ARDK.AR.HitTest;
+using Niantic.ARDK.External;
+using Niantic.ARDK.Utilities;
+using Niantic.ARDK.Utilities.Input.Legacy;
 
+/// <summary>
+/// Creates a mesh line from touch input
+/// </summary>
 public class MeshDrawer : MonoBehaviour
 {
+    //
+    // FIELDS
+    //
+    [SerializeField]
+    public Camera Camera;
+    private Mesh prevMesh;
     private Mesh mesh;
     private Vector3 lastMousePos;
     public Vector3 screenPosition;
     public Vector3 worldPosition;
+    public Vector3 hitPosition;
     public float lineThickness;
     public float minDistance;
 
+    // AR
+    /// The types of hit test results to filter against when performing a hit test.
+    [EnumFlagAttribute]
+    public ARHitTestResultType HitTestType = ARHitTestResultType.ExistingPlane;
+    /// Internal reference to the session, used to get the current frame to hit test against.
+    private IARSession _session;
+
+    // Debugging
     public Transform debugVisual1;
     public Transform debugVisual2;
 
@@ -19,6 +45,32 @@ public class MeshDrawer : MonoBehaviour
     {
         lineThickness = 0.01f;
         minDistance = 0.01f;
+        ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
+    }
+
+    /// <summary>
+    /// AR Session Initialize
+    /// </summary>
+    /// <param name="args">AR Session Initialized Args</param>
+    private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
+    {
+        _session = args.Session;
+        _session.Deinitialized += OnSessionDeinitialized;
+    }
+
+    /// <summary>
+    /// AR Session DE-Initialize
+    /// </summary>
+    /// <param name="args">AR Session DE-Initialized Args</param>
+    private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
+    {
+
+    }
+    
+    private void OnDestroy()
+    {
+        ARSessionFactory.SessionInitialized -= OnAnyARSessionDidInitialize;
+        _session = null;
     }
 
     private void Update()
@@ -28,99 +80,166 @@ public class MeshDrawer : MonoBehaviour
         worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         //transform.position = worldPosition;
 
+        // if no AR session or no touch, return
+        if (_session == null) return;
+        if (PlatformAgnosticInput.touchCount <= 0) return;
+        
+        var touch = PlatformAgnosticInput.GetTouch(0);
+        hitPosition = GetPosition(touch);
+
+        // if we have a no-hit condition, return
+        if (hitPosition == new Vector3(float.MaxValue, float.MaxValue, float.MaxValue)) return;
+
         // if the mouse button just went down, make a new mesh
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || touch.phase == TouchPhase.Began)
         {
-            mesh = new Mesh();
-
-            Vector3[] vertices = new Vector3[4];
-            Vector2[] uv = new Vector2[4];
-            int[] triangles = new int[6];
-
-            // vertices
-            vertices[0] = worldPosition;
-            vertices[1] = worldPosition;
-            vertices[2] = worldPosition;
-            vertices[3] = worldPosition;
-
-            // uv coordinates
-            // texture is plain solid color
-            uv[0] = Vector2.zero;
-            uv[1] = Vector2.zero;
-            uv[2] = Vector2.zero;
-            uv[3] = Vector2.zero;
-
-            // indexes of the vertices that make up each polygon
-            triangles[0] = 0;
-            triangles[1] = 3;
-            triangles[2] = 1;
-
-            triangles[3] = 1;
-            triangles[4] = 3;
-            triangles[5] = 2;
-
-            mesh.vertices = vertices;
-            mesh.uv = uv;
-            mesh.triangles = triangles;
-            mesh.MarkDynamic();
-
-            GetComponent<MeshFilter>().mesh = mesh;
-
-            lastMousePos = worldPosition;
+            StartDraw();
         }
         // if the mouse button is currently being pressed
         if (Input.GetMouseButton(0))
         {
-            // if the new position is far enough away from the last position, extend mesh
-            if (Vector3.Distance(worldPosition, lastMousePos) > minDistance)
-            {
-                // allocate new arrays
-                Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
-                Vector2[] uv = new Vector2[mesh.uv.Length + 2];
-                int[] triangles = new int[mesh.triangles.Length + 6];
+            Draw();
+        }
+    }
 
-                // copy arrays over
-                mesh.vertices.CopyTo(vertices, 0);
-                mesh.uv.CopyTo(uv, 0);
-                mesh.triangles.CopyTo(triangles, 0);
+    /// <summary>
+    /// Get position at touch
+    /// </summary>
+    /// <param name="touch">Touch input</param>
+    /// <returns></returns>
+    private Vector3 GetPosition(Touch touch)
+    {
+        var currentFrame = _session.CurrentFrame;
+        // if no session return v3 with max float
+        if (currentFrame == null)
+        {
+            return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        }
 
-                // get indexes for the new array spots
-                int vIndex = vertices.Length - 4;
-                int vIndex0 = vIndex + 0;
-                int vIndex1 = vIndex + 1;
-                int vIndex2 = vIndex + 2;
-                int vIndex3 = vIndex + 3;
+        var results = currentFrame.HitTest(
+            Camera.pixelWidth,
+            Camera.pixelHeight,
+            touch.position,
+            HitTestType
+        );
 
-                Vector3 mouseForwardVector = (worldPosition - lastMousePos).normalized;
-                Vector3 normal2D = new Vector3(0, 0, -1f);
-                Vector3 newVertexUp = worldPosition + Vector3.Cross(mouseForwardVector, normal2D) * lineThickness;
-                Vector3 newVertexDown = worldPosition + Vector3.Cross(mouseForwardVector, normal2D * -1f) * lineThickness;
+        int count = results.Count;
+        Debug.Log("Hit test results: " + count);
 
-                //debugVisual1.position = newVertexUp;
-                //debugVisual2.position = newVertexDown;
+        // if no hits return v3 with max float
+        if (count <= 0)
+        {
+            return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        }
 
-                vertices[vIndex2] = newVertexUp;
-                vertices[vIndex3] = newVertexDown;
+        // get closest result
+        var result = results[0];
+        var fresult = result.WorldTransform.ToPosition();
 
-                uv[vIndex2] = Vector2.zero;
-                uv[vIndex3] = Vector2.zero;
+        return fresult;
+    }
 
-                int tIndex = triangles.Length - 6;
+    /// <summary>
+    /// Begins mesh drawing at first input
+    /// </summary>
+    private void StartDraw()
+    {
+        mesh = new Mesh();
 
-                triangles[tIndex + 0] = vIndex0;
-                triangles[tIndex + 1] = vIndex2;
-                triangles[tIndex + 2] = vIndex1;
+        Vector3[] vertices = new Vector3[4];
+        Vector2[] uv = new Vector2[4];
+        int[] triangles = new int[6];
 
-                triangles[tIndex + 3] = vIndex1;
-                triangles[tIndex + 4] = vIndex2;
-                triangles[tIndex + 5] = vIndex3;
+        // vertices
+        vertices[0] = worldPosition;
+        vertices[1] = worldPosition;
+        vertices[2] = worldPosition;
+        vertices[3] = worldPosition;
 
-                mesh.vertices = vertices;
-                mesh.uv = uv;
-                mesh.triangles = triangles;
+        // uv coordinates
+        // texture is plain solid color
+        uv[0] = Vector2.zero;
+        uv[1] = Vector2.zero;
+        uv[2] = Vector2.zero;
+        uv[3] = Vector2.zero;
 
-                lastMousePos = worldPosition;
-            }
+        // indexes of the vertices that make up each polygon
+        triangles[0] = 0;
+        triangles[1] = 3;
+        triangles[2] = 1;
+
+        triangles[3] = 1;
+        triangles[4] = 3;
+        triangles[5] = 2;
+
+        mesh.vertices = vertices;
+        mesh.uv = uv;
+        mesh.triangles = triangles;
+        mesh.MarkDynamic();
+
+        GetComponent<MeshFilter>().mesh = mesh;
+
+        lastMousePos = worldPosition;
+    }
+
+    /// <summary>
+    /// Continues mesh drawing while input is still given
+    /// </summary>
+    private void Draw()
+    {
+        var currentFrame = _session.CurrentFrame;
+        // if no current AR session, return
+        if (currentFrame == null) return;
+
+        // if the new position is far enough away from the last position, extend mesh
+        if (Vector3.Distance(worldPosition, lastMousePos) > minDistance)
+        {
+            // allocate new arrays
+            Vector3[] vertices = new Vector3[mesh.vertices.Length + 2];
+            Vector2[] uv = new Vector2[mesh.uv.Length + 2];
+            int[] triangles = new int[mesh.triangles.Length + 6];
+
+            // copy arrays over
+            mesh.vertices.CopyTo(vertices, 0);
+            mesh.uv.CopyTo(uv, 0);
+            mesh.triangles.CopyTo(triangles, 0);
+
+            // get indexes for the new array spots
+            int vIndex = vertices.Length - 4;
+            int vIndex0 = vIndex + 0;
+            int vIndex1 = vIndex + 1;
+            int vIndex2 = vIndex + 2;
+            int vIndex3 = vIndex + 3;
+
+            Vector3 mouseForwardVector = (worldPosition - lastMousePos).normalized;
+            Vector3 normal2D = new Vector3(0, 0, -1f);
+            Vector3 newVertexUp = worldPosition + Vector3.Cross(mouseForwardVector, normal2D) * lineThickness;
+            Vector3 newVertexDown = worldPosition + Vector3.Cross(mouseForwardVector, normal2D * -1f) * lineThickness;
+
+            //debugVisual1.position = newVertexUp;
+            //debugVisual2.position = newVertexDown;
+
+            vertices[vIndex2] = newVertexUp;
+            vertices[vIndex3] = newVertexDown;
+
+            uv[vIndex2] = Vector2.zero;
+            uv[vIndex3] = Vector2.zero;
+
+            int tIndex = triangles.Length - 6;
+
+            triangles[tIndex + 0] = vIndex0;
+            triangles[tIndex + 1] = vIndex2;
+            triangles[tIndex + 2] = vIndex1;
+
+            triangles[tIndex + 3] = vIndex1;
+            triangles[tIndex + 4] = vIndex2;
+            triangles[tIndex + 5] = vIndex3;
+
+            mesh.vertices = vertices;
+            mesh.uv = uv;
+            mesh.triangles = triangles;
+
+            lastMousePos = worldPosition;
         }
     }
 }
