@@ -147,13 +147,7 @@ public class MeshDrawer : MonoBehaviour
         // if mouse button went up
         else if (Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended)
         {
-            // 
-
-
-            // add mesh to mesh list
-            //lines.Add(mesh);
-            // https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
-
+            // combine this stroke with the rest
             CombineMeshes();
             
             // update references 
@@ -163,6 +157,7 @@ public class MeshDrawer : MonoBehaviour
 
     /// <summary>
     /// Combine Line meshes
+    /// https://docs.unity3d.com/ScriptReference/Mesh.CombineMeshes.html
     /// </summary>
     private void CombineMeshes()
     {
@@ -213,6 +208,9 @@ public class MeshDrawer : MonoBehaviour
 
         // get closest result
         var result = results[0];
+
+        // rotate hit position towards camera
+
         var fresult = result.WorldTransform.ToPosition();
 
         return fresult;
@@ -265,15 +263,11 @@ public class MeshDrawer : MonoBehaviour
         lastMousePos = hitPosition;
 
         // LIST
-        //GameObject temp = new GameObject("temp", typeof(MeshRenderer)).AddComponent<MeshFilter>();
         GameObject temp = new GameObject();
         temp.AddComponent<MeshRenderer>().material = lineMaterial;
-        //temp.meshRenderer.material = lineMaterial;
         MeshFilter tempFilter = temp.AddComponent<MeshFilter>();
         tempFilter.sharedMesh = mesh;
         temp.transform.SetParent(lineHolder.transform, true);
-        //meshFilters[meshFilters.Count - 1] = tempFilter;
-        //meshFilters[meshFilters.Count - 1].sharedMesh = mesh;
 
         Debug.Log("Successful mesh creation");
     }
@@ -308,9 +302,14 @@ public class MeshDrawer : MonoBehaviour
             int vIndex3 = vIndex + 3;
 
             Vector3 mouseForwardVector = (hitPosition - lastMousePos).normalized;
-            Vector3 normal2D = new Vector3(0, 0, -1f);
+            // making normal towards cam
+            Vector3 normal2D = Camera.transform.forward;
+            //normal2D = Vector3.Cross(normal2D, Camera.transform.forward);
+            //Vector3 normal2D = new Vector3(0, 0, -1f);
             Vector3 newVertexUp = hitPosition + Vector3.Cross(mouseForwardVector, normal2D) * lineThickness;
             Vector3 newVertexDown = hitPosition + Vector3.Cross(mouseForwardVector, normal2D * -1f) * lineThickness;
+
+
 
             //debugVisual1.position = newVertexUp;
             //debugVisual2.position = newVertexDown;
