@@ -171,7 +171,7 @@ public class MeshDrawer : MonoBehaviour
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
 
-        mesh.CombineMeshes(combine, false, false);
+        mesh.CombineMeshes(combine, true, false);
         targetMeshFilter.mesh = mesh;
     }
 
@@ -210,7 +210,6 @@ public class MeshDrawer : MonoBehaviour
         var result = results[0];
 
         // rotate hit position towards camera
-
         var fresult = result.WorldTransform.ToPosition();
 
         return fresult;
