@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 
 using Niantic.ARDK.AR;
 using Niantic.ARDK.AR.ARSessionEventArgs;
@@ -14,15 +16,28 @@ public class PaintCanvasRenderer : MonoBehaviour
     private Camera Camera; // The camera used to render the scene. Used to get the center of the screen.
 
     [SerializeField]
-    private GameObject CursorObject; // The object we will place to represent the cursor!
+    private GameObject cursorObject; // The object we will place to represent the cursor!
+    [SerializeField]
+    public Sprite canvasSprite;
 
-    private GameObject _spawnedCursorObject; // A reference to the spawned cursor in the center of the screen.
+    private GameObject eiselObj;
+    private Canvas eisel; // The canvas for the draw tool to draw on!
+
+    private GameObject _spawnedcursorObject; // A reference to the spawned cursor in the center of the screen.
 
     private IARSession _session;
 
     private void Start()
     {
         ARSessionFactory.SessionInitialized += _SessionInitialized;
+
+        eiselObj = new GameObject();
+        eiselObj.name = "Eisel";
+        eiselObj.AddComponent<Canvas>();
+
+        eisel = eiselObj.GetComponent<Canvas>();
+        eiselObj.AddComponent<CanvasScaler>();
+        eiselObj.AddComponent<GraphicRaycaster>();
     }
 
     private void OnDestroy()
@@ -38,11 +53,11 @@ public class PaintCanvasRenderer : MonoBehaviour
 
     private void DestroySpawnedCursor()
     {
-        if (_spawnedCursorObject == null)
+        if (_spawnedcursorObject == null)
         return;
 
-        Destroy(_spawnedCursorObject);
-        _spawnedCursorObject = null;
+        Destroy(_spawnedcursorObject);
+        _spawnedcursorObject = null;
     }
 
     private void _SessionInitialized(AnyARSessionInitializedArgs args)
@@ -60,6 +75,10 @@ public class PaintCanvasRenderer : MonoBehaviour
     private void _OnSessionDeinitialized(ARSessionDeinitializedArgs args)
     {
         DestroySpawnedCursor();
+    }
+
+    private void Update() {
+
     }
 
     private void _FrameUpdated(FrameUpdatedArgs args)
@@ -90,20 +109,20 @@ public class PaintCanvasRenderer : MonoBehaviour
         if (hitTestResults.Count == 0)
         return;
 
-        if (_spawnedCursorObject == null)
-        _spawnedCursorObject = Instantiate(CursorObject, Vector2.one, Quaternion.identity);
+        if (_spawnedcursorObject == null)
+        _spawnedcursorObject = Instantiate(cursorObject, Vector2.one, Quaternion.identity);
 
         // Set the cursor object to the hit test result's position
-        _spawnedCursorObject.transform.position = hitTestResults[0].WorldTransform.ToPosition();
+        _spawnedcursorObject.transform.position = hitTestResults[0].WorldTransform.ToPosition();
 
         // Orient the cursor object to look at the user, but remain flat on the "ground", aka
         // only rotate about the y-axis
-        _spawnedCursorObject.transform.LookAt
+        _spawnedcursorObject.transform.LookAt
         (
         new Vector3
         (
             frame.Camera.Transform[0, 3],
-            _spawnedCursorObject.transform.position.y,
+            _spawnedcursorObject.transform.position.y,
             frame.Camera.Transform[2, 3]
         )
         );
