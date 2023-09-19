@@ -26,7 +26,6 @@ public class MeshDrawer : MonoBehaviour
     private Mesh mesh;
     private Vector3 lastMousePos;
     public Vector3 hitPosition;
-    public Vector3 distanceToPoint = Vector3.zero;
     public float lineThickness;
     public float minDistance;
 
