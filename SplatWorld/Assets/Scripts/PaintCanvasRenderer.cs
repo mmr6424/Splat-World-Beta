@@ -7,7 +7,9 @@ using UnityEditor;
 using Niantic.ARDK.AR;
 using Niantic.ARDK.AR.ARSessionEventArgs;
 using Niantic.ARDK.AR.HitTest;
+using Niantic.ARDK.External;
 using Niantic.ARDK.Utilities;
+using Niantic.ARDK.Utilities.Input.Legacy;
 
 public class PaintCanvasRenderer : MonoBehaviour
 {
@@ -16,115 +18,119 @@ public class PaintCanvasRenderer : MonoBehaviour
     private Camera Camera; // The camera used to render the scene. Used to get the center of the screen.
 
     [SerializeField]
-    private GameObject cursorObject; // The object we will place to represent the cursor!
-    [SerializeField]
     public Sprite canvasSprite;
 
+    private Vector3 hitPosition;
     private GameObject eiselObj;
-    private Canvas eisel; // The canvas for the draw tool to draw on!
+    private SpriteRenderer eisel; // The canvas for the draw tool to draw on!
 
-    private GameObject _spawnedcursorObject; // A reference to the spawned cursor in the center of the screen.
-
+    /// The types of hit test results to filter against when performing a hit test.
+    [EnumFlagAttribute]
+    public ARHitTestResultType HitTestType = ARHitTestResultType.ExistingPlane;
     private IARSession _session;
+
+    private void Awake()
+    {
+        Debug.Log("Awake");
+        ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
+    }
 
     private void Start()
     {
-        ARSessionFactory.SessionInitialized += _SessionInitialized;
-
         eiselObj = new GameObject();
         eiselObj.name = "Eisel";
-        eiselObj.AddComponent<Canvas>();
+        eiselObj.AddComponent<SpriteRenderer>();
 
-        eisel = eiselObj.GetComponent<Canvas>();
-        eiselObj.AddComponent<CanvasScaler>();
-        eiselObj.AddComponent<GraphicRaycaster>();
+        eisel = eiselObj.GetComponent<SpriteRenderer>();
+        eisel.transform.parent = eiselObj.transform;
+        eisel.sprite = canvasSprite;
+        eisel.spriteSortPoint = SpriteSortPoint.Pivot;
     }
 
+    private void Update() 
+    {
+        if (_session == null)
+        {
+            UnityEngine.Debug.Log("Update skipped - no AR Session.");
+            return;
+        }
+        if (PlatformAgnosticInput.touchCount <= 0) return;
+        var touch = PlatformAgnosticInput.GetTouch(0);
+        if (touch.phase == TouchPhase.Began) {
+            hitPosition = GetPosition(touch);
+            eiselObj.transform.position = hitPosition;
+            eisel.transform.position = hitPosition;
+        }
+        if (touch.phase == TouchPhase.Moved) {
+            Vector3 movePosition = GetPosition(touch);
+            Vector3 dist = hitPosition - movePosition;
+            eiselObj.transform.localScale = new Vector3(-dist.x, dist.y, dist.z);
+            eisel.transform.localScale = new Vector3(-dist.x, dist.y, dist.z);
+        }
+    }
+    /// <summary>
+    /// Get position at touch
+    /// </summary>
+    /// <param name="touch">Touch input</param>
+    /// <returns></returns>
+    private Vector3 GetPosition(Touch touch)
+    {
+        var currentFrame = _session.CurrentFrame;
+        // if no session return v3 with max float
+        if (currentFrame == null)
+        {
+            UnityEngine.Debug.Log("Get Position Failed - No AR Session");
+            return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        }
+
+        var results = currentFrame.HitTest(
+            Camera.pixelWidth,
+            Camera.pixelHeight,
+            touch.position,
+            HitTestType
+        );
+
+        int count = results.Count;
+        Debug.Log("Hit test results: " + count);
+
+        // if no hits return v3 with max float
+        if (count <= 0)
+        {
+            return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        }
+
+        // get closest result
+        var result = results[0];
+
+        // rotate hit position towards camera
+        var fresult = result.WorldTransform.ToPosition();
+
+        return fresult;
+    }
+
+    /// <summary>
+    /// AR Session Initialize
+    /// </summary>
+    /// <param name="args">AR Session Initialized Args</param>
+    private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
+    {
+        Debug.Log("AR Session Initialized");
+        _session = args.Session;
+        _session.Deinitialized += OnSessionDeinitialized;
+    }
+
+    /// <summary>
+    /// AR Session DE-Initialize
+    /// </summary>
+    /// <param name="args">AR Session DE-Initialized Args</param>
+    private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
+    {
+        _session = null;
+    }
+    
     private void OnDestroy()
     {
-        ARSessionFactory.SessionInitialized -= _SessionInitialized;
-
-        var session = _session;
-        if (session != null)
-        session.FrameUpdated -= _FrameUpdated;
-
-        DestroySpawnedCursor();
-    }
-
-    private void DestroySpawnedCursor()
-    {
-        if (_spawnedcursorObject == null)
-        return;
-
-        Destroy(_spawnedcursorObject);
-        _spawnedcursorObject = null;
-    }
-
-    private void _SessionInitialized(AnyARSessionInitializedArgs args)
-    {
-        var oldSession = _session;
-        if (oldSession != null)
-        oldSession.FrameUpdated -= _FrameUpdated;
-
-        var newSession = args.Session;
-        _session = newSession;
-        newSession.FrameUpdated += _FrameUpdated;
-        newSession.Deinitialized += _OnSessionDeinitialized;
-    }
-
-    private void _OnSessionDeinitialized(ARSessionDeinitializedArgs args)
-    {
-        DestroySpawnedCursor();
-    }
-
-    private void Update() {
-
-    }
-
-    private void _FrameUpdated(FrameUpdatedArgs args)
-    {
-        var camera = Camera;
-        if (camera == null)
-        return;
-
-        var viewportWidth = camera.pixelWidth;
-        var viewportHeight = camera.pixelHeight;
-
-        // Hit testing for cursor in the middle of the screen
-        var middle = new Vector2(viewportWidth / 2f, viewportHeight / 2f);
-
-        var frame = args.Frame;
-        // Perform a hit test and either estimate a horizontal plane, or use an existing plane and its
-        // extents!
-        var hitTestResults =
-        frame.HitTest
-        (
-            viewportWidth,
-            viewportHeight,
-            middle,
-            ARHitTestResultType.ExistingPlaneUsingExtent |
-            ARHitTestResultType.EstimatedHorizontalPlane
-        );
-
-        if (hitTestResults.Count == 0)
-        return;
-
-        if (_spawnedcursorObject == null)
-        _spawnedcursorObject = Instantiate(cursorObject, Vector2.one, Quaternion.identity);
-
-        // Set the cursor object to the hit test result's position
-        _spawnedcursorObject.transform.position = hitTestResults[0].WorldTransform.ToPosition();
-
-        // Orient the cursor object to look at the user, but remain flat on the "ground", aka
-        // only rotate about the y-axis
-        _spawnedcursorObject.transform.LookAt
-        (
-        new Vector3
-        (
-            frame.Camera.Transform[0, 3],
-            _spawnedcursorObject.transform.position.y,
-            frame.Camera.Transform[2, 3]
-        )
-        );
+        ARSessionFactory.SessionInitialized -= OnAnyARSessionDidInitialize;
+        _session = null;
     }
 }

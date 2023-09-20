@@ -2450,11 +2450,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d6c32ef3bf1c0a4e95bc899f3b4ed69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOriginalPos: {fileID: 1727475156}
-  menuActivePos: {fileID: 443559536}
+  menuOriginalPosR: {fileID: 0}
+  menuActivePosR: {fileID: 0}
+  menuOriginalPosL: {fileID: 0}
+  menuActivePosL: {fileID: 0}
   menuPanel: {fileID: 328038547}
   moveMenuPanel: 0
   moveMenuPanelBack: 0
+  leftOrRight: 0
   moveSpeed: 3
   tempPos: 0
 --- !u!114 &870984555
