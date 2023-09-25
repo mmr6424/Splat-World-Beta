@@ -1171,7 +1171,6 @@ GameObject:
   - component: {fileID: 430167775}
   - component: {fileID: 430167774}
   - component: {fileID: 430167773}
-  - component: {fileID: 430167772}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1179,25 +1178,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &430167772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430167771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d6c32ef3bf1c0a4e95bc899f3b4ed69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuOriginalPos: {fileID: 1960143136}
-  menuActivePos: {fileID: 1918096717}
-  menuPanel: {fileID: 443312093}
-  moveMenuPanel: 0
-  moveMenuPanelBack: 0
-  moveSpeed: 3
-  tempPos: 0
 --- !u!114 &430167773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2152,7 +2132,6 @@ GameObject:
   - component: {fileID: 777725650}
   - component: {fileID: 777725649}
   - component: {fileID: 777725648}
-  - component: {fileID: 777725647}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -2179,25 +2158,6 @@ RectTransform:
   m_AnchoredPosition: {x: -450.0619, y: -869.4619}
   m_SizeDelta: {x: 180.258, y: 180.258}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &777725647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777725645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d143e84b2bb67df498a5f90544953efd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menuOriginalPos: {fileID: 0}
-  menuActivePos: {fileID: 0}
-  menuPanel: {fileID: 777725645}
-  moveMenuPanel: 0
-  moveMenuPanelBack: 0
-  moveSpeed: 0
-  tempPos: 0
 --- !u!114 &777725648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2242,7 +2202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 430167772}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Movement, Assembly-CSharp
         m_MethodName: MovePanelBack
         m_Mode: 1
@@ -2254,7 +2214,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 777725647}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: IconFlip, Assembly-CSharp
         m_MethodName: MovePanel
         m_Mode: 1
@@ -2690,7 +2650,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 430167772}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Movement, Assembly-CSharp
         m_MethodName: MovePanel
         m_Mode: 1
