@@ -260,6 +260,7 @@
 
 					_currentLocation.TimestampDevice = UnixTimestampUtils.To(DateTime.UtcNow);
 					SendLocation(_currentLocation);
+					Debug.Log(_currentLocation.LatitudeLongitude);
 				}
 				catch (Exception ex)
 				{

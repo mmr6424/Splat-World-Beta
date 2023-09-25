@@ -165,6 +165,7 @@ namespace Mapbox.Unity.Location
 				UniAndroidPermission.RequestPermission(AndroidPermission.ACCESS_FINE_LOCATION);
 				//wait for user to allow or deny
 				while (!_gotPermissionRequestResponse) { yield return _wait1sec; }
+				Debug.Log(_currentLocation);
 			}
 #endif
 
@@ -173,7 +174,10 @@ namespace Mapbox.Unity.Location
 			{
 				Debug.LogError("DeviceLocationProvider: Location is not enabled by user!");
 				_currentLocation.IsLocationServiceEnabled = false;
+				Debug.Log(_currentLocation);
 				SendLocation(_currentLocation);
+
+
 				yield break;
 			}
 
@@ -194,6 +198,7 @@ namespace Mapbox.Unity.Location
 				Debug.LogError("DeviceLocationProvider: " + "Timed out trying to initialize location services!");
 				_currentLocation.IsLocationServiceInitializing = false;
 				_currentLocation.IsLocationServiceEnabled = false;
+				Debug.Log(_currentLocation);
 				SendLocation(_currentLocation);
 				yield break;
 			}
@@ -203,6 +208,7 @@ namespace Mapbox.Unity.Location
 				Debug.LogError("DeviceLocationProvider: " + "Failed to initialize location services!");
 				_currentLocation.IsLocationServiceInitializing = false;
 				_currentLocation.IsLocationServiceEnabled = false;
+				Debug.Log(_currentLocation);
 				SendLocation(_currentLocation);
 				yield break;
 			}
@@ -284,6 +290,7 @@ namespace Mapbox.Unity.Location
 					{
 						_lastPositions.Add(_currentLocation.LatitudeLongitude);
 					}
+					Debug.Log(_currentLocation);
 				}
 
 				// if we have enough positions calculate user heading ourselves.
@@ -295,6 +302,7 @@ namespace Mapbox.Unity.Location
 				{
 					_currentLocation.UserHeading = _currentLocation.DeviceOrientation;
 					_currentLocation.IsUserHeadingUpdated = true;
+					
 				}
 				else
 				{
@@ -316,9 +324,9 @@ namespace Mapbox.Unity.Location
 							// atan2 increases angle CCW, flip sign of latDiff to get CW
 							double latDiff = -(_lastPositions[i].x - _lastPositions[i - 1].x);
 							double lngDiff = _lastPositions[i].y - _lastPositions[i - 1].y;
-							// +90.0 to make top (north) 0°
+							// +90.0 to make top (north) 0ï¿½
 							double heading = (Math.Atan2(latDiff, lngDiff) * 180.0 / Math.PI) + 90.0f;
-							// stay within [0..360]° range
+							// stay within [0..360]ï¿½ range
 							if (heading < 0) { heading += 360; }
 							if (heading >= 360) { heading -= 360; }
 							lastHeadings[i - 1] = (float)heading;
@@ -327,16 +335,18 @@ namespace Mapbox.Unity.Location
 						_userHeadingSmoothing.Add(lastHeadings[0]);
 						float finalHeading = (float)_userHeadingSmoothing.Calculate();
 
-						//fix heading to have 0° for north, 90° for east, 180° for south and 270° for west
+						//fix heading to have 0ï¿½ for north, 90ï¿½ for east, 180ï¿½ for south and 270ï¿½ for west
 						finalHeading = finalHeading >= 180.0f ? finalHeading - 180.0f : finalHeading + 180.0f;
 
 
 						_currentLocation.UserHeading = finalHeading;
 						_currentLocation.IsUserHeadingUpdated = true;
 					}
+					Debug.Log(_currentLocation);
 				}
 
 				_currentLocation.TimestampDevice = UnixTimestampUtils.To(DateTime.UtcNow);
+				Debug.Log(_currentLocation);
 				SendLocation(_currentLocation);
 
 				yield return _waitUpdateTime;
