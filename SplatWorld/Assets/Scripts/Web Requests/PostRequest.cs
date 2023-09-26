@@ -1,7 +1,6 @@
 // Moss Limpert
 // references: https://www.youtube.com/playlist?list=PLgdnKWI1HG5A6tCOPaVFXIfiL4H9_1wrU
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,33 +16,55 @@ public class PostRequest : MonoBehaviour
     [SerializeField]
     InputField output;
     [SerializeField]
-    Button send;
+    List<InputField> input;                 // input fields. VERY IMPORTANT:
+                                            // naming of input fields MUST match json 
+                                            // field titles
+    List<(string fName, Text value)> args;  // list of tuples...
+    [SerializeField]                    
+    string uri;
 
-    // Start is called before the first frame update
-    void Start()
+    //
+    // METHODS
+    //
+    /// <summary>
+    /// Sets up buttons to send request on click
+    /// </summary>
+    private void Start()
     {
-        
-    }
+        args = new List<(string fName, Text value)>();
+        //Debug.Log(send);
+        //this.onClick.AddListener(PostData);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // fill args (list of tuples)
+        for (int i = 0; i < input.Count; i++)
+        {
+            args.Add((input[i].name, input[i].textComponent));
+            //Debug.Log(input[i].name);
+        }
+        // make sure args is full
+        //for (int i = 0; i < args.Count; i++)
+        //{
+        //    Debug.Log(args[i]);
+        //}
     }
 
     /// <summary>
     /// Post Data to the server
     /// </summary>
-    /// <param name="uri">url to put data to</param>
-    /// <param name="args">parameters including data</param>
     /// <returns></returns>
-    IEnumerator PostData_Coroutine(string uri, string[] args)
+    IEnumerator PostData_Coroutine()
     {
         output.text = "Loading...";
 
         WWWForm form = new WWWForm();
 
         //form.AddField("title", "test data");
+        for (int i = 0; i < args.Count; i++)
+        {
+            form.AddField(args[i].fName, args[i].value.ToString());
+        }
+
+        Debug.Log(form);
 
         using (UnityWebRequest req = UnityWebRequest.Post(uri, form))
         {
@@ -70,7 +91,5 @@ public class PostRequest : MonoBehaviour
     /// <summary>
     /// Starts coroutine to post data to server
     /// </summary>
-    /// <param name="uri">url to post data to</param>
-    /// <param name="args">parameters, including data</param>
-    void PostData(string uri, string[] args) => StartCoroutine(PostData_Coroutine(uri, args));
+    public void PostData() => StartCoroutine(PostData_Coroutine());
 }
