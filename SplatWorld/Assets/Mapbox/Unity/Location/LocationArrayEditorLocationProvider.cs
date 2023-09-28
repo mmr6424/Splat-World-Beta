@@ -36,6 +36,7 @@
 				idx++;
 				// reset index to keep looping through the location array
 				if (idx >= _latitudeLongitude.Length) { idx = 0; }
+				Debug.Log(Conversions.StringToLatLon(_latitudeLongitude[idx]));
 				return Conversions.StringToLatLon(_latitudeLongitude[idx]);
 			}
 		}

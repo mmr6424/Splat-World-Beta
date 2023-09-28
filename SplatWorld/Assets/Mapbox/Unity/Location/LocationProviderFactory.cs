@@ -80,6 +80,7 @@ namespace Mapbox.Unity.Location
 			set
 			{
 				_defaultLocationProvider = value;
+				Debug.Log(_defaultLocationProvider);
 			}
 		}
 
@@ -102,6 +103,7 @@ namespace Mapbox.Unity.Location
 			get
 			{
 				return _editorLocationProvider;
+				Debug.Log(_defaultLocationProvider);
 			}
 		}
 

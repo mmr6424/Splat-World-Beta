@@ -51,7 +51,7 @@ public class PaintCanvasRenderer : MonoBehaviour
     {
         if (_session == null)
         {
-            UnityEngine.Debug.Log("Update skipped - no AR Session.");
+            Debug.Log("Update skipped - no AR Session.");
             return;
         }
         if (PlatformAgnosticInput.touchCount <= 0) return;
@@ -63,9 +63,17 @@ public class PaintCanvasRenderer : MonoBehaviour
         }
         if (touch.phase == TouchPhase.Moved) {
             Vector3 movePosition = GetPosition(touch);
-            Vector3 dist = hitPosition - movePosition;
-            eiselObj.transform.localScale = new Vector3(-dist.x, dist.y, dist.z);
-            eisel.transform.localScale = new Vector3(-dist.x, dist.y, dist.z);
+            float dist = Vector3.Distance(hitPosition, movePosition);
+            eiselObj.transform.localScale = new Vector3(eiselObj.transform.localScale.x, dist, eiselObj.transform.localScale.z);
+            eisel.transform.localScale = new Vector3(eiselObj.transform.localScale.x, dist, eiselObj.transform.localScale.z);
+
+            Vector3 midpoint = (hitPosition + movePosition) / 2f;
+            eiselObj.transform.position = midpoint;
+            eisel.transform.position = midpoint;
+
+            Vector3 rotation = (movePosition - hitPosition);
+            eiselObj.transform.up = rotation;
+            eisel.transform.up = rotation;
         }
     }
     /// <summary>
@@ -79,7 +87,7 @@ public class PaintCanvasRenderer : MonoBehaviour
         // if no session return v3 with max float
         if (currentFrame == null)
         {
-            UnityEngine.Debug.Log("Get Position Failed - No AR Session");
+            Debug.Log("Get Position Failed - No AR Session");
             return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
         }
 
