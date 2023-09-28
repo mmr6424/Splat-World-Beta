@@ -16,6 +16,11 @@ public class GetRequest : MonoBehaviour
     InputField output;
     [SerializeField]
     Button send;
+    [SerializeField]
+    List<InputField> args;
+    [SerializeField]
+    string uri;
+
 
     //
     // METHODS
