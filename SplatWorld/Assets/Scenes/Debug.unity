@@ -351,19 +351,13 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 908}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
-<<<<<<< Updated upstream
---- !u!43 &58551909
-Mesh:
-=======
 --- !u!21 &40310151
 Material:
   serializedVersion: 6
->>>>>>> Stashed changes
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
   m_Name: 
   serializedVersion: 10
   m_SubMeshes:
@@ -522,27 +516,6 @@ Material:
     offset: 0
     size: 0
     path: 
-=======
-  m_Name: Unlit/Texture
-  m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 89308a676ba0b4a4fb47a27346547212, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats: []
-    m_Colors: []
-  m_BuildTextureStacks: []
->>>>>>> Stashed changes
 --- !u!1 &60064412
 GameObject:
   m_ObjectHideFlags: 0
@@ -7745,11 +7718,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-<<<<<<< Updated upstream
-      objectReference: {fileID: 2105534811}
-=======
       objectReference: {fileID: 816331271}
->>>>>>> Stashed changes
     - target: {fileID: 3432807636574545761, guid: a87e4c0a995ae4977ac2a1256b837e0f,
         type: 3}
       propertyPath: m_Layer
@@ -7759,11 +7728,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-<<<<<<< Updated upstream
-      objectReference: {fileID: 97240893}
-=======
       objectReference: {fileID: 40310151}
->>>>>>> Stashed changes
     - target: {fileID: 3622433707183888882, guid: a87e4c0a995ae4977ac2a1256b837e0f,
         type: 3}
       propertyPath: m_Layer
@@ -7873,11 +7838,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-<<<<<<< Updated upstream
-      objectReference: {fileID: 58551909}
-=======
       objectReference: {fileID: 2139459930}
->>>>>>> Stashed changes
     - target: {fileID: 8045238431172431934, guid: a87e4c0a995ae4977ac2a1256b837e0f,
         type: 3}
       propertyPath: m_Layer
@@ -7887,11 +7848,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-<<<<<<< Updated upstream
-      objectReference: {fileID: 1783126908}
-=======
       objectReference: {fileID: 898191103}
->>>>>>> Stashed changes
     - target: {fileID: 8937499769422936397, guid: a87e4c0a995ae4977ac2a1256b837e0f,
         type: 3}
       propertyPath: m_Layer
@@ -8410,7 +8367,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732991930}
   m_CullTransparentMesh: 1
-<<<<<<< Updated upstream
 --- !u!43 &1783126908
 Mesh:
   m_ObjectHideFlags: 0
@@ -8575,8 +8531,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
-=======
->>>>>>> Stashed changes
 --- !u!1 &1796191280
 GameObject:
   m_ObjectHideFlags: 0
