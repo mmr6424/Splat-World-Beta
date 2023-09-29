@@ -117,7 +117,7 @@ public class MeshDrawer : MonoBehaviour
 
         //else mesh = null;
 
-        }
+    }
 
     /// <summary>
     /// Draw at touch location
@@ -147,7 +147,7 @@ public class MeshDrawer : MonoBehaviour
         else if (Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended)
         {
             // combine this stroke with the rest
-            CombineMeshes();
+            //CombineMeshes();
             
             // update references 
             prevMesh = mesh;
@@ -160,17 +160,20 @@ public class MeshDrawer : MonoBehaviour
     /// </summary>
     private void CombineMeshes()
     {
+        // grab child game object mesh filters
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         
-
+        // go through all mesh filters and combine
         for (int i = 0; i < meshFilters.Length; i++)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
 
+        // combine
         mesh.CombineMeshes(combine, true, false);
+        // reset current mesh filter to target this
         targetMeshFilter.mesh = mesh;
     }
 
