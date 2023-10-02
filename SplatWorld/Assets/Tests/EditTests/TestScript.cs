@@ -13,22 +13,22 @@ public class TestScript
         // Act
         toolToggle.ActivateBrush();
         // Assert
-        Assert.IsTrue(toolToggle.brush.activeSelf);
-        Assert.IsFalse(toolToggle.can.activeSelf);
-        Assert.IsFalse(toolToggle.bucket.activeSelf);
+        UnityEngine.Assertions.Assert.IsTrue(toolToggle.brush.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.can.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.bucket.activeSelf);
 
         // Act
         toolToggle.ActivateCan();
         // Assert
-        Assert.IsTrue(toolToggle.can.activeSelf);
-        Assert.IsFalse(toolToggle.brush.activeSelf);
-        Assert.IsFalse(toolToggle.bucket.activeSelf);
+        UnityEngine.Assertions.Assert.IsTrue(toolToggle.can.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.brush.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.bucket.activeSelf);
 
         // Act
         toolToggle.ActivateBucket();
         // Assert
-        Assert.IsTrue(toolToggle.bucket.activeSelf);
-        Assert.IsFalse(toolToggle.brush.activeSelf);
-        Assert.IsFalse(toolToggle.can.activeSelf);
+        UnityEngine.Assertions.Assert.IsTrue(toolToggle.bucket.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.brush.activeSelf);
+        UnityEngine.Assertions.Assert.IsFalse(toolToggle.can.activeSelf);
     }
 }
