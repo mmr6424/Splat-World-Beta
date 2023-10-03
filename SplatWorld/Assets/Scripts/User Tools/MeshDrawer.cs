@@ -177,6 +177,16 @@ public class MeshDrawer : MonoBehaviour
         targetMeshFilter.mesh = mesh;
     }
 
+    //delete last drawn mesh
+    public void UndoMesh() {
+        // grab child game object mesh filters
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+
+        Mesh meshToDelete = meshFilters[meshFilters.Length - 1].sharedMesh;
+        meshToDelete.Clear();
+        DestroyImmediate(meshToDelete, true);
+    }
+
     /// <summary>
     /// Get position at touch
     /// </summary>
