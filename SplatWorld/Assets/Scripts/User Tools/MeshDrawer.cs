@@ -29,6 +29,8 @@ public class MeshDrawer : MonoBehaviour
     public float lineThickness;
     public float minDistance;
 
+    private int counter;
+
     // AR
     /// The types of hit test results to filter against when performing a hit test.
     [EnumFlagAttribute]
@@ -60,6 +62,7 @@ public class MeshDrawer : MonoBehaviour
         Debug.Log("Awake");
         lineThickness = 0.01f;
         minDistance = 0.01f;
+        counter = 0;
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
     }
 
@@ -182,9 +185,16 @@ public class MeshDrawer : MonoBehaviour
         // grab child game object mesh filters
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
 
+        // check to make sure we have the right mesh to delete
+        //Debug.Log(meshFilters[meshFilters.Length - 1].gameObject.name);
+
         Mesh meshToDelete = meshFilters[meshFilters.Length - 1].sharedMesh;
+        GameObject objToDelete = meshFilters[meshFilters.Length - 1].gameObject;
+        
+
         meshToDelete.Clear();
         DestroyImmediate(meshToDelete, true);
+        Destroy(objToDelete);
     }
 
     /// <summary>
@@ -274,7 +284,9 @@ public class MeshDrawer : MonoBehaviour
         lastMousePos = hitPosition;
 
         // LIST
+        counter++; 
         GameObject temp = new GameObject();
+        temp.name = $"Line {counter}";
         temp.AddComponent<MeshRenderer>().material = lineMaterial;
         MeshFilter tempFilter = temp.AddComponent<MeshFilter>();
         tempFilter.sharedMesh = mesh;
