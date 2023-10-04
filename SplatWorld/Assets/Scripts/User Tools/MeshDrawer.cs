@@ -50,8 +50,8 @@ public class MeshDrawer : MonoBehaviour
     private MeshFilter targetMeshFilter;
     [SerializeField]
     private Material lineMaterial;
-    //private List<MeshFilter> meshFilters;
-    //private MeshFilter[] meshFilters;
+    [SerializeField]
+    private List<GameObject> gameObjects = new List<GameObject>();
 
     //
     // METHODS
@@ -184,17 +184,25 @@ public class MeshDrawer : MonoBehaviour
     public void UndoMesh() {
         // grab child game object mesh filters
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
-
         // check to make sure we have the right mesh to delete
         //Debug.Log(meshFilters[meshFilters.Length - 1].gameObject.name);
-
         Mesh meshToDelete = meshFilters[meshFilters.Length - 1].sharedMesh;
         GameObject objToDelete = meshFilters[meshFilters.Length - 1].gameObject;
         
-
         meshToDelete.Clear();
         DestroyImmediate(meshToDelete, true);
         Destroy(objToDelete);
+
+        //cleans up gameObjects list
+        List<GameObject> tempGO = new List<GameObject>();
+        for (int i = 0; i < gameObjects.Count-1; i++) {
+            if (gameObjects[i] != null){
+                tempGO.Add(gameObjects[i]);
+            }
+        }
+
+        gameObjects = tempGO;
+
     }
 
     /// <summary>
@@ -291,6 +299,7 @@ public class MeshDrawer : MonoBehaviour
         MeshFilter tempFilter = temp.AddComponent<MeshFilter>();
         tempFilter.sharedMesh = mesh;
         temp.transform.SetParent(lineHolder.transform, true);
+        gameObjects.Add(temp);
 
         Debug.Log("Successful mesh creation");
     }
