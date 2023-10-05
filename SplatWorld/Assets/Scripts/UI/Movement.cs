@@ -105,6 +105,7 @@ public class Movement : MonoBehaviour
     {
         moveMenuPanelBack = false;
         moveMenuPanel = true;
+        Debug.Log("Panel moved");
 
     }
 
@@ -112,6 +113,8 @@ public class Movement : MonoBehaviour
     {
         moveMenuPanel = false;
         moveMenuPanelBack = true;
+        Debug.Log("Panel moved back");
+
     }
 
     public void ToggleLeftRight()

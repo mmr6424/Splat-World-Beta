@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
         HideMenu();
         ShowLoadingScreen();
         scenesToLoad.Add(SceneManager.LoadSceneAsync("Debug"));
-        scenesToLoad.Add(SceneManager.LoadSceneAsync("Crew", LoadSceneMode.Additive));
+        //scenesToLoad.Add(SceneManager.LoadSceneAsync("Crew", LoadSceneMode.Additive));
         StartCoroutine(LoadingScreen());
     }
 
