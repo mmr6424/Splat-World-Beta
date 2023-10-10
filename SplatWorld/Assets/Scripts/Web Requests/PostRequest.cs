@@ -61,10 +61,15 @@ public class PostRequest : MonoBehaviour
         //form.AddField("title", "test data");
         for (int i = 0; i < args.Count; i++)
         {
-            form.AddField(args[i].fName, args[i].value.ToString());
+            form.AddField(args[i].fName, args[i].value.text.ToString());
+            //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
         }
 
-        Debug.Log(form);
+        //Debug.Log(form);
+        //Debug.Log(form.ToString());
+        //Debug.Log(args.ToString());
+        //Debug.Log(uri);
+        
 
         using (UnityWebRequest req = UnityWebRequest.Post(uri, form))
         {
@@ -74,15 +79,21 @@ public class PostRequest : MonoBehaviour
             {
                 case UnityWebRequest.Result.ConnectionError:
                     Debug.LogError(String.Format("Connection Error: {0}", req.error));
+                    output.text = (String.Format("Connection Error: {0}", req.error));
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError(String.Format("Protocol Error: {0}", req.error));
+                    output.text = String.Format("Protocol Error: {0}", req.error);
                     break;
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError(String.Format("Data Processing Error: {0}", req.error));
+                    output.text = String.Format("Data Processing Error: {0}", req.error);
                     break;
                 case UnityWebRequest.Result.Success:
                     output.text = req.downloadHandler.text;
+                    break;
+                default:
+                    output.text = String.Format("{0}", req.responseCode);
                     break;
             }
         }

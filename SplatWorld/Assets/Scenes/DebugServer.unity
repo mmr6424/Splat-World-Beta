@@ -138,7 +138,27 @@ PrefabInstance:
     - target: {fileID: 689411010452288627, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035161307626532711, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
+        type: 3}
+      propertyPath: m_InputType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035161307626532711, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035161308054667475, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
+        type: 3}
+      propertyPath: uri
+      value: https://splatworld.alchemi.dev/login
+      objectReference: {fileID: 0}
+    - target: {fileID: 1035161308153698338, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
+        type: 3}
+      propertyPath: m_LineType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7600411181829821159, guid: 44f3e0c89223f774f8ce97fb2b15fed9,
         type: 3}
@@ -867,7 +887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1949612452
 RectTransform:
   m_ObjectHideFlags: 0
