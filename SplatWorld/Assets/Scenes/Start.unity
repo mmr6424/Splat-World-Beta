@@ -657,11 +657,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afdd80343e053f44389be105671f2090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startButton: {fileID: 0}
+  startButton: {fileID: 423239461}
   loadingInterface: {fileID: 39921917}
   loadingProgressBar: {fileID: 334269220}
-  LoginForm: {fileID: 0}
-  SignupForm: {fileID: 0}
+  LoginForm: {fileID: 1023921562}
+  SignupForm: {fileID: 1270555011}
+  LoginSignupToggle: {fileID: 1246088875}
 --- !u!1 &1023921562 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6138617489618640436, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
@@ -710,6 +711,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -418.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: throwEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 926018278}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLoginEnableStartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3656334872874472364, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -1015,10 +1056,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5979696210964034150, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696210964034150, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696210964034150, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
     - target: {fileID: 5979696210964034151, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5979696211031572228, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
         type: 3}
@@ -1044,6 +1100,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -1420.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: throwEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 926018278}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLoginEnableStartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5979696211063188116, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: RequestSucceeded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5979696211292393416, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
         type: 3}

@@ -15,6 +15,8 @@ public class MainMenu : MonoBehaviour
     GameObject LoginForm;
     [SerializeField]
     GameObject SignupForm;
+    [SerializeField]
+    GameObject LoginSignupToggle;
     //Event LoginSucceeded;
 
     List<AsyncOperation> scenesToLoad = new List<AsyncOperation>();
@@ -65,5 +67,6 @@ public class MainMenu : MonoBehaviour
         LoginForm.SetActive(false);
         SignupForm.SetActive(false);
         startButton.SetActive(true);
+        LoginSignupToggle.SetActive(false);
     }
 }
