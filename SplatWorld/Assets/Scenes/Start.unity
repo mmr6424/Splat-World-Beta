@@ -662,7 +662,7 @@ MonoBehaviour:
   loadingProgressBar: {fileID: 334269220}
   LoginForm: {fileID: 1023921562}
   SignupForm: {fileID: 1270555011}
-  LoginSignupToggle: {fileID: 1246088875}
+  LoginSignupToggle: {fileID: 1246088872}
 --- !u!1 &1023921562 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6138617489618640436, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
@@ -675,6 +675,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1175965367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1046952324 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1091478898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ed258cfbd0e6e46a4a3c29538ad855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1091478898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -711,6 +723,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -418.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1046952324}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PostData
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PostRequest, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773248463503826285, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: uri
+      value: https://splatworld.alchemi.dev/add-user
       objectReference: {fileID: 0}
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -762,6 +814,11 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 4087192759488243172, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_Name
+      value: pass2
+      objectReference: {fileID: 0}
     - target: {fileID: 4662186372494968952, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: m_FontData.m_FontSize
@@ -781,6 +838,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -356.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443471896442703415, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 5565701860289133503, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -905,7 +967,7 @@ PrefabInstance:
     - target: {fileID: 6969841674506648083, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7296678093709704498, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -931,6 +993,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108862055120010669, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_Name
+      value: pass
       objectReference: {fileID: 0}
     - target: {fileID: 9126902497541090983, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
