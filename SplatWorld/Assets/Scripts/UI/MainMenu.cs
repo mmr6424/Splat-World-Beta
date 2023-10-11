@@ -1,19 +1,29 @@
+// Authors: Charles Begle, Moss Limpert
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject menu, loadingInterface;
+    public GameObject startButton, loadingInterface;
     public Image loadingProgressBar;
+
+    [SerializeField]
+    GameObject LoginForm;
+    [SerializeField]
+    GameObject SignupForm;
+    //Event LoginSucceeded;
 
     List<AsyncOperation> scenesToLoad = new List<AsyncOperation>();
     
     void Start(){
-        menu.SetActive(true);
+        startButton.SetActive(false);
         loadingInterface.SetActive(false);
+
+        //LoginSucceeded = GetComponentInChildren<Event>();
     }
 
     public void StartGame()
@@ -28,7 +38,7 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     public void HideMenu()
     {
-        menu.SetActive(false);
+        startButton.SetActive(false);
     }
 
     public void ShowLoadingScreen()
@@ -48,5 +58,12 @@ public class MainMenu : MonoBehaviour
                 yield return null;
             }
         }
+    }
+
+    public void OnLoginEnableStartGame()
+    {
+        LoginForm.SetActive(false);
+        SignupForm.SetActive(false);
+        startButton.SetActive(true);
     }
 }

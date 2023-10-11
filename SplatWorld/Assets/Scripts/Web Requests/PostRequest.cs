@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Events;
 
 public class PostRequest : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class PostRequest : MonoBehaviour
     List<(string fName, Text value)> args;  // list of tuples...
     [SerializeField]                    
     string uri;
+    [SerializeField]
+    bool throwEvent;
+
+    public UnityEvent RequestSucceeded;
 
     //
     // METHODS
@@ -32,20 +37,13 @@ public class PostRequest : MonoBehaviour
     private void Start()
     {
         args = new List<(string fName, Text value)>();
-        //Debug.Log(send);
-        //this.onClick.AddListener(PostData);
 
         // fill args (list of tuples)
         for (int i = 0; i < input.Count; i++)
         {
             args.Add((input[i].name, input[i].textComponent));
-            //Debug.Log(input[i].name);
         }
-        // make sure args is full
-        //for (int i = 0; i < args.Count; i++)
-        //{
-        //    Debug.Log(args[i]);
-        //}
+        
     }
 
     /// <summary>
@@ -91,6 +89,11 @@ public class PostRequest : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     output.text = req.downloadHandler.text;
+                    // success triggers an event, if you set bool throwEvent = true in inspector
+                    if (throwEvent)
+                    {
+                        RequestSucceeded.Invoke();
+                    }
                     break;
                 default:
                     output.text = String.Format("{0}", req.responseCode);
