@@ -1,4 +1,7 @@
-using System.Collections;
+/*
+ * "Rose" M. Rushton
+ * Last Edit: 12-10-23
+ */
 using System.Collections.Generic;
 using System;
 
@@ -34,7 +37,7 @@ public class ARDrawManager : MonoBehaviour
     [SerializeField]
     private bool ifSimplify;
     [SerializeField]
-    private float lineWidth;
+    private float lineWidth = 0.2f;
 
     private LineRenderer prevLR;        // previous line
     private LineRenderer lineRender;    // new line
@@ -112,8 +115,7 @@ public class ARDrawManager : MonoBehaviour
         else if (touch.phase == TouchPhase.Moved) {
             UpdateLine(hitPosition);
         }   // end line at end of touch
-        else if (touch.phase == TouchPhase.Ended)
-            prevLR = null;
+            
     }
 
     // Add New Line at Position
@@ -125,7 +127,7 @@ public class ARDrawManager : MonoBehaviour
         temp.transform.position = position;
         LineRenderer tempLineRenderer = temp.AddComponent<LineRenderer>();
         SetLine(tempLineRenderer);
-        UnityEngine.Debug.Log("SetLine() called");
+        Debug.Log("SetLine() called");
         tempLineRenderer.useWorldSpace = true;
         tempLineRenderer.positionCount = posCount;
         tempLineRenderer.SetPosition(0, position);
@@ -136,7 +138,7 @@ public class ARDrawManager : MonoBehaviour
         prevLR = lineRender;
 
         // add line renderer to the list of lines
-        lines.Add(tempLineRenderer);
+        lines.Add(lineRender);
 
         Debug.Log("Successful line creation");
     }
@@ -146,13 +148,14 @@ public class ARDrawManager : MonoBehaviour
         if (distanceToPoint == null)
         {
             distanceToPoint = position;
+            distanceToPoint.z *= 1.01f;
             Debug.Log("Updating Line - distanceToPoint = position");
         }
         // if the distance to the new position is great enough, add a new point at this position
         if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.1) {
             distanceToPoint = position;
+            distanceToPoint.z *= 1.01f;
             AddPoint(distanceToPoint);
-            Debug.Log("Updating Line");
         }
     }
     
@@ -162,6 +165,7 @@ public class ARDrawManager : MonoBehaviour
         lineRender.positionCount = posCount;
         lineRender.SetPosition(posCount - 1, position);
         if (ifSimplify) lineRender.Simplify(0.1f);
+        Debug.Log("Adding Point");
     }
 
     // Allow or deny drawing
@@ -171,13 +175,16 @@ public class ARDrawManager : MonoBehaviour
 
     // Set current line attributes
     private void SetLine(LineRenderer currentLine) {
-        UnityEngine.Debug.Log("Original widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
+        Debug.Log("Original widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
         currentLine.startWidth = lineWidth;
         currentLine.endWidth = lineWidth;
-        UnityEngine.Debug.Log("New widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
+        Debug.Log("New widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
         currentLine.numCornerVertices = cornerVertices;
         currentLine.numCapVertices = endCapVertices;
         if (ifSimplify) currentLine.Simplify(0.1f);
+        currentLine.sortingOrder = 1;
+        currentLine.material = new Material(Shader.Find("Sprites/Default"));
+        currentLine.material.color = defaultColor;
         currentLine.startColor = defaultColor;
         currentLine.endColor = defaultColor;
     }
