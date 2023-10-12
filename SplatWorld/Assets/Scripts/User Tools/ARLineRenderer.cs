@@ -13,7 +13,7 @@ using Niantic.ARDK.Utilities;
 using Niantic.ARDK.Utilities.Input.Legacy;
 using UnityEngine;
 
-public class ARDrawManager : MonoBehaviour
+public class ARLineRenderer : MonoBehaviour
 {
     //
     // FIELDS 
@@ -80,7 +80,7 @@ public class ARDrawManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CanDraw = true;
+        //CanDraw = true;
         if (_session == null)
         {
             Debug.Log("Draw Manager Failed -- Session NULL");
@@ -122,13 +122,20 @@ public class ARDrawManager : MonoBehaviour
     private void AddNewLineRenderer(Vector3 position) {
         // set up line
         posCount = 2;
+        // Create a new obj to attach LineRenderer to
         GameObject temp = new GameObject($"LineRenderer_{lines.Count}");
+        // Set the transform parent to current object script is attached to OR camera if current object cannot be attached
         temp.transform.parent = transform ?? Camera.transform;
+        // set start position
         temp.transform.position = position;
+        // add the LR
         LineRenderer tempLineRenderer = temp.AddComponent<LineRenderer>();
+        // Settings for the line
         SetLine(tempLineRenderer);
         Debug.Log("SetLine() called");
+        // Make sure the lineRenderer is using world space
         tempLineRenderer.useWorldSpace = true;
+        // Add two start points in order to draw line on click
         tempLineRenderer.positionCount = posCount;
         tempLineRenderer.SetPosition(0, position);
         tempLineRenderer.SetPosition(1, position);
@@ -145,23 +152,27 @@ public class ARDrawManager : MonoBehaviour
     
     // update current line
     private void UpdateLine(Vector3 position) {
+        // if this is the first click
         if (distanceToPoint == null)
         {
             distanceToPoint = position;
+            // this multiplication ensures that the object will not clip into the wall at any points
             distanceToPoint.z *= 1.01f;
             Debug.Log("Updating Line - distanceToPoint = position");
         }
         // if the distance to the new position is great enough, add a new point at this position
         if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.1) {
             distanceToPoint = position;
+            // see above
             distanceToPoint.z *= 1.01f;
+            // Add the new point to the line renderer
             AddPoint(distanceToPoint);
         }
     }
     
     // Add point to current line at this position
     private void AddPoint(Vector3 position) {
-        posCount++;
+        posCount++; // increment counter
         lineRender.positionCount = posCount;
         lineRender.SetPosition(posCount - 1, position);
         if (ifSimplify) lineRender.Simplify(0.1f);
@@ -176,17 +187,23 @@ public class ARDrawManager : MonoBehaviour
     // Set current line attributes
     private void SetLine(LineRenderer currentLine) {
         Debug.Log("Original widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
+        // Set the width of the line. This should pretty much always be between 0 and 0.1 for a reasonable line size!
         currentLine.startWidth = lineWidth;
         currentLine.endWidth = lineWidth;
         Debug.Log("New widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
+        // Smoothing
         currentLine.numCornerVertices = cornerVertices;
         currentLine.numCapVertices = endCapVertices;
         if (ifSimplify) currentLine.Simplify(0.1f);
+        // Sets it to important basically
         currentLine.sortingOrder = 1;
+        // Creates a new material!!!
         currentLine.material = new Material(Shader.Find("Sprites/Default"));
+        // Set the colors
         currentLine.material.color = defaultColor;
         currentLine.startColor = defaultColor;
         currentLine.endColor = defaultColor;
+        currentLine.alignment = LineAlignment.TransformZ; // REQUIRED TO TURN OFF BILLBOARDING
     }
 
     // get current touch position
