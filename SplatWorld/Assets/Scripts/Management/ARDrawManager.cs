@@ -144,11 +144,15 @@ public class ARDrawManager : MonoBehaviour
     // update current line
     private void UpdateLine(Vector3 position) {
         if (distanceToPoint == null)
+        {
             distanceToPoint = position;
+            Debug.Log("Updating Line - distanceToPoint = position");
+        }
         // if the distance to the new position is great enough, add a new point at this position
         if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.1) {
             distanceToPoint = position;
             AddPoint(distanceToPoint);
+            Debug.Log("Updating Line");
         }
     }
     
