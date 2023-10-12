@@ -1,5 +1,5 @@
 /*
- * "Rose" M. Rushton
+ * Rose M. Rushton
  * Last Edit: 12-10-23
  */
 using System.Collections.Generic;
@@ -214,6 +214,7 @@ public class ARLineRenderer : MonoBehaviour
             throw new InvalidOperationException("Current Frame does not exist.");
         }
 
+        // Grab the hit-test
         var results = currentFrame.HitTest
         (
             Camera.pixelWidth,
@@ -222,7 +223,7 @@ public class ARLineRenderer : MonoBehaviour
             HitTestType
         );
 
-        int count = results.Count;
+        int count = results.Count; // how many touches we got
         //Debug.Log("Hit test results: " + count);
 
         if (count <= 0)
@@ -231,6 +232,7 @@ public class ARLineRenderer : MonoBehaviour
         // Get the closest result
         var result = results[0];
 
+        // Transform to the world space
         var fresult = result.WorldTransform.ToPosition();
 
         return fresult;
