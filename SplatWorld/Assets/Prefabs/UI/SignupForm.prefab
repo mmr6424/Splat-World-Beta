@@ -437,8 +437,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4918930027833512701}
   m_TextComponent: {fileID: 8008312772181387718}
   m_Placeholder: {fileID: 4662186372494968952}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -598,7 +598,7 @@ MonoBehaviour:
   - {fileID: 9112395435477396734}
   - {fileID: 6482045573233105056}
   - {fileID: 1987944062452636257}
-  uri: http://mss-splatworld-db.rit.edu/signup
+  uri: https://splatworld.alchemi.dev//signup
 --- !u!1 &4817252257474134711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,8 +1441,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7978106696117842144}
   m_TextComponent: {fileID: 6752180856539723178}
   m_Placeholder: {fileID: 1010672004393226108}
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

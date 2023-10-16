@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Events;
 
 public class PostRequest : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class PostRequest : MonoBehaviour
     List<(string fName, Text value)> args;  // list of tuples...
     [SerializeField]                    
     string uri;
+    [SerializeField]
+    bool throwEvent;
+
+    public UnityEvent RequestSucceeded;
 
     //
     // METHODS
@@ -32,20 +37,13 @@ public class PostRequest : MonoBehaviour
     private void Start()
     {
         args = new List<(string fName, Text value)>();
-        //Debug.Log(send);
-        //this.onClick.AddListener(PostData);
 
         // fill args (list of tuples)
         for (int i = 0; i < input.Count; i++)
         {
             args.Add((input[i].name, input[i].textComponent));
-            //Debug.Log(input[i].name);
         }
-        // make sure args is full
-        //for (int i = 0; i < args.Count; i++)
-        //{
-        //    Debug.Log(args[i]);
-        //}
+        
     }
 
     /// <summary>
@@ -61,10 +59,15 @@ public class PostRequest : MonoBehaviour
         //form.AddField("title", "test data");
         for (int i = 0; i < args.Count; i++)
         {
-            form.AddField(args[i].fName, args[i].value.ToString());
+            form.AddField(args[i].fName, args[i].value.text.ToString());
+            //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
         }
 
-        Debug.Log(form);
+        //Debug.Log(form);
+        //Debug.Log(form.ToString());
+        //Debug.Log(args.ToString());
+        //Debug.Log(uri);
+        
 
         using (UnityWebRequest req = UnityWebRequest.Post(uri, form))
         {
@@ -74,15 +77,26 @@ public class PostRequest : MonoBehaviour
             {
                 case UnityWebRequest.Result.ConnectionError:
                     Debug.LogError(String.Format("Connection Error: {0}", req.error));
+                    output.text = (String.Format("Connection Error: {0}", req.error));
                     break;
                 case UnityWebRequest.Result.ProtocolError:
                     Debug.LogError(String.Format("Protocol Error: {0}", req.error));
+                    output.text = String.Format("Protocol Error: {0}", req.error);
                     break;
                 case UnityWebRequest.Result.DataProcessingError:
                     Debug.LogError(String.Format("Data Processing Error: {0}", req.error));
+                    output.text = String.Format("Data Processing Error: {0}", req.error);
                     break;
                 case UnityWebRequest.Result.Success:
                     output.text = req.downloadHandler.text;
+                    // success triggers an event, if you set bool throwEvent = true in inspector
+                    if (throwEvent)
+                    {
+                        RequestSucceeded.Invoke();
+                    }
+                    break;
+                default:
+                    output.text = String.Format("{0}", req.responseCode);
                     break;
             }
         }
