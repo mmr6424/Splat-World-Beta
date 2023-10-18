@@ -23,6 +23,9 @@ public class ColorPickerControl : MonoBehaviour
     [SerializeField]
     MeshRenderer changeThisColor;
 
+    [SerializeField]
+    GameObject aRObject;
+
     private void Start()
     {
         CreateHueImage();
@@ -104,6 +107,9 @@ public class ColorPickerControl : MonoBehaviour
         hexInputField.text = ColorUtility.ToHtmlStringRGB(currentColor);
 
         changeThisColor.material.SetColor("_BaseColor", currentColor);
+
+        if (aRObject != null)
+            aRObject.GetComponent<ARLineRenderer>().ChangeColor(currentColor);
     }
 
     public void SetSV(float s, float v)

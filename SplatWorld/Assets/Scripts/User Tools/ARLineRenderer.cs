@@ -30,14 +30,14 @@ public class ARLineRenderer : MonoBehaviour
     private Color defaultColor = Color.white;
 
     [SerializeField]
-    private int cornerVertices = 5;
+    private int cornerVertices = 90;
     
     [SerializeField]
-    private int endCapVertices = 5;
+    private int endCapVertices = 90;
     [SerializeField]
     private bool ifSimplify;
     [SerializeField]
-    private float lineWidth = 0.2f;
+    private float lineWidth = 0.02f;
 
     private LineRenderer prevLR;        // previous line
     private LineRenderer lineRender;    // new line
@@ -236,5 +236,19 @@ public class ARLineRenderer : MonoBehaviour
         var fresult = result.WorldTransform.ToPosition();
 
         return fresult;
+    }
+
+
+    //////////////////////////////////////////////
+    /// <-- CHANGE LINE ATTRIBUTES SECTION --> ///
+    //////////////////////////////////////////////
+    public void ChangeColor(Color color) {
+        defaultColor = color;
+        //SetLine(lineRender);
+    }
+
+    public void ChangeLineWidth(float size) {
+        lineWidth = size;
+        //SetLine(lineRender);
     }
 }
