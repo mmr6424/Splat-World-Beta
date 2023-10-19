@@ -32,13 +32,13 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
         float deltaX = rectTransform.sizeDelta.x * 0.5f;
         float deltaY = rectTransform.sizeDelta.y * 0.5f;
 
-        if (pos.x < -deltaX)
+        if (pos.x < 0)
         {
-            pos.x = -deltaX;
+            pos.x = 0;
         }
-        else if (pos.x > deltaX)
+        else if (pos.x > 2*deltaX)
         {
-            pos.x = deltaX;
+            pos.x = 2*deltaX;
         }
 
         if (pos.y < -deltaY)
@@ -50,11 +50,11 @@ public class SVImageControl : MonoBehaviour, IDragHandler, IPointerClickHandler
             pos.y = deltaY;
         }
 
-        float x = pos.x + deltaX;
+        float x = pos.x;
         float y = pos.y + deltaY;
 
-        float xNorm = x /rectTransform.sizeDelta.x;
-        float yNorm = y /rectTransform.sizeDelta.y;
+        float xNorm = x / rectTransform.sizeDelta.x;
+        float yNorm = y / rectTransform.sizeDelta.y;
 
         pickerTransform.localPosition = pos;
         pickerImage.color = Color.HSVToRGB(0, 0, 1 - yNorm);
