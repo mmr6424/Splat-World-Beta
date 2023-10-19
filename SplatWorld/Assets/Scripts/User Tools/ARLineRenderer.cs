@@ -135,6 +135,8 @@ public class ARLineRenderer : MonoBehaviour
         Debug.Log("SetLine() called");
         // Make sure the lineRenderer is using world space
         tempLineRenderer.useWorldSpace = true;
+
+        tempLineRenderer.transform.LookAt(Camera.transform);
         // Add two start points in order to draw line on click
         tempLineRenderer.positionCount = posCount;
         tempLineRenderer.SetPosition(0, position);
@@ -157,14 +159,14 @@ public class ARLineRenderer : MonoBehaviour
         {
             distanceToPoint = position;
             // this multiplication ensures that the object will not clip into the wall at any points
-            distanceToPoint.z *= 1.01f;
+            //distanceToPoint.z *= 1.01f; // clips the line into the wall sometimes -- do not use
             Debug.Log("Updating Line - distanceToPoint = position");
         }
         // if the distance to the new position is great enough, add a new point at this position
         if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.1) {
             distanceToPoint = position;
             // see above
-            distanceToPoint.z *= 1.01f;
+            //distanceToPoint.z *= 1.01f; // clips the line into the wall sometimes -- do not use
             // Add the new point to the line renderer
             AddPoint(distanceToPoint);
         }
