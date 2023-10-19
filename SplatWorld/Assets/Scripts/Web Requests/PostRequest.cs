@@ -67,9 +67,11 @@ public class PostRequest : MonoBehaviour
         //Debug.Log(form.ToString());
         //Debug.Log(args.ToString());
         //Debug.Log(uri);
+
+        UnityWebRequest req;
         
 
-        using (UnityWebRequest req = UnityWebRequest.Post(uri, form))
+        using (req = UnityWebRequest.Post(uri, form))
         {
             yield return req.SendWebRequest();
 
