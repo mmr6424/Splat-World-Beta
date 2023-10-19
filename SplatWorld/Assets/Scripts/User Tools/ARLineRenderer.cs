@@ -30,10 +30,10 @@ public class ARLineRenderer : MonoBehaviour
     private Color defaultColor = Color.white;
 
     [SerializeField]
-    private int cornerVertices = 90;
+    private int cornerVertices;
     
     [SerializeField]
-    private int endCapVertices = 90;
+    private int endCapVertices;
     [SerializeField]
     private bool ifSimplify;
     [SerializeField]
@@ -196,7 +196,7 @@ public class ARLineRenderer : MonoBehaviour
         // Smoothing
         currentLine.numCornerVertices = cornerVertices;
         currentLine.numCapVertices = endCapVertices;
-        if (ifSimplify) currentLine.Simplify(0.1f);
+        //if (ifSimplify) currentLine.Simplify(0.1f);
         // Sets it to important basically
         currentLine.sortingOrder = 1;
         // Creates a new material!!!
