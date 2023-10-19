@@ -598,7 +598,11 @@ MonoBehaviour:
   - {fileID: 9112395435477396734}
   - {fileID: 6482045573233105056}
   - {fileID: 1987944062452636257}
-  uri: https://splatworld.alchemi.dev//signup
+  uri: https://splatworld.alchemi.dev/signup
+  throwEvent: 0
+  RequestSucceeded:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4817252257474134711
 GameObject:
   m_ObjectHideFlags: 0
