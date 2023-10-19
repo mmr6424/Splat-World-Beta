@@ -163,7 +163,7 @@ public class ARLineRenderer : MonoBehaviour
             Debug.Log("Updating Line - distanceToPoint = position");
         }
         // if the distance to the new position is great enough, add a new point at this position
-        if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.1) {
+        if (distanceToPoint != null && Mathf.Abs(Vector3.Distance(distanceToPoint, position)) >= 0.01) {
             distanceToPoint = position;
             // see above
             //distanceToPoint.z *= 1.01f; // clips the line into the wall sometimes -- do not use
