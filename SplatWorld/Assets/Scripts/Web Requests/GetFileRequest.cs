@@ -68,7 +68,7 @@ public class GetFileRequest : MonoBehaviour
 
                 //if (throwEvent) FileDownloaded.Invoke();
                 
-                Debug.Log(www.downloadHandler.isDone);
+                //Debug.Log(www.downloadHandler.isDone);
                 //imageToReplace = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 break;
