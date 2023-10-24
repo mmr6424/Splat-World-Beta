@@ -29,6 +29,8 @@ public class MeshDrawer : MonoBehaviour
     public float lineThickness;
     public float minDistance;
 
+    private int counter;
+
     // AR
     /// The types of hit test results to filter against when performing a hit test.
     [EnumFlagAttribute]
@@ -48,8 +50,8 @@ public class MeshDrawer : MonoBehaviour
     private MeshFilter targetMeshFilter;
     [SerializeField]
     private Material lineMaterial;
-    //private List<MeshFilter> meshFilters;
-    //private MeshFilter[] meshFilters;
+    [SerializeField]
+    private List<GameObject> gameObjects = new List<GameObject>();
 
     //
     // METHODS
@@ -60,6 +62,7 @@ public class MeshDrawer : MonoBehaviour
         Debug.Log("Awake");
         lineThickness = 0.01f;
         minDistance = 0.01f;
+        counter = 0;
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
     }
 
@@ -117,7 +120,7 @@ public class MeshDrawer : MonoBehaviour
 
         //else mesh = null;
 
-        }
+    }
 
     /// <summary>
     /// Draw at touch location
@@ -147,7 +150,7 @@ public class MeshDrawer : MonoBehaviour
         else if (Input.GetMouseButtonUp(0) || touch.phase == TouchPhase.Ended)
         {
             // combine this stroke with the rest
-            CombineMeshes();
+            //CombineMeshes();
             
             // update references 
             prevMesh = mesh;
@@ -160,18 +163,46 @@ public class MeshDrawer : MonoBehaviour
     /// </summary>
     private void CombineMeshes()
     {
+        // grab child game object mesh filters
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
         
-
+        // go through all mesh filters and combine
         for (int i = 0; i < meshFilters.Length; i++)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
         }
 
+        // combine
         mesh.CombineMeshes(combine, true, false);
+        // reset current mesh filter to target this
         targetMeshFilter.mesh = mesh;
+    }
+
+    //delete last drawn mesh
+    public void UndoMesh() {
+        // grab child game object mesh filters
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        // check to make sure we have the right mesh to delete
+        //Debug.Log(meshFilters[meshFilters.Length - 1].gameObject.name);
+        Mesh meshToDelete = meshFilters[meshFilters.Length - 1].sharedMesh;
+        GameObject objToDelete = meshFilters[meshFilters.Length - 1].gameObject;
+        
+        meshToDelete.Clear();
+        DestroyImmediate(meshToDelete, true);
+        Destroy(objToDelete);
+
+        //cleans up gameObjects list
+        List<GameObject> tempGO = new List<GameObject>();
+        for (int i = 0; i < gameObjects.Count-1; i++) {
+            if (gameObjects[i] != null){
+                tempGO.Add(gameObjects[i]);
+            }
+        }
+
+        gameObjects = tempGO;
+
     }
 
     /// <summary>
@@ -261,11 +292,14 @@ public class MeshDrawer : MonoBehaviour
         lastMousePos = hitPosition;
 
         // LIST
+        counter++; 
         GameObject temp = new GameObject();
+        temp.name = $"Line {counter}";
         temp.AddComponent<MeshRenderer>().material = lineMaterial;
         MeshFilter tempFilter = temp.AddComponent<MeshFilter>();
         tempFilter.sharedMesh = mesh;
         temp.transform.SetParent(lineHolder.transform, true);
+        gameObjects.Add(temp);
 
         Debug.Log("Successful mesh creation");
     }

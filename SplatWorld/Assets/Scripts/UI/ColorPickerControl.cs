@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
+//using TMPro;
 
 public class ColorPickerControl : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class ColorPickerControl : MonoBehaviour
 
     [SerializeField]
     MeshRenderer changeThisColor;
+
+    [SerializeField]
+    GameObject aRObject;
 
     private void Start()
     {
@@ -104,6 +108,9 @@ public class ColorPickerControl : MonoBehaviour
         hexInputField.text = ColorUtility.ToHtmlStringRGB(currentColor);
 
         changeThisColor.material.SetColor("_BaseColor", currentColor);
+
+        if (aRObject != null)
+            aRObject.GetComponent<ARLineRenderer>().ChangeColor(currentColor);
     }
 
     public void SetSV(float s, float v)
@@ -154,4 +161,5 @@ public class ColorPickerControl : MonoBehaviour
 
         UpdateOutputImage();
     }
+
 }

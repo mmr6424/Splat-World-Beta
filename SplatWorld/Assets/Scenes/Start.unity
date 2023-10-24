@@ -762,7 +762,7 @@ PrefabInstance:
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: uri
-      value: https://splatworld.alchemi.dev/add-user
+      value: https://splatworld.alchemi.dev/signup
       objectReference: {fileID: 0}
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -988,6 +988,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -292.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704476160410501728, guid: 113c95909361a244db55c75fdb135e7a,
+        type: 3}
+      propertyPath: m_FontData.m_HorizontalOverflow
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8008312772181387718, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
