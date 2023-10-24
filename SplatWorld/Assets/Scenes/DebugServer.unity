@@ -521,11 +521,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uri: https://splatworld.alchemi.dev/user-pfp
-  throwEvent: 0
+  throwEvent: 1
   imageToReplace: {fileID: 1515024789}
+  texture: {fileID: 0}
+  t: {fileID: 0}
   FileDownloaded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1515024790}
+        m_TargetAssemblyTypeName: GetFileRequest, SplatWorldMain
+        m_MethodName: ChangeTexture
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &1515024791
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -584,12 +598,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1515024789}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 122.60544, y: 338.56958, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -312, y: -628, z: 0}
+  m_LocalScale: {x: 23.668636, y: 23.668636, z: 2.3668637}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1854839926}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834927968
 GameObject:
@@ -642,7 +656,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 126.75427
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -668,7 +682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834927968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -686,7 +700,6 @@ GameObject:
   - component: {fileID: 1854839925}
   - component: {fileID: 1854839924}
   - component: {fileID: 1854839923}
-  - component: {fileID: 1854839922}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -694,27 +707,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1854839922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854839921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ed258cfbd0e6e46a4a3c29538ad855, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  output: {fileID: 0}
-  input:
-  - {fileID: 0}
-  - {fileID: 0}
-  uri: mss-splatworld-db.rit.edu/login
-  throwEvent: 0
-  RequestSucceeded:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1854839923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,6 +779,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 1515024792}
   - {fileID: 4035538620891364835}
   - {fileID: 7600411181794695845}
   - {fileID: 1949612452}
@@ -907,7 +900,7 @@ RectTransform:
   - {fileID: 1956082671}
   - {fileID: 188562186}
   m_Father: {fileID: 1854839926}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1158,7 +1151,7 @@ PrefabInstance:
     - target: {fileID: 6615546336313250228, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6615546336313250228, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -1268,7 +1261,7 @@ PrefabInstance:
     - target: {fileID: 3880856098930423968, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3880856098930423968, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
         type: 3}
@@ -1324,6 +1317,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoginForm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138617489618640436, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 551a33eea4d63ad41b2a784f20ae1bd7, type: 3}
