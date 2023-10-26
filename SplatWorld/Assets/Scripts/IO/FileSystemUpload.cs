@@ -5,6 +5,8 @@ using UnityEditor;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+
+
 public class FileSystemUpload : MonoBehaviour
 {
     string path;
@@ -13,8 +15,18 @@ public class FileSystemUpload : MonoBehaviour
     // opens file explorer
     public void OpenFileExplorer()
     {
+#if UNITY_EDITOR
         path = EditorUtility.OpenFilePanel("Show all images (.png)", "", "png");
+#endif
+
+
+#if UNITY_ANDROID
+
+#endif
+
     }
+
+    //NativeFilePicker
 
     // Update is called once per frame
     IEnumerator GetTexture()
