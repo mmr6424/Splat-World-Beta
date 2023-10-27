@@ -12,6 +12,8 @@ using NativeFilePickerNamespace;
 public class FileSystemUpload : MonoBehaviour
 {
     private string pdfFileType;
+    string path;
+    public RawImage rawImage;
 
     void Start()
     {
@@ -85,8 +87,9 @@ public class FileSystemUpload : MonoBehaviour
         NativeFilePicker.Permission permission = await NativeFilePicker.RequestPermissionAsync(readPermissionOnly);
         Debug.Log("Permission result: " + permission);
     }
-    string path;
-    public RawImage rawImage;
+
+
+    
 
     // opens file explorer
     public void OpenFileExplorer()
@@ -102,7 +105,7 @@ public class FileSystemUpload : MonoBehaviour
 
     }
 
-   
+
 
     // Update is called once per frame
     //IEnumerator GetTexture()
