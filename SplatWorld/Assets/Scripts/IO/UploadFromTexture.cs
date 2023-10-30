@@ -4,16 +4,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-//https://www.youtube.com/watch?v=5AUAmZ1002E&t=20s
-public enum ImageType
+public class UploadFromTexture : MonoBehaviour
 {
-    PNG,
-    JPG
-}
+    //https://www.youtube.com/watch?v=5AUAmZ1002E&t=20s
+    public enum ImageType
+    {
+        PNG,
+        JPG
+    }
 
-
-public class FileSystemInput : MonoBehaviour
-{
     //
     // FIELDS
     //
@@ -31,9 +30,9 @@ public class FileSystemInput : MonoBehaviour
     UnityAction<string> OnCompleteAction;
 
     // initialize imageuploader gameobject
-    public static FileSystemInput Initialize ()
+    public static UploadFromTexture Initialize ()
     {
-        return new GameObject("ImageUploader").AddComponent<FileSystemInput>();
+        return new GameObject("ImageUploader").AddComponent<UploadFromTexture>();
     }
 
     //
@@ -41,42 +40,42 @@ public class FileSystemInput : MonoBehaviour
     //
 
     // url setter
-    public FileSystemInput SetUrl (string serverUrl)
+    public UploadFromTexture SetUrl (string serverUrl)
     {
         this.url = serverUrl;
         return this;
     }
 
     // texture setter
-    public FileSystemInput SetTexture (Texture2D texture)
+    public UploadFromTexture SetTexture (Texture2D texture)
     {
         this.imageTexture = texture;
         return this;
     }
 
     // filename setter
-    public FileSystemInput SetFieldName (string fieldName)
+    public UploadFromTexture SetFieldName (string fieldName)
     {
         this.fieldName = fieldName;
         return this;
     }
     
     // type setter
-    public FileSystemInput SetType (ImageType type)
+    public UploadFromTexture SetType (ImageType type)
     {
         this.imageType = type;
         return this;
     }
 
     // onerror setter
-    public FileSystemInput OnError (UnityAction<string> action)
+    public UploadFromTexture OnError (UnityAction<string> action)
     {
         this.OnErrorAction = action;
         return this;
     }
 
     // oncomplete setter
-    public FileSystemInput OnComplete (UnityAction<string> action)
+    public UploadFromTexture OnComplete (UnityAction<string> action)
     {
         this.OnCompleteAction = action;
         return this;
