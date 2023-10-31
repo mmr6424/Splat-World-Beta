@@ -7,28 +7,29 @@ using UnityEngine.UI;
 using System.IO;
 
 using NativeFilePickerNamespace;
-//using SimpleFileb
 
 public class FileSystemUpload : MonoBehaviour
 {
-    private string fileType;
     string path;
-    public RawImage rawImage;
+    Texture2D image;
+
+    [SerializeField]
+    RawImage rawImage;
     [SerializeField]
     UploadFromTexture uploadFromTexture;
 
     void Start()
     {
-        fileType = NativeFilePicker.ConvertExtensionToFileType("png"); // Returns "application/pdf" on Android and "com.adobe.pdf" on iOS
-        Debug.Log("MIME/UTI is: " + fileType);
+#if UNITY_ANDROID
         RequestPermissionAsynchronously();
+#endif
     }
 
     void Update()
     {
     }
 
-    // Example code doesn't use this function but it is here for reference. It's recommended to ask for permissions manually using the
+    //  It's recommended to ask for permissions manually using the
     // RequestPermissionAsync methods prior to calling NativeFilePicker functions
     private async void RequestPermissionAsynchronously(bool readPermissionOnly = false)
     {
@@ -40,36 +41,73 @@ public class FileSystemUpload : MonoBehaviour
     // opens file explorer, gets a png or jpg
     public void OpenFileExplorer()
     {
+        Debug.Log("Inside Open File Explorer");
 #if UNITY_EDITOR
         path = EditorUtility.OpenFilePanel("Show all images (.png)", "", "png");
-#endif
-#if UNITY_ANDROID
+
+        // import the texture and then set the texture of the ui element using 
+        // my upload from texture script
+        image = ImportTexture(path);
+        rawImage.texture = image;
+
+
+#elif UNITY_ANDROID
+
         // if file picker is already being used, dont do anything.
         if (NativeFilePicker.IsFilePickerBusy()) return;
 
         // Use MIMEs on Android
         string[] fileTypes = new string[] { "image/*" };
-#else
-    	// Use UTIs on iOS
-    	string[] fileTypes = new string[] { "public.image", "public.movie" };
-#endif
-        byte[] file;
 
         // Pick image(s) and/or video(s)
-        NativeFilePicker.Permission permission = NativeFilePicker.PickFile((paths) =>
+        NativeFilePicker.Permission permission = NativeFilePicker.PickFile((path) =>
         {
             // if they didn't pick anything, just tell console we didn't do anything
-            if (paths == null) Debug.Log("Operation cancelled");
+            if (path == null) Debug.Log("Operation cancelled");
             // otherwise print the path
             else Debug.Log("Picked file: " + path);
 
             // import the texture and then set the texture of the ui element using 
             // my upload from texture script
-            Texture2D image = ImportTexture(path);
-            uploadFromTexture.SetTexture(image);
+            image = ImportTexture(path);
+            rawImage.texture = image;
+
         }, fileTypes);
 
         Debug.Log("Permission result: " + permission);
+
+#elif UNITY_IOS
+
+        // if file picker is already being used, dont do anything.
+        if (NativeFilePicker.IsFilePickerBusy()) return;
+
+    	// Use UTIs on iOS
+    	string[] fileTypes = new string[] { "public.image" };
+
+        // Pick image(s) and/or video(s)
+        NativeFilePicker.Permission permission = NativeFilePicker.PickFile((path) =>
+        {
+            // if they didn't pick anything, just tell console we didn't do anything
+            if (path == null) Debug.Log("Operation cancelled");
+            // otherwise print the path
+            else Debug.Log("Picked file: " + path);
+
+            // import the texture and then set the texture of the ui element using 
+            // my upload from texture script
+            image = ImportTexture(path);
+            rawImage.texture = image;
+
+        }, fileTypes);
+
+        Debug.Log("Permission result: " + permission);
+#endif
+
+        Debug.Log("after directive if statements");
+
+        uploadFromTexture.SetFieldName("image");
+        uploadFromTexture.SetTexture(image);
+        uploadFromTexture.Upload();
+
     }
 
     /// <summary>
@@ -78,7 +116,9 @@ public class FileSystemUpload : MonoBehaviour
     /// </summary>
     Texture2D ImportTexture(string path)
     {
+        Debug.Log("Inside import texture");
         byte[] file = File.ReadAllBytes(path);
+        //Debug.Log(file.ToString());
         Texture2D loadTexture = new Texture2D(1, 1);
         loadTexture.LoadImage(file);
         return loadTexture;
@@ -86,6 +126,7 @@ public class FileSystemUpload : MonoBehaviour
 
     /// <summary>
     /// Needs to be updated to parameterize
+    /// writes to local file system
     /// </summary>
     public void ExportFile()
     {
@@ -98,25 +139,6 @@ public class FileSystemUpload : MonoBehaviour
 
         Debug.Log("Permission result: " + permission);
     }
+    
 
-    // Update is called once per frame
-    //IEnumerator GetTexture()
-    //{
-    //    UnityWebRequest www = UnityWebRequestTexture.GetTexture("file:///" + path);
-
-
-    //    yield return www.SendWebRequest();
-
-    //    if (www.isNetworkError || www.isHttpError)
-    //    {
-    //        Debug.Log(www.error);
-    //    }
-    //    else
-    //    {
-    //        Texture texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-    //        rawImage.texture = texture;
-
-    //    }
-
-    //}
 }

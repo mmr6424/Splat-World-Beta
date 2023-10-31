@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class UploadFromTexture : MonoBehaviour
 {
@@ -22,18 +24,26 @@ public class UploadFromTexture : MonoBehaviour
     static string username = "moss";
     string fileName = $"testFromUnity";
     ImageType imageType = ImageType.PNG;
+
+    [SerializeField]
+    List<InputField> input;                 // input fields. VERY IMPORTANT:
+                                            // naming of input fields MUST match json 
+                                            // field titles
+    List<(string fName, Text value)> args;  // list of tuples...
     [SerializeField]
     string url;
+    [SerializeField]
+    InputField output;
 
     // Events
     UnityAction<string> OnErrorAction;
     UnityAction<string> OnCompleteAction;
 
     // initialize imageuploader gameobject
-    public static UploadFromTexture Initialize ()
-    {
-        return new GameObject("ImageUploader").AddComponent<UploadFromTexture>();
-    }
+    //public static UploadFromTexture Initialize ()
+    //{
+    //    return new GameObject("ImageUploader").AddComponent<UploadFromTexture>();
+    //}
 
     //
     // SETTERS
@@ -81,6 +91,21 @@ public class UploadFromTexture : MonoBehaviour
         return this;
     }
 
+    // start
+    public void Start()
+    {
+        args = new List<(string fName, Text value)>();
+
+        // fill args (list of tuples)
+        for (int i = 0; i < input.Count; i++)
+        {
+            args.Add((input[i].name, input[i].textComponent));
+        }
+    }
+
+    /// <summary>
+    /// Uploads the image
+    /// </summary>
     public void Upload ()
     {
         // input checking
@@ -124,6 +149,10 @@ public class UploadFromTexture : MonoBehaviour
         return readableTexture;
     }
 
+    /// <summary>
+    /// Coroutine for uploading texture
+    /// </summary>
+    /// <returns></returns>
     IEnumerator StartUploading ()
     {
         WWWForm form = new WWWForm();
@@ -149,29 +178,56 @@ public class UploadFromTexture : MonoBehaviour
         // ADD IMAGE TO FORM
         form.AddBinaryData(fieldName, textureBytes, fileName + "." + extension, "image/" + extension);
 
-        // add form to request
-        WWW w = new WWW(url, form);
-
-        yield return w;
-
-        // handle response
-        if (w.error != null)
+        // add form fields from arguments
+        if (args.Count > 0)
         {
-            if (OnErrorAction != null)
+            for (int i = 0; i < args.Count; i++)
             {
-                OnErrorAction(w.error);
-            }
-        } else
-        {
-            if (OnCompleteAction != null)
-            {
-                OnCompleteAction(w.text);
+                form.AddField(args[i].fName, args[i].value.text.ToString());
+                //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
             }
         }
 
-        w.Dispose();
-        Destroy(this.gameObject);
+        // add boundiary for multer?
+        form.AddBinaryData("test", new byte[0]);
+
+        // declare request
+        UnityWebRequest w;
+
+        // https://forum.unity.com/threads/unitywebrequest-post-multipart-form-data-doesnt-append-files-to-itself.627916/
+        using (w = UnityWebRequest.Post(url, form)) {
+            // add headers
+            //w.SetRequestHeader("Content-Type", "multipart/form-data");
+            //w.SetRequestHeader("Content-Disposition", "form-data");
+
+
+            yield return w.SendWebRequest();
+
+            switch (w.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError(String.Format("Connection Error: {0}", w.error));
+                    output.text = (String.Format("Connection Error: {0}", w.error));
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(String.Format("Protocol Error: {0}", w.error));
+                    output.text = String.Format("Protocol Error: {0}", w.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(String.Format("Data Processing Error: {0}", w.error));
+                    output.text = String.Format("Data Processing Error: {0}", w.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    output.text = w.downloadHandler.text;
+                    // success triggers an event, if you set bool throwEvent = true in inspector
+                    
+                    break;
+                default:
+                    output.text = String.Format("{0}", w.responseCode);
+                    break;
+            }
+
+            w.Dispose();
+        }
     }
-
-
 }
