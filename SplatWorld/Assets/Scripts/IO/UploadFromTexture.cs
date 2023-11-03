@@ -189,7 +189,7 @@ public class UploadFromTexture : MonoBehaviour
         }
 
         // add boundiary for multer?
-        form.AddBinaryData("test", new byte[0]);
+        //form.AddBinaryData("test", new byte[0]);
 
         // declare request
         UnityWebRequest w;
