@@ -1,3 +1,4 @@
+// Authors: Moss Limpert
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

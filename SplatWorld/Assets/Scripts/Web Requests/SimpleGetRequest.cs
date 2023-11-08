@@ -1,3 +1,4 @@
+// Authors: Moss Limpert
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,11 +6,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+/// <summary>
+/// helper enum that allows us to format strings differently
+/// based on what data we are actually asking for
+/// </summary>
 public enum ReqType
 {
     GETUSERCREWS,
+    GETTAGCOUNT,
+    GETPOINTS,
+
 }
 
+/// <summary>
+/// contain data from a getusercrews request
+/// </summary>
 public class GetUserCrews
 {
     public int count;
@@ -22,19 +33,56 @@ public class GetUserCrews
     }
 }
 
+/// <summary>
+/// contain data from a gettagcount request
+/// </summary>
+public class GetTagCount {
+    public int count;
+
+    public override string ToString()
+    {
+        return count + " tags";
+    }
+}
+
+public class GetPoints
+{
+    public int points;
+
+    public override string ToString()
+    {
+        return points + "splat points";
+    }
+}
+
+/// <summary>
+/// Get Request Script that works without user-inputted form data
+/// </summary>
 public class SimpleGetRequest : MonoBehaviour
 {
     //
     // FIELDS
     //
+    [Header("Temporary Fields")]
     [SerializeField]
     string userId;
+
+    [Header("Request Variables")]
     [SerializeField]
     string uri;
+    [SerializeField]
+    ReqType requestType;
+
+    [Header("Response Variables")]
     [SerializeField]
     Text output;
     [SerializeField]
     char toReplace;
+    [SerializeField]
+    string prefix;
+    [SerializeField]
+    string suffix;
+    
   
     List<(string fName, string value)> args;
 
@@ -100,25 +148,66 @@ public class SimpleGetRequest : MonoBehaviour
                     {
                         //Debug.Log(req.downloadHandler.data);
                         string temp = output.text;
+                        string[] split;
                         //Debug.Log(req.downloadHandler.text);
-                        GetUserCrews data = JsonUtility.FromJson<GetUserCrews>(req.downloadHandler.text);
-                        Debug.Log(data.ToString());
+                        
+                        // this is provided in the inspector, makes this script re-usable
+                        switch (requestType) {
+                            case ReqType.GETUSERCREWS:
+                                // format: %NUMOFTAGS% Tags
+                                // convert the response data to a class with fields
+                                GetUserCrews userCrews = JsonUtility.FromJson<GetUserCrews>(req.downloadHandler.text);
+                                //Debug.Log(userCrews.ToString());
 
-                        // this is provided in the callback to the db query in the request handler 
-                        // in the node js server code
-                        switch (data.reqtype) {
-                            case 0:
-                                string[] split = temp.Split('%');
-                                split[1] = String.Format("{0}", data.count);
+                                split = temp.Split(toReplace);
+                                //split[1] = String.Format("{0}", userCrews.count);
+
+                                // i will fix this later when the request provides names for each id
+                                string listOfIds = "";
+                                for (int i = 0; i < userCrews.count; i++)
+                                {
+                                    listOfIds += userCrews.ids[i];
+                                    if (i < userCrews.count) listOfIds += ", ";
+                                }
+                                split[split.Length - 1] = listOfIds;
 
                                 temp = "";
                                 // stitch back together
+                                if (!String.IsNullOrEmpty(prefix)) temp += prefix;
                                 for (int i = 1; i < split.Length; i++)
                                 {
                                     //Debug.Log(split[i]);
                                     temp += split[i] + " ";
                                 }
-                                //temp = temp.Replace("%NUMTOREPLACE%", String.Format("{0}", data.count));
+                                if (!String.IsNullOrEmpty(suffix)) temp += suffix;
+
+                                break;
+
+                            case ReqType.GETTAGCOUNT:
+                                // format: Member of: %CREWNAME%
+                                // convert the response data to a class with fields
+                                GetTagCount tagCount = JsonUtility.FromJson<GetTagCount>(req.downloadHandler.text);
+                                //Debug.Log(tagCount.ToString());
+
+                                split = temp.Split(toReplace);
+                                //Debug.Log(split.Length);
+
+                                split[1] = String.Format("{0}", tagCount.count);
+
+                                // stitch back together
+                                temp = "";
+                                if (!String.IsNullOrEmpty(prefix)) temp += prefix;
+                                temp += split[1] + " ";
+                                if (!String.IsNullOrEmpty(suffix)) temp += suffix;
+
+                                break;
+
+                            case ReqType.GETPOINTS:
+                                // format: % Splat points
+                                GetPoints points = JsonUtility.FromJson<GetPoints>(req.downloadHandler.text);
+
+                                temp = String.Format("{0} ", points.points);
+                                if (!String.IsNullOrEmpty(suffix)) temp += suffix;
                                 break;
                             default:
                                 output.text = "request failed";
