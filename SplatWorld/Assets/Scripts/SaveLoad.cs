@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class SaveLoad : MonoBehaviour
 {
+    [SerializeField]
+    private EiselData _eiselData = new EiselData();
+
+    public bool SaveEiselAsJson()
+    {
+        try
+        {
+            string eisel = JsonUtility.ToJson(_eiselData);
+            System.IO.File.WriteAllText(Application.persistentDataPath + $"Eisel_{0}_Data", eisel);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 }
 
 [System.Serializable]
