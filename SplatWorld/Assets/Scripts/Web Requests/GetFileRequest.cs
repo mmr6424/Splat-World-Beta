@@ -6,6 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
+public enum TypeToReplace
+{
+    IMAGE,
+    SPRITERENDERER
+}
+
 public class GetFileRequest : MonoBehaviour
 {
     //
@@ -24,6 +30,11 @@ public class GetFileRequest : MonoBehaviour
     Texture2D texture;
     [SerializeField]
     Texture t;
+    // making it usable in different scenarios
+    [SerializeField]
+    TypeToReplace loadFileInto;
+    [SerializeField]
+    int scaleProfilePic;
 
     Sprite toReplace;
 
@@ -67,10 +78,61 @@ public class GetFileRequest : MonoBehaviour
                 texture = t as Texture2D;
 
                 //if (throwEvent) FileDownloaded.Invoke();
-                
+
                 //Debug.Log(www.downloadHandler.isDone);
                 //imageToReplace = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+                switch (loadFileInto)
+                {
+                    case TypeToReplace.IMAGE:
+                        t = DownloadHandlerTexture.GetContent(www);
+                        texture = t as Texture2D;
+
+                        //Sprite newSprite 
+                        imageToReplace.GetComponent<Image>().sprite = Sprite.Create(
+                            texture,
+                            new Rect(
+                                0,
+                                0,
+                                texture.width,
+                                texture.height
+                            ),
+                            new Vector2(0.5f, 0.5f));
+
+                        // add mask
+                        SpriteMask mask = imageToReplace.GetComponent<SpriteMask>();
+
+                        // make mask not interact with other sprites
+                        break;
+                    case TypeToReplace.SPRITERENDERER:
+                        t = DownloadHandlerTexture.GetContent(www);
+                        texture = t as Texture2D;
+
+                        imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
+                            texture, 
+                            new Rect(
+                                0, 
+                                0, 
+                                texture.width, 
+                                texture.height
+                            ), 
+                            new Vector2(0.5f, 0.5f));
+                        break;
+                    default:
+                        t = DownloadHandlerTexture.GetContent(www);
+                        texture = t as Texture2D;
+
+                        imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
+                            texture,
+                            new Rect(
+                                0,
+                                0,
+                                texture.width,
+                                texture.height
+                            ),
+                            new Vector2(0.5f, 0.5f));
+                        break;
+                }
                 break;
             default:
                 Debug.Log(www.error);

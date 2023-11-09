@@ -169,7 +169,7 @@ public class SimpleGetRequest : MonoBehaviour
                                     listOfIds += userCrews.ids[i];
                                     if (i < userCrews.count) listOfIds += ", ";
                                 }
-                                split[split.Length - 1] = listOfIds;
+                                split[split.Length - 2] = listOfIds;
 
                                 temp = "";
                                 // stitch back together
