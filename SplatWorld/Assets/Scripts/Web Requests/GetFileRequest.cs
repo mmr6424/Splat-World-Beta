@@ -30,11 +30,15 @@ public class GetFileRequest : MonoBehaviour
     Texture2D texture;
     [SerializeField]
     Texture t;
+    [SerializeField]
+    string queryFieldName;
+    [SerializeField]
+    string queryFieldValue;
+
     // making it usable in different scenarios
     [SerializeField]
     TypeToReplace loadFileInto;
-    [SerializeField]
-    int scaleProfilePic;
+    
 
     Sprite toReplace;
 
@@ -61,7 +65,11 @@ public class GetFileRequest : MonoBehaviour
     /// <returns></returns>
     IEnumerator GetFile_Coroutine()
     {
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture(uri, false);
+        // compose url
+
+        string fullUrl = uri + "?" + queryFieldName + "=" + queryFieldValue;
+
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(fullUrl, false);
         www.SetRequestHeader("Accept", "image/*");
         yield return www.SendWebRequest();
 
