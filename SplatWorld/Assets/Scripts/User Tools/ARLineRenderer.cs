@@ -1,6 +1,6 @@
 /*
  * Rose M. Rushton
- * Last Edit: 12-10-23
+ * Last Edit: 11/9/2023
  */
 using System.Collections.Generic;
 using System;
@@ -38,9 +38,12 @@ public class ARLineRenderer : MonoBehaviour
     private bool ifSimplify;
     [SerializeField]
     private float lineWidth = 0.02f;
+    [SerializeField]
+    private int eiselCount;
 
     private LineRenderer prevLR;        // previous line
     private LineRenderer lineRender;    // new line
+    private GameObject eisel; // the canvas (technically just a gameobject to hold all of the linerenderers
 
     private List<LineRenderer> lines = new List<LineRenderer>();    // list of all lines on canvas (in world space)
     private int posCount = 0;                                       // counts how many positions there are in lines
@@ -56,6 +59,7 @@ public class ARLineRenderer : MonoBehaviour
     void Start()
     {
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
+        eisel = new GameObject($"Eisel_{eiselCount}");
         Debug.Log("Draw Manager Started");
     }
     // Called when AR Session Initializes
@@ -115,7 +119,13 @@ public class ARLineRenderer : MonoBehaviour
         else if (touch.phase == TouchPhase.Moved) {
             UpdateLine(hitPosition);
         }   // end line at end of touch
-            
+        // This code currently just creates a new eisel when the player makes a new line
+        // <-- NEEDS TO BE CHANGED --> //
+        else if (touch.phase == TouchPhase.Ended)
+        {
+            eiselCount++;
+            eisel = new GameObject($"Eisel_{eiselCount}");
+        }
     }
 
     // Add New Line at Position
@@ -125,7 +135,7 @@ public class ARLineRenderer : MonoBehaviour
         // Create a new obj to attach LineRenderer to
         GameObject temp = new GameObject($"LineRenderer_{lines.Count}");
         // Set the transform parent to current object script is attached to OR camera if current object cannot be attached
-        temp.transform.parent = transform ?? Camera.transform;
+        temp.transform.parent = eisel.transform ?? Camera.transform;
         // set start position
         temp.transform.position = position;
         // add the LR
