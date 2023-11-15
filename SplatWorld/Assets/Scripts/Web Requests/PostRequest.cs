@@ -55,22 +55,18 @@ public class PostRequest : MonoBehaviour
         output.text = "Loading...";
 
         WWWForm form = new WWWForm();
-
-        //form.AddField("title", "test data");
-        for (int i = 0; i < args.Count; i++)
+        
+        if (args.Count > 0)
         {
-            form.AddField(args[i].fName, args[i].value.text.ToString());
-            //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
+            for (int i = 0; i < args.Count; i++)
+            {
+                form.AddField(args[i].fName, args[i].value.text.ToString());
+                //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
+            }
         }
-
-        //Debug.Log(form);
-        //Debug.Log(form.ToString());
-        //Debug.Log(args.ToString());
-        //Debug.Log(uri);
 
         UnityWebRequest req;
         
-
         using (req = UnityWebRequest.Post(uri, form))
         {
             yield return req.SendWebRequest();

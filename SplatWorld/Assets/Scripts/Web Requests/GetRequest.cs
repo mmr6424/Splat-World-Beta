@@ -17,7 +17,9 @@ public class GetRequest : MonoBehaviour
     [SerializeField]
     Button send;
     [SerializeField]
-    List<InputField> args;
+    List<InputField> input;
+    [SerializeField]
+    List<(string fName, Text value)> args;
     [SerializeField]
     string uri;
 
@@ -25,17 +27,42 @@ public class GetRequest : MonoBehaviour
     //
     // METHODS
     //
+    /// <summary>
+    /// Sets up buttons to send request on click
+    /// </summary>
+    private void Start()
+    {
+        args = new List<(string fName, Text value)>();
 
-    
+        // fill args (list of tuples)
+        for (int i = 0; i < input.Count; i++)
+        {
+            args.Add((input[i].name, input[i].textComponent));
+        }
+
+    }
+
     /// <summary>
     /// Gets data from the server
     /// </summary>
     /// <param name="args">parameters to search with</param>
     /// <param name="uri">url location to search at</param>
     /// <returns></returns>
-    IEnumerator GetData_Coroutine(string uri, string[] args)    // coroutines allow you to spread tasks across several frames
+    IEnumerator GetData_Coroutine()    // coroutines allow you to spread tasks across several frames
     {                                                           // can pause execution and return control to Unity,     
         string fullUrl = uri;                                   // then coninue where it left off on the following frame. 
+        
+        if (args.Count > 0)
+        {
+            fullUrl += "?";
+            for (int i = 0; i < args.Count; i++)
+            {
+                if (i > 0) fullUrl += "&";
+                fullUrl += args[i].fName + "=" + args[i].value.text.ToString();
+            }
+        }
+
+        //Debug.Log(fullUrl);
 
         // using defines a boundary for the object, outside of which,
         // the object is automatically destroyed
@@ -58,7 +85,11 @@ public class GetRequest : MonoBehaviour
                     Debug.LogError(String.Format("Data Processing Error: {0}", req.error));
                     break;
                 case UnityWebRequest.Result.Success:
-                    output.text = req.downloadHandler.text;
+                    if (req.downloadHandler.isDone)
+                    {
+                        output.text = req.downloadHandler.text;
+                    }
+                    else output.text = "Nothing to download";
                     break;
             }
         }
@@ -67,7 +98,5 @@ public class GetRequest : MonoBehaviour
     /// <summary>
     /// Function that starts the coroutine to get data from server 
     /// </summary>
-    /// <param name="args">parameters to search with</param>
-    /// <param name="uri">url location to search at</param>
-    void GetData(string uri, string[] args) => StartCoroutine(GetData_Coroutine(uri, args));
+    public void GetData() => StartCoroutine(GetData_Coroutine());
 }
