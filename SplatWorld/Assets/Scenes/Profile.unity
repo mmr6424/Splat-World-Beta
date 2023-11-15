@@ -6878,7 +6878,7 @@ MonoBehaviour:
   - {fileID: 317351245}
   - {fileID: 1746121522}
   - {fileID: 1725547697}
-  uri: http://127.0.0.1:3000/change-password
+  uri: https://splatworld.alchemi.dev/change-password
   throwEvent: 0
   RequestSucceeded:
     m_PersistentCalls:
@@ -6935,7 +6935,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1594482426
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8537,7 +8537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1852616035
 RectTransform:
   m_ObjectHideFlags: 0
