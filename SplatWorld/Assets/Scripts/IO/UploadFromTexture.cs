@@ -27,10 +27,10 @@ public class UploadFromTexture : MonoBehaviour
     ImageType imageType = ImageType.PNG;
 
     [SerializeField]
-    List<InputField> input;                 // input fields. VERY IMPORTANT:
+    List<Text> input;                 // input fields. VERY IMPORTANT:
                                             // naming of input fields MUST match json 
                                             // field titles
-    List<(string fName, Text value)> args;  // list of tuples...
+    List<(string fName, string value)> args;  // list of tuples...
     [SerializeField]
     string url;
     [SerializeField]
@@ -95,13 +95,9 @@ public class UploadFromTexture : MonoBehaviour
     // start
     public void Start()
     {
-        args = new List<(string fName, Text value)>();
+        args = new List<(string fName, string value)>();
 
-        // fill args (list of tuples)
-        for (int i = 0; i < input.Count; i++)
-        {
-            args.Add((input[i].name, input[i].textComponent));
-        }
+        
     }
 
     /// <summary>
@@ -156,6 +152,12 @@ public class UploadFromTexture : MonoBehaviour
     /// <returns></returns>
     IEnumerator StartUploading ()
     {
+        // fill args (list of tuples)
+        for (int i = 0; i < input.Count; i++)
+        {
+            args.Add((input[i].name, input[i].text));
+        }
+
         WWWForm form = new WWWForm();
         byte[] textureBytes = null;
 
@@ -184,7 +186,7 @@ public class UploadFromTexture : MonoBehaviour
         {
             for (int i = 0; i < args.Count; i++)
             {
-                form.AddField(args[i].fName, args[i].value.text.ToString());
+                form.AddField(args[i].fName, args[i].value);
                 //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
             }
         }

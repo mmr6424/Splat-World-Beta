@@ -31,9 +31,7 @@ public class GetFileRequest : MonoBehaviour
     [SerializeField]
     Texture t;
     [SerializeField]
-    string queryFieldName;
-    [SerializeField]
-    string queryFieldValue;
+    int userId;
 
     // making it usable in different scenarios
     [SerializeField]
@@ -67,7 +65,7 @@ public class GetFileRequest : MonoBehaviour
     {
         // compose url
 
-        string fullUrl = uri + "?" + queryFieldName + "=" + queryFieldValue;
+        string fullUrl = uri + "?download-name=" + "pfp-" +userId + "&id=" + userId;
 
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(fullUrl, false);
         www.SetRequestHeader("Accept", "image/*");
@@ -75,15 +73,22 @@ public class GetFileRequest : MonoBehaviour
 
         //Debug.Log(www.result);
 
+        
+
         switch (www.result)
         {
             case UnityWebRequest.Result.Success:
                 
                 t = DownloadHandlerTexture.GetContent(www);
+
+                //Debug.Log(DownloadHandlerTexture.error)
                 //texture = ((DownloadHandlerTexture)www.downloadHandler).texture as Texture2D;
                 //byte[] picture = 
                 //Debug.Log(texture.ToString());
                 texture = t as Texture2D;
+
+                // fix oownldoad handler
+
 
                 //if (throwEvent) FileDownloaded.Invoke();
 
@@ -94,6 +99,12 @@ public class GetFileRequest : MonoBehaviour
                 {
                     case TypeToReplace.IMAGE:
                         t = DownloadHandlerTexture.GetContent(www);
+
+                        if (t == null) {
+                            Debug.Log("Content Null");
+                            break;
+                        }
+
                         texture = t as Texture2D;
 
                         //Sprite newSprite 
@@ -114,6 +125,13 @@ public class GetFileRequest : MonoBehaviour
                         break;
                     case TypeToReplace.SPRITERENDERER:
                         t = DownloadHandlerTexture.GetContent(www);
+
+                        if (t == null)
+                        {
+                            Debug.Log("Content Null");
+                            break;
+                        }
+
                         texture = t as Texture2D;
 
                         imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(
@@ -128,6 +146,13 @@ public class GetFileRequest : MonoBehaviour
                         break;
                     default:
                         t = DownloadHandlerTexture.GetContent(www);
+
+                        if (t == null)
+                        {
+                            Debug.Log("Content Null");
+                            break;
+                        }
+
                         texture = t as Texture2D;
 
                         imageToReplace.GetComponent<SpriteRenderer>().sprite = Sprite.Create(

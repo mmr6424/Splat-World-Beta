@@ -15,6 +15,7 @@ public enum ReqType
     GETUSERCREWS,
     GETTAGCOUNT,
     GETPOINTS,
+    GENERIC,
 
 }
 
@@ -25,11 +26,16 @@ public class GetUserCrews
 {
     public int count;
     public int[] ids;
-    public int reqtype;
+    public string[] names;
 
     public override string ToString()
     {
-        return "count:" + count + " " + "ids: " + ids.ToString();
+        //string n = "";
+        //for (int i = 0; i < names.Length; i++)
+        //{
+        //    n += names[i] + ", ";
+        //}
+        return "count:" + count + " " + "ids: " + ids + " names: " + names;
     }
 }
 
@@ -54,6 +60,20 @@ public class GetPoints
         return points + "splat points";
     }
 }
+
+/// <summary>
+/// Contain data from a request that just sends a simple message as a response
+/// </summary>
+public class Generic
+{
+    public string message;
+
+    public override string ToString()
+    {
+        return message;
+    }
+}
+
 
 /// <summary>
 /// Get Request Script that works without user-inputted form data
@@ -157,19 +177,36 @@ public class SimpleGetRequest : MonoBehaviour
                                 // format: %NUMOFTAGS% Tags
                                 // convert the response data to a class with fields
                                 GetUserCrews userCrews = JsonUtility.FromJson<GetUserCrews>(req.downloadHandler.text);
-                                //Debug.Log(userCrews.ToString());
+                                Debug.Log(userCrews.ToString());
+                                Debug.Log(req.downloadHandler.text);
+                                
+                                //for (int i = 0; i < userCrews.names.Length; i++)
+                                //{
+                                //    Debug.Log(userCrews.names[i]);
+                                //}
 
                                 split = temp.Split(toReplace);
                                 //split[1] = String.Format("{0}", userCrews.count);
 
                                 // i will fix this later when the request provides names for each id
-                                string listOfIds = "";
-                                for (int i = 0; i < userCrews.count; i++)
-                                {
-                                    listOfIds += userCrews.ids[i];
-                                    if (i < userCrews.count) listOfIds += ", ";
+                                string listOfNames = "";
+                                int count;
+                                bool moreThanFour; // if there are more than 4 crews, append ... to the end of the list
+                                if (userCrews.count < 4) {
+                                    moreThanFour = false;
+                                    count = userCrews.count;
+                                } else {
+                                    moreThanFour = true;
+                                    count = 4;
                                 }
-                                split[split.Length - 2] = listOfIds;
+                                // make a string list of the crew names
+                                for (int i = 0; i < count; i++)
+                                {
+                                    listOfNames += userCrews.names[i];
+                                    if (i < count - 1) listOfNames += ", ";
+                                }
+                                if (moreThanFour) listOfNames += "...";
+                                split[split.Length - 2] = listOfNames;
 
                                 temp = "";
                                 // stitch back together
@@ -208,6 +245,14 @@ public class SimpleGetRequest : MonoBehaviour
 
                                 temp = String.Format("{0} ", points.points);
                                 if (!String.IsNullOrEmpty(suffix)) temp += suffix;
+                                break;
+                            case ReqType.GENERIC:
+                                // format: message: %
+                                Generic message = JsonUtility.FromJson<Generic>(req.downloadHandler.text);
+
+                                if (!String.IsNullOrEmpty(prefix)) temp += prefix;
+                                temp += message.ToString();
+
                                 break;
                             default:
                                 output.text = "request failed";
