@@ -2113,6 +2113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7886388493563905653, guid: 4c88b91e794f4984a950ffa31d805e3e,
         type: 3}
+      propertyPath: uri
+      value: https://splatworld.alchemi.dev:3000/flag-tag
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886388493563905653, guid: 4c88b91e794f4984a950ffa31d805e3e,
+        type: 3}
       propertyPath: output
       value: 
       objectReference: {fileID: 1055505870}
