@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
+/// <summary>
+/// Type of object to replace with the image retrieved by get request
+/// </summary>
 public enum TypeToReplace
 {
     IMAGE,
@@ -50,13 +53,6 @@ public class GetFileRequest : MonoBehaviour
         
     }
 
-    private void Update()
-    {
-        //if (texture != null)
-        //{
-        //    ChangeTexture();
-        //}
-    }
     /// <summary>
     /// Asks server for a file
     /// </summary>

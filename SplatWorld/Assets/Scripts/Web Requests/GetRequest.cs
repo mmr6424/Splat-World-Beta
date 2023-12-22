@@ -13,10 +13,12 @@ public class GetRequest : MonoBehaviour
     // FIELDS
     //
     [SerializeField]
+    [Tooltip("Where the text output of the web request will go.")]
     InputField output;
     [SerializeField]
     Button send;
     [SerializeField]
+    [Tooltip("List of text fields. Very important: the naming of input fields in the hierarchy must match json field titles for web requests.")]
     List<InputField> input;
     [SerializeField]
     List<(string fName, Text value)> args;

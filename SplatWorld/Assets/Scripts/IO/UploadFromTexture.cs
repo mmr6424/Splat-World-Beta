@@ -10,6 +10,9 @@ using UnityEngine.Networking;
 public class UploadFromTexture : MonoBehaviour
 {
     //https://www.youtube.com/watch?v=5AUAmZ1002E&t=20s
+    /// <summary>
+    /// Type of image the user is uploading
+    /// </summary>
     public enum ImageType
     {
         PNG,
@@ -19,7 +22,6 @@ public class UploadFromTexture : MonoBehaviour
     //
     // FIELDS
     //
-
     Texture2D imageTexture;
     string fieldName;
     static string username = "moss";
@@ -27,24 +29,21 @@ public class UploadFromTexture : MonoBehaviour
     ImageType imageType = ImageType.PNG;
 
     [SerializeField]
-    List<Text> input;                 // input fields. VERY IMPORTANT:
-                                            // naming of input fields MUST match json 
-                                            // field titles
-    List<(string fName, string value)> args;  // list of tuples...
+    [Tooltip("List of text fields. Very important: the naming of input fields in the hierarchy must match json field titles for web requests.")]
+    List<Text> input;
+    
+    List<(string fName, string value)> args;
     [SerializeField]
     string url;
     [SerializeField]
+    [Tooltip("Where the text output of the web request will go.")]
     InputField output;
 
     // Events
     UnityAction<string> OnErrorAction;
     UnityAction<string> OnCompleteAction;
+    
 
-    // initialize imageuploader gameobject
-    //public static UploadFromTexture Initialize ()
-    //{
-    //    return new GameObject("ImageUploader").AddComponent<UploadFromTexture>();
-    //}
 
     //
     // SETTERS

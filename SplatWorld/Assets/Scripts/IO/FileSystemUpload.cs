@@ -17,6 +17,7 @@ public class FileSystemUpload : MonoBehaviour
     [SerializeField]
     RawImage rawImage;
     [SerializeField]
+    [Tooltip("Script that sends the upload request. This should be attached to the same gameobject as this.")]
     UploadFromTexture uploadFromTexture;
 
     void Start()
@@ -24,10 +25,6 @@ public class FileSystemUpload : MonoBehaviour
 #if UNITY_ANDROID
         RequestPermissionAsynchronously();
 #endif
-    }
-
-    void Update()
-    {
     }
 
     //  It's recommended to ask for permissions manually using the

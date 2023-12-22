@@ -8,8 +8,10 @@ using UnityEngine.UI;
 public class ToggleLoginSignup : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("The User Log in form.")]
     GameObject LoginForm;
     [SerializeField]
+    [Tooltip("The User Sign in form.")]
     GameObject SignupForm;
 
     // from this button

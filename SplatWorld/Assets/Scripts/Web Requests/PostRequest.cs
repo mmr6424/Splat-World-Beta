@@ -15,12 +15,12 @@ public class PostRequest : MonoBehaviour
     // FIELDS
     //
     [SerializeField]
+    [Tooltip("Where the text output of the web request will go.")]
     InputField output;
     [SerializeField]
-    List<InputField> input;                 // input fields. VERY IMPORTANT:
-                                            // naming of input fields MUST match json 
-                                            // field titles
-    List<(string fName, Text value)> args;  // list of tuples...
+    [Tooltip("List of text fields. Very important: the naming of input fields in the hierarchy must match json field titles for web requests.")]
+    List<InputField> input;                 
+    List<(string fName, Text value)> args;  
     [SerializeField]                    
     string uri;
     [SerializeField]

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script is currently not being used, because I was having trouble getting
+// it to work properly with the post requests
 public class PasswordField : MonoBehaviour
 {
     //
