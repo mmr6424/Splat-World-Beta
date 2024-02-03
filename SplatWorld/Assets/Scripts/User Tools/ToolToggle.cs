@@ -10,14 +10,20 @@ public class ToolToggle : MonoBehaviour
     // Start is called before the first frame update
 
     public Sprite brushSprite, canSprite, pencilSprite, bucketSprite, eraserSprite;
+    public List<Image> toolSelectSprites = new List<Image>();
+
+    // hides tool button while tool select panel is open
+    public void hideToolButton() { toolButton.GetComponent<Image>().color = Color.clear; }
 
     public void ActivatePencil()
     {
         brush.SetActive(false);
         can.SetActive(false);
         colorPicker.SetActive(false);
-        // replace tool button sprite
+        // replace open panel button sprite
         toolButton.GetComponent<Image>().sprite = pencilSprite;
+        // show open panel button
+        toolButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ActivateBucket()
@@ -25,8 +31,8 @@ public class ToolToggle : MonoBehaviour
         brush.SetActive(false);
         can.SetActive(false);
         colorPicker.SetActive(false);
-        // replace tool button sprite
         toolButton.GetComponent<Image>().sprite = bucketSprite;
+        toolButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ActivateEraser()
@@ -34,8 +40,8 @@ public class ToolToggle : MonoBehaviour
         brush.SetActive(false);
         can.SetActive(false);
         colorPicker.SetActive(false);
-        // replace tool button sprite
         toolButton.GetComponent<Image>().sprite = eraserSprite;
+        toolButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ActivateBrush()
@@ -43,8 +49,8 @@ public class ToolToggle : MonoBehaviour
         brush.SetActive(true);
         can.SetActive(false);
         colorPicker.SetActive(false);
-        // replace tool button sprite
         toolButton.GetComponent<Image>().sprite = brushSprite;
+        toolButton.GetComponent<Image>().color = Color.white;
     }
 
     public void ActivateCan()
@@ -53,6 +59,21 @@ public class ToolToggle : MonoBehaviour
         can.SetActive(true);
         colorPicker.SetActive(false);
         toolButton.GetComponent<Image>().sprite = canSprite;
+        toolButton.GetComponent<Image>().color = Color.white;
+    }
+
+    // not implemented yet
+    public void switchToolUI(Sprite newButtonSprite, Image selectedIcon)
+    {
+        // update tool button to selected tool
+        toolButton.GetComponent<Image>().sprite = newButtonSprite;
+        // reset all tool select buttons to greyed out
+        foreach(Image selectIcon in toolSelectSprites)
+        {
+            selectIcon.color = new Color32(255, 255, 255, 84);
+        }
+        // highlight celected tool
+        selectedIcon.GetComponent<Image>().color = Color.white;
     }
 
     public void ActivateColorPicker()
