@@ -27,6 +27,9 @@ public class ColorPickerControl : MonoBehaviour
     [SerializeField]
     GameObject aRObject;
 
+    [SerializeField]
+    Image colorButton;
+
     private void Start()
     {
         CreateHueImage();
@@ -110,7 +113,10 @@ public class ColorPickerControl : MonoBehaviour
         changeThisColor.material.SetColor("_BaseColor", currentColor);
 
         if (aRObject != null)
+        {
             aRObject.GetComponent<ARLineRenderer>().ChangeColor(currentColor);
+            colorButton.color = currentColor;
+        }
     }
 
     public void SetSV(float s, float v)
