@@ -129,17 +129,7 @@ public class SimpleGetRequest : MonoBehaviour
 
         fullUrl += "?id=" + userId;
         
-        //if (args.Count > 0)
-        //{
-        //    fullUrl += "?";
-        //    for (int i = 0; i < args.Count; i++)
-        //    {
-        //        if (i > 0) fullUrl += "&";
-        //        fullUrl += args[i].fName + "=" + args[i].value.ToString();
-        //    }
-        //}
-
-        //Debug.Log(fullUrl);
+   
 
         // using defines a boundary for the object, outside of which,
         // the object is automatically destroyed
