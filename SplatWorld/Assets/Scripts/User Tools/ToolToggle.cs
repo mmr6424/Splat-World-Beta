@@ -15,6 +15,9 @@ public class ToolToggle : MonoBehaviour
     // hides tool button while tool select panel is open
     public void hideToolButton() { toolButton.GetComponent<Image>().color = Color.clear; }
 
+    // un-hide tool button 
+    public void showToolButton() { toolButton.GetComponent<Image>().color = Color.white; }
+
     public void ActivatePencil()
     {
         brush.SetActive(false);
@@ -23,7 +26,7 @@ public class ToolToggle : MonoBehaviour
         // replace open panel button sprite
         toolButton.GetComponent<Image>().sprite = pencilSprite;
         // show open panel button
-        toolButton.GetComponent<Image>().color = Color.white;
+        showToolButton();
     }
 
     public void ActivateBucket()
@@ -32,7 +35,7 @@ public class ToolToggle : MonoBehaviour
         can.SetActive(false);
         colorPicker.SetActive(false);
         toolButton.GetComponent<Image>().sprite = bucketSprite;
-        toolButton.GetComponent<Image>().color = Color.white;
+        showToolButton();
     }
 
     public void ActivateEraser()
@@ -41,7 +44,7 @@ public class ToolToggle : MonoBehaviour
         can.SetActive(false);
         colorPicker.SetActive(false);
         toolButton.GetComponent<Image>().sprite = eraserSprite;
-        toolButton.GetComponent<Image>().color = Color.white;
+        showToolButton();
     }
 
     public void ActivateBrush()
@@ -50,7 +53,7 @@ public class ToolToggle : MonoBehaviour
         can.SetActive(false);
         colorPicker.SetActive(false);
         toolButton.GetComponent<Image>().sprite = brushSprite;
-        toolButton.GetComponent<Image>().color = Color.white;
+        showToolButton();
     }
 
     public void ActivateCan()
@@ -59,7 +62,7 @@ public class ToolToggle : MonoBehaviour
         can.SetActive(true);
         colorPicker.SetActive(false);
         toolButton.GetComponent<Image>().sprite = canSprite;
-        toolButton.GetComponent<Image>().color = Color.white;
+        showToolButton();
     }
 
     // not implemented yet
