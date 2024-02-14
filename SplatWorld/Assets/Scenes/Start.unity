@@ -910,7 +910,7 @@ PrefabInstance:
     - target: {fileID: 1579207782161724508, guid: 9226786b9f8b55e41a3d2d7520939142,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1579207782161724509, guid: 9226786b9f8b55e41a3d2d7520939142,
         type: 3}
@@ -993,7 +993,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &576705488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1197,6 +1197,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632519438}
   m_CullTransparentMesh: 1
+--- !u!1 &644289516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644289517}
+  - component: {fileID: 644289518}
+  m_Layer: 0
+  m_Name: User State
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &644289517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644289516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 133.12183, y: 311.57895, z: -585.4052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644289518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644289516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0fe4b00f78b414c9a5609f3863645f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &926018273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,7 +1544,7 @@ PrefabInstance:
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: uri
-      value: https://splatworld.alchemi.dev/signup
+      value: http://127.0.0.1:3000/signup
       objectReference: {fileID: 0}
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -1731,7 +1774,7 @@ PrefabInstance:
     - target: {fileID: 7704476160410501728, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: m_FontData.m_HorizontalOverflow
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8008312772181387718, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}

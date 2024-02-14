@@ -106,6 +106,12 @@ public class SimpleGetRequest : MonoBehaviour
   
     List<(string fName, string value)> args;
 
+    public SimpleGetRequest(int userId, string uri)
+    {
+        this.userId = $"{userId}";
+        this.uri = uri;
+    }
+
     //
     // METHODS
     //
