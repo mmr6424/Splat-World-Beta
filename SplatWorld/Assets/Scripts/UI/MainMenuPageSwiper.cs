@@ -37,12 +37,12 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             Vector3 newLocation = panelLocation;
             if (percentage < 0)
             {
-                newLocation += new Vector3(0, Screen.width * 2, 0);
+                newLocation += new Vector3(0, Screen.height, 0);
                 //profilePageActive = false;
             }
             else if (percentage > 0)
             {
-                newLocation += new Vector3(0, -Screen.width * 2, 0);
+                newLocation += new Vector3(0, -Screen.height, 0);
                 //profilePageActive = true;
             }
             StartCoroutine(SmoothMove(transform.position, newLocation, easing));
