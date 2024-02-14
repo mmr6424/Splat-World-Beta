@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     void Start()
     {
         leftOrRight = false;
-        menuPanel.transform.position = menuOriginalPosL.transform.position;
+        //menuPanel.transform.position = menuOriginalPosL.transform.position;
     }
 
     // Update is called once per frame
