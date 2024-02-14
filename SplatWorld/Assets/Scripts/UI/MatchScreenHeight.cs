@@ -9,7 +9,7 @@ public class MatchScreenHeight : MonoBehaviour
     {
         Profile,
         Settings,
-        
+        PositionPreDefined,
     }
 
     [SerializeField]
@@ -26,6 +26,8 @@ public class MatchScreenHeight : MonoBehaviour
                 break;
             case Panel.Settings: // settings panel
                 rectTransform.transform.position = new Vector2((Screen.width / 2) * 3, -Screen.height / 2);
+                break;
+            case Panel.PositionPreDefined: // position is already defined
                 break;
         }
     }
