@@ -26,6 +26,7 @@ public class PostRequest : MonoBehaviour
     [SerializeField]
     bool throwEvent;
 
+
     public UnityEvent RequestSucceeded;
 
     //

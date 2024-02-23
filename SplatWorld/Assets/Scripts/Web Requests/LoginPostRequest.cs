@@ -10,77 +10,108 @@ using UnityEngine.Events;
 
 public class LoginPostRequest : MonoBehaviour
 {
-    //string username;
-    //string password;
+    //
+    // FIELDS
+    //
+    [SerializeField]
+    InputField output;
+    [SerializeField]
+    List<InputField> input;                 // input fields. VERY IMPORTANT:
+                                            // naming of input fields MUST match json 
+                                            // field titles
+    List<(string fName, Text value)> args;  // list of tuples...
+    [SerializeField]
+    string uri;
+    [SerializeField]
+    bool throwEvent;
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-        
-    //}
 
-    //// Update is called once per frame
-    //void Update()
-    //{
-        
-    //}
+    public UnityEvent RequestSucceeded;
+    [SerializeField]
+    public UserState userState;
+    //public LoginPlayerInfo loginInfo;
 
-    ///// <summary>
-    ///// Post Data to the server
-    ///// </summary>
-    ///// <returns></returns>
-    //IEnumerator PostData_Coroutine()
-    //{
-    //    output.text = "Loading...";
+    //
+    // METHODS
+    //
+    /// <summary>
+    /// Sets up buttons to send request on click
+    /// </summary>
+    private void Start()
+    {
+        //userState.Login.AddListener(userState.LoadPlayerInfo);
 
-    //    WWWForm form = new WWWForm();
+        args = new List<(string fName, Text value)>();
 
-    //    if (args.Count > 0)
-    //    {
-    //        for (int i = 0; i < args.Count; i++)
-    //        {
-    //            form.AddField(args[i].fName, args[i].value.text.ToString());
-    //            //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
-    //        }
-    //    }
+        // fill args (list of tuples)
+        for (int i = 0; i < input.Count; i++)
+        {
+            args.Add((input[i].name, input[i].textComponent));
+        }
 
-    //    UnityWebRequest req;
+    }
 
-    //    using (req = UnityWebRequest.Post(uri, form))
-    //    {
-    //        yield return req.SendWebRequest();
+    /// <summary>
+    /// Post Data to the server
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator PostData_Coroutine()
+    {
+        output.text = "Loading...";
 
-    //        switch (req.result)
-    //        {
-    //            case UnityWebRequest.Result.ConnectionError:
-    //                Debug.LogError(String.Format("Connection Error: {0}", req.error));
-    //                output.text = (String.Format("Connection Error: {0}", req.error));
-    //                break;
-    //            case UnityWebRequest.Result.ProtocolError:
-    //                Debug.LogError(String.Format("Protocol Error: {0}", req.error));
-    //                output.text = String.Format("Protocol Error: {0}", req.error);
-    //                break;
-    //            case UnityWebRequest.Result.DataProcessingError:
-    //                Debug.LogError(String.Format("Data Processing Error: {0}", req.error));
-    //                output.text = String.Format("Data Processing Error: {0}", req.error);
-    //                break;
-    //            case UnityWebRequest.Result.Success:
-    //                output.text = req.downloadHandler.text;
-    //                // success triggers an event, if you set bool throwEvent = true in inspector
-    //                if (throwEvent)
-    //                {
-    //                    RequestSucceeded.Invoke();
-    //                }
-    //                break;
-    //            default:
-    //                output.text = String.Format("{0}", req.responseCode);
-    //                break;
-    //        }
-    //    }
-    //}
+        WWWForm form = new WWWForm();
+
+        if (args.Count > 0)
+        {
+            for (int i = 0; i < args.Count; i++)
+            {
+                form.AddField(args[i].fName, args[i].value.text.ToString());
+                //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
+            }
+        }
+
+        UnityWebRequest req;
+
+        using (req = UnityWebRequest.Post(uri, form))
+        {
+            yield return req.SendWebRequest();
+
+            switch (req.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                    Debug.LogError(String.Format("Connection Error: {0}", req.error));
+                    output.text = (String.Format("Connection Error: {0}", req.error));
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(String.Format("Protocol Error: {0}", req.error));
+                    output.text = String.Format("Protocol Error: {0}", req.error);
+                    break;
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(String.Format("Data Processing Error: {0}", req.error));
+                    output.text = String.Format("Data Processing Error: {0}", req.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    output.text = req.downloadHandler.text;
+                    Debug.Log(req.downloadHandler.text);
+                    userState.PushRequestData(req.downloadHandler.text);
+                    LoginPlayerInfo loginInfo = JsonUtility.FromJson<LoginPlayerInfo>(req.downloadHandler.text);
+                    userState.Login = loginInfo;
+                    // success triggers an event, if you set bool throwEvent = true in inspector
+                    if (throwEvent)
+                    {
+                        RequestSucceeded.Invoke();
+                        //userState.Login.Invoke();
+                    }
+                    break;
+                default:
+                    output.text = String.Format("{0}", req.responseCode);
+                    break;
+            }
+        }
+    }
 
     /// <summary>
     /// Starts coroutine to post data to server
     /// </summary>
-    //public void PostData() => StartCoroutine(PostData_Coroutine());
+    public void PostData() => StartCoroutine(PostData_Coroutine());
 }

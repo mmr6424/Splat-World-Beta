@@ -9,7 +9,7 @@ public class UserInfo
 {
     // These are filled out by json utility
     private int id;
-    private string name;
+    private string username;
     private string pfp_link;
     private string header_link;
 
@@ -56,5 +56,22 @@ public class UserInfo
         return "https://splatworld.alchemi.dev/header?download-name=header-" + id + "&id=" + id;
     }
 
+    // upload pfp link
+    // upload header link
 
+
+    //public string DownloadCrewMembersLink()
+    //{
+
+    //}
+
+    public override string ToString()
+    {
+        string idString = "User ID: " + id + "\n";
+        string nameString = "Username: " + username + "\n";
+        string pfpLinkString = "Profile Pic Link: " + pfp_link + "\n";
+        string headerLinkString = "Header Link: " + header_link + "\n";
+
+        return idString + nameString + pfpLinkString + headerLinkString;
+    }
 }

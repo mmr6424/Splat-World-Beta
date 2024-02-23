@@ -11,13 +11,16 @@ public class TagInfo
     private Image thumbnail;
     private string json;
     private string title;
-    private CrewInfo crewAffiliation;
+    
     private DateTime createDate;
     private bool active;
     private bool saved;
     private int points;
-    private UserInfo author;
+    
     private bool flagged;
     private double latitude;
     private double longitude;
+
+    private CrewInfo crewAffiliation;
+    private UserInfo author;
 }

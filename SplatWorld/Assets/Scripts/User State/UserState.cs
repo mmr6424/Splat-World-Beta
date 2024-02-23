@@ -3,22 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UserState : MonoBehaviour
 {
     private UserInfo player;
     private List<CrewInfo> crews;
     private List<TagInfo> tags;
+    [SerializeField]
     private Stack<string> requestData;
+    [SerializeField]
+    private LoginPlayerInfo login;
 
     // for userinfo
     private Texture t;
     private Texture2D texture;
 
+    // events
+    //public UnityEvent Login;
+
+
     //
     // getters and setters
     //
-        
+
     public UserInfo Player
     {
         set
@@ -27,23 +35,36 @@ public class UserState : MonoBehaviour
         }
     }
 
+    public LoginPlayerInfo Login
+    {
+        set
+        {
+            login = value;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        requestData = new Stack<string>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (login != null)
+        {
+            login.ToString();
+        }
     }
 
     // when a user logs in, this is used to get all the info
-    public void LoadInfo()
+    public void LoadPlayerInfo()
     {
+        Debug.Log(requestData.Peek());
         player = JsonUtility.FromJson<UserInfo>(requestData.Pop());
+        Debug.Log(player.ToString());
     }
 
     // whenever we get request data, put it on top of the stack to be 
@@ -150,6 +171,6 @@ public class UserState : MonoBehaviour
 
     //IEnumerator GetCrewMembers_Coroutine()
     //{
-        
+    //    player.
     //}
 }
