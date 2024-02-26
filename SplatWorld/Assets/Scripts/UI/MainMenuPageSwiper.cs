@@ -23,16 +23,22 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         Profile
     }
 
+    private Pages page;
+
     // Start is called before the first frame update
     void Start()
     {
         panelLocation = transform.position;
+        page = Pages.Landing;
     }
 
     public void OnDrag(PointerEventData data)
     {
         float difference = data.pressPosition.y - data.position.y;
-        transform.position = panelLocation - new Vector3(0, difference, 0);
+        if ((difference > 0 && page == Pages.Profile) || (difference < 0 && page == Pages.Landing))
+        {
+            transform.position = panelLocation - new Vector3(0, difference, 0);
+        }
     }
 
     public void OnEndDrag(PointerEventData data)
@@ -41,14 +47,16 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         if (Mathf.Abs(percentage) >= percentThreshold)
         {
             Vector3 newLocation = panelLocation;
-            if (percentage < 0)
+            if (percentage < 0 && page != Pages.Profile)
             {
                 newLocation += new Vector3(0, Screen.height, 0);
+                page = Pages.Profile;
                 //profilePageActive = false;
             }
-            else if (percentage > 0)
+            else if (percentage > 0 && page != Pages.Landing)
             {
                 newLocation += new Vector3(0, -Screen.height, 0);
+                page = Pages.Landing;
                 //profilePageActive = true;
             }
             StartCoroutine(SmoothMove(transform.position, newLocation, easing));
@@ -70,21 +78,6 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         panelLocation = new Vector3(Screen.width / 2, -Screen.height, 0);
         StartCoroutine(SmoothMove(transform.position, new Vector2(Screen.width / 2, Screen.height / 2), easing));
-    }
-
-    public void SetPage()
-    {
-        Pages page = Pages.Profile;
-        Vector3 newLocation = panelLocation;
-        switch (page) {
-            case Pages.Landing:
-                newLocation = new Vector3(Screen.width / 2, -Screen.height, 0);
-                break;
-            case Pages.Profile:
-                newLocation = new Vector2(Screen.width / 2, Screen.height * 2);
-                break;
-        }
-        StartCoroutine(SmoothMove(transform.position, newLocation, easing));
     }
 
     IEnumerator SmoothMove(Vector3 startPos, Vector3 endPos, float seconds)
