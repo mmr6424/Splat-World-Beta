@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2241,7 +2241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 956577345}
-  panelType: 1
+  panelType: 2
 --- !u!1 &508770815
 GameObject:
   m_ObjectHideFlags: 0
@@ -2370,7 +2370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 956577345}
-  panelType: 0
+  panelType: 1
 --- !u!1 &516926238
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,7 +5076,7 @@ RectTransform:
   m_GameObject: {fileID: 1024263373}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0002364, y: 1.0002364, z: 1.0002364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 509312723}
   - {fileID: 1710561669}
@@ -9918,7 +9918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 956577345}
-  panelType: 0
+  panelType: 1
 --- !u!1 &2125821441
 GameObject:
   m_ObjectHideFlags: 0
