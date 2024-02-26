@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEngine.UI.Button;
 
 /// <summary>
 /// Controls items on scrolling list in crew page
@@ -16,15 +17,15 @@ public class ScrollViewItem : MonoBehaviour
     private Text childText;
 
     [SerializeField]
-    private Button.ButtonClickedEvent onClick;
+    private Button button;
 
     public void ChangeText(string name)
     {
         childText.text = name;
     }
 
-    public void AddOnclickFunction(UnityAction action)
+    public void AddOnclickFunction(Button.ButtonClickedEvent action)
     {
-        onClick.AddListener(action);
+        button.onClick = action;
     }
 }

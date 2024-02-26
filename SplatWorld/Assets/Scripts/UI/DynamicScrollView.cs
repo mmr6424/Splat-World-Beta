@@ -21,23 +21,25 @@ public class DynamicScrollView : MonoBehaviour
     private List<string> crewNames = new List<string>();
 
     [SerializeField]
-    private UnityAction<GameObject> movePanelAction;
+    private Button.ButtonClickedEvent movePanelAction;
 
     private void Start()
     {
+        // filler data
         crewNames.Add("Franks");
         crewNames.Add("Eclipse");
         crewNames.Add("DOT EXE");
         crewNames.Add("Devil Theory");
-        crewNames.Add("Devil Theory");
         crewNames.Add("The Oldheads");
         crewNames.Add("Bomb Rush Crew");
+
         foreach (string name in crewNames)
         {
             GameObject newCrewButton = Instantiate(crewButtonPrefab, scrollViewContent);
             if (newCrewButton.TryGetComponent<ScrollViewItem>(out ScrollViewItem item))
             {
                 item.ChangeText(name);
+                item.AddOnclickFunction(movePanelAction);
             }
         }
     }
