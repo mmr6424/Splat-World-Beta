@@ -17,16 +17,28 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField]
     float easing = 0.5f;
 
+    public enum Pages
+    {
+        Landing,
+        Profile
+    }
+
+    private Pages page;
+
     // Start is called before the first frame update
     void Start()
     {
         panelLocation = transform.position;
+        page = Pages.Landing;
     }
 
     public void OnDrag(PointerEventData data)
     {
         float difference = data.pressPosition.y - data.position.y;
-        transform.position = panelLocation - new Vector3(0, difference, 0);
+        if ((difference > 0 && page == Pages.Profile) || (difference < 0 && page == Pages.Landing))
+        {
+            transform.position = panelLocation - new Vector3(0, difference, 0);
+        }
     }
 
     public void OnEndDrag(PointerEventData data)
@@ -35,14 +47,16 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         if (Mathf.Abs(percentage) >= percentThreshold)
         {
             Vector3 newLocation = panelLocation;
-            if (percentage < 0)
+            if (percentage < 0 && page != Pages.Profile)
             {
                 newLocation += new Vector3(0, Screen.height, 0);
+                page = Pages.Profile;
                 //profilePageActive = false;
             }
-            else if (percentage > 0)
+            else if (percentage > 0 && page != Pages.Landing)
             {
                 newLocation += new Vector3(0, -Screen.height, 0);
+                page = Pages.Landing;
                 //profilePageActive = true;
             }
             StartCoroutine(SmoothMove(transform.position, newLocation, easing));
@@ -52,16 +66,28 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             StartCoroutine(SmoothMove(transform.position, panelLocation, easing));
         }
+    }
 
-        IEnumerator SmoothMove(Vector3 startPos, Vector3 endPos, float seconds)
+    public void ScrollToProfile()
+    {
+        panelLocation = new Vector2(Screen.width / 2, (Screen.height / 2) * 3);
+        StartCoroutine(SmoothMove(transform.position, new Vector2(Screen.width / 2, (Screen.height / 2) * 3), easing));
+    }
+
+    public void ScrollToLanding()
+    {
+        panelLocation = new Vector3(Screen.width / 2, -Screen.height, 0);
+        StartCoroutine(SmoothMove(transform.position, new Vector2(Screen.width / 2, Screen.height / 2), easing));
+    }
+
+    IEnumerator SmoothMove(Vector3 startPos, Vector3 endPos, float seconds)
+    {
+        float t = 0f;
+        while (t <= 1.0)
         {
-            float t = 0f;
-            while(t <= 1.0)
-            {
-                t += Time.deltaTime / seconds;
-                transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0f, 1f, t));
-                yield return null;
-            }
+            t += Time.deltaTime / seconds;
+            transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0f, 1f, t));
+            yield return null;
         }
     }
 }
