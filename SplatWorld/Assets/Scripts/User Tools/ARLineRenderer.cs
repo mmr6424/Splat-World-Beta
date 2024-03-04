@@ -257,11 +257,13 @@ public class ARLineRenderer : MonoBehaviour
     //////////////////////////////////////////////
     public void ChangeColor(Color color) {
         defaultColor = color;
+        SetLine(lineRender);
         //SetLine(lineRender);
     }
 
     public void ChangeLineWidth(float size) {
         lineWidth = size;
+        SetLine(lineRender);
         //SetLine(lineRender);
     }
 }
