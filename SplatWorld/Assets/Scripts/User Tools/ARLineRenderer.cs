@@ -61,6 +61,9 @@ public class ARLineRenderer : MonoBehaviour
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
         eisel = new GameObject($"Eisel_{eiselCount}");
         Debug.Log("Draw Manager Started");
+
+        // default settings
+        CanDraw = true;
     }
     // Called when AR Session Initializes
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
