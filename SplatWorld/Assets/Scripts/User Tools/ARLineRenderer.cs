@@ -61,6 +61,7 @@ public class ARLineRenderer : MonoBehaviour
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
         eisel = new GameObject($"Eisel_{eiselCount}");
         Debug.Log("Draw Manager Started");
+        CanDraw = true;
     }
     // Called when AR Session Initializes
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
@@ -256,11 +257,13 @@ public class ARLineRenderer : MonoBehaviour
     //////////////////////////////////////////////
     public void ChangeColor(Color color) {
         defaultColor = color;
+        SetLine(lineRender);
         //SetLine(lineRender);
     }
 
     public void ChangeLineWidth(float size) {
         lineWidth = size;
+        SetLine(lineRender);
         //SetLine(lineRender);
     }
 }
