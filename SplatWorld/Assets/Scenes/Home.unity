@@ -6466,7 +6466,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentThreshold: 0.2
   easing: 0.3
-  page: 0
 --- !u!1 &1391568363
 GameObject:
   m_ObjectHideFlags: 0
@@ -8302,7 +8301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 956577345}
-  panelType: 2
+  panelType: 1
 --- !u!1 &1736805836
 GameObject:
   m_ObjectHideFlags: 0
