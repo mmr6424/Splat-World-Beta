@@ -22,15 +22,23 @@ public class DynamicGalleryGrid : MonoBehaviour
     [SerializeField]
     private GridLayoutGroup gridlayoutgroup;
 
+    // tag panel references
     [SerializeField]
-    private Button.ButtonClickedEvent movePanelAction;
+    private GameObject tagViewPanel;
+    [SerializeField]
+    private Text tagViewPanelArtist;
+    [SerializeField]
+    private Text tagViewPanelLocation;
+
+    [SerializeField]
+    private Button.ButtonClickedEvent showPanelAction;
 
     private void Start()
     {
         // filler data
         for (int i = 1; i < 20; i++)
         {
-            tags.Add(new List<string>() { "atist", "location" });
+            tags.Add(new List<string>() { "artist" + i, "location" + i });
         }
 
         // set grid item size
@@ -42,9 +50,17 @@ public class DynamicGalleryGrid : MonoBehaviour
             GameObject newCrewButton = Instantiate(tagButtonPrefab, scrollViewContent);
             if (newCrewButton.TryGetComponent<GalleryItem>(out GalleryItem item))
             {
-                item.SetTagArtist(tag[0]);
-                item.SetTagLocation(tag[1]);
-                item.AddOnclickFunction(movePanelAction);
+                // store tag data in button
+                item.TagData = tag;
+
+                // set references to tag view panel text
+                item.SetTagViewPanelData(tagViewPanel, tagViewPanelArtist, tagViewPanelLocation);
+
+                // set button display text
+                item.SetButtonData();
+
+                // button opens tag view when clicked
+                item.AddOnclickFunction(showPanelAction);
             }
         }
     }

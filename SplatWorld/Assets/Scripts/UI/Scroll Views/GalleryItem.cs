@@ -4,28 +4,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEditor.FilePathAttribute;
 using static UnityEngine.UI.Button;
 
 public class GalleryItem : MonoBehaviour
 {
-    [SerializeField]
-    private Text artistText;
-    [SerializeField]
-    private Text locationText;
-
+    // this button
     [SerializeField]
     private Button button;
 
-    public void SetTagArtist(string artist)
+    // this button's text
+    [SerializeField]
+    private Text locationText;
+
+    // Tag View panel
+    [SerializeField]
+    private GameObject tagViewPanel;
+    [SerializeField]
+    private Text panelArtistText;
+    [SerializeField]
+    private Text panelLocationText;
+
+    // this button's tag
+    private List<string> tagData;
+    public List<string> TagData { set { tagData = value; } }
+
+    public void SetTagViewPanelData(GameObject panel, Text artist, Text location)
     {
-        artistText.text = artist;
+        locationText.text = tagData[1];
+        tagViewPanel = panel;
     }
 
-    public void SetTagLocation(string location)
+    public void SetButtonData()
     {
-        locationText.text = location;
+        locationText.text = tagData[1];
     }
-        
 
     public void AddOnclickFunction(Button.ButtonClickedEvent action)
     {

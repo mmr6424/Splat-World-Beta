@@ -1229,7 +1229,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 910951118}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 520280519}
+        m_TargetAssemblyTypeName: Settings, SplatWorldMain
+        m_MethodName: LoadScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Home
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &910951118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,7 +1621,7 @@ GameObject:
   - component: {fileID: 1049381371}
   - component: {fileID: 1049381370}
   m_Layer: 5
-  m_Name: Location Text
+  m_Name: Artist Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2784,9 +2796,24 @@ MonoBehaviour:
   tagButtonPrefab: {fileID: 8563363829060295459, guid: f6aeda8286f60b549846a27dcc4f342d,
     type: 3}
   gridlayoutgroup: {fileID: 1810747707}
-  movePanelAction:
+  tagViewPanel: {fileID: 0}
+  tagViewPanelArtist: {fileID: 1049381370}
+  tagViewPanelLocation: {fileID: 1289972029}
+  showPanelAction:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 471803999}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &1930136105
 GameObject:
   m_ObjectHideFlags: 0
