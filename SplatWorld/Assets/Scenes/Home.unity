@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2624,18 +2624,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 256
+    m_FontSize: 300
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 256
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Member of: %CREWNAME%'
+  m_Text: Your Crews
 --- !u!222 &646462727
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4783,7 +4783,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '%NUMOFTAGS% Tags'
+  m_Text: 4 Tags
 --- !u!222 &977385913
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6324,7 +6324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 0 Splat points
+  m_Text: 1003 Splat points
 --- !u!222 &1342464363
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6466,6 +6466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   percentThreshold: 0.2
   easing: 0.3
+  page: 0
 --- !u!1 &1391568363
 GameObject:
   m_ObjectHideFlags: 0
