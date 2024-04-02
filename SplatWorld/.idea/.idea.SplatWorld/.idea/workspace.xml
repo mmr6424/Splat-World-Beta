@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" afterDir="false" />
-    </list>
+    <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -94,6 +90,7 @@
       <updated>1709588852877</updated>
       <workItem from="1709588854856" duration="821000" />
       <workItem from="1709589729701" duration="465000" />
+      <workItem from="1710794437588" duration="213000" />
     </task>
     <servers />
   </component>

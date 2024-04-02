@@ -8301,7 +8301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 956577345}
-  panelType: 1
+  panelType: 2
 --- !u!1 &1736805836
 GameObject:
   m_ObjectHideFlags: 0
