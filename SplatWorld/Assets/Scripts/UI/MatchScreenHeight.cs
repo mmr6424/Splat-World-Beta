@@ -10,6 +10,7 @@ public class MatchScreenHeight : MonoBehaviour
         Right,
         Down,
         DownRight,
+        DownLeft,
         PositionPreDefined,
     }
 
