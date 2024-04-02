@@ -1,3 +1,4 @@
+using Codice.Client.Common.GameUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,21 +27,27 @@ public class DynamicScrollView : MonoBehaviour
     private void Start()
     {
         // filler data
-        crewNames.Add("Franks");
-        crewNames.Add("Eclipse");
-        crewNames.Add("DOT EXE");
-        crewNames.Add("Devil Theory");
-        crewNames.Add("The Oldheads");
-        crewNames.Add("Bomb Rush Crew");
+        crewNames.Add("Splat Team");
 
         foreach (string name in crewNames)
         {
-            GameObject newCrewButton = Instantiate(crewButtonPrefab, scrollViewContent);
-            if (newCrewButton.TryGetComponent<ScrollViewItem>(out ScrollViewItem item))
-            {
-                item.ChangeText(name);
-                item.AddOnclickFunction(movePanelAction);
-            }
+            ListCrew(name);
         }
+    }
+
+    private void ListCrew(string name)
+    {
+        GameObject newCrewButton = Instantiate(crewButtonPrefab, scrollViewContent);
+        if (newCrewButton.TryGetComponent<ScrollViewItem>(out ScrollViewItem item))
+        {
+            item.ChangeText(name);
+            item.AddOnclickFunction(movePanelAction);
+        }
+    }
+
+    public void AddCrew(string crewName)
+    {
+        crewNames.Add(crewName);
+        ListCrew(crewName);
     }
 }
