@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -23,6 +24,7 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         Profile
     }
 
+    [SerializeField]
     private Pages page;
 
     // Start is called before the first frame update
@@ -70,14 +72,18 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public void ScrollToProfile()
     {
-        panelLocation = new Vector2(Screen.width / 2, (Screen.height / 2) * 3);
+        //panelLocation = new Vector2(Screen.width / 2, (Screen.height / 2) * 3);
+        panelLocation += new Vector3(0, Screen.height, 0);
         StartCoroutine(SmoothMove(transform.position, new Vector2(Screen.width / 2, (Screen.height / 2) * 3), easing));
+        page = Pages.Profile;
     }
 
     public void ScrollToLanding()
     {
-        panelLocation = new Vector3(Screen.width / 2, -Screen.height, 0);
+        //panelLocation = new Vector3(Screen.width / 2, -Screen.height, 0);
+        panelLocation += new Vector3(0, -Screen.height, 0);
         StartCoroutine(SmoothMove(transform.position, new Vector2(Screen.width / 2, Screen.height / 2), easing));
+        page = Pages.Landing;
     }
 
     IEnumerator SmoothMove(Vector3 startPos, Vector3 endPos, float seconds)
@@ -89,5 +95,6 @@ public class MainMenuPageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0f, 1f, t));
             yield return null;
         }
+        // note to hungover thomas: try updating panel location at the end of this to fix the scrolling glitch
     }
 }
