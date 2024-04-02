@@ -2552,7 +2552,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Splat Team
+  m_Text: Crew Name
 --- !u!222 &630354387
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6560,6 +6560,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Gallery
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491118440747047761, guid: 9abdbd606ba9d7d40a45a6dee0a44635,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491118441071677654, guid: 9abdbd606ba9d7d40a45a6dee0a44635,
+        type: 3}
+      propertyPath: m_Text
+      value: Crew Gallery
       objectReference: {fileID: 0}
     - target: {fileID: 7491118441557869543, guid: 9abdbd606ba9d7d40a45a6dee0a44635,
         type: 3}
