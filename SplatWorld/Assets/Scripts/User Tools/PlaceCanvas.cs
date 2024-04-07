@@ -30,33 +30,53 @@ public class PlaceCanvas : MonoBehaviour
     [EnumFlagAttribute]
     public ARHitTestResultType HitTestType = ARHitTestResultType.ExistingPlane;
 
-    [SerializeField]
-    private Color defaultColor = Color.white;
-
     bool easelPlaced;
     [SerializeField]
     GameObject quad;
     GameObject easel;
     ARHitTestResultType planeOrientation;
     [SerializeField]
-    float planeSize;
+    Material easelMaterial;
+    MeshRenderer e_meshRenderer;
    
     [SerializeField]
     GameObject tryAgainUI;
-
+    [SerializeField]
+    GameObject placeCanvasUI;
 
 
     // Start is called before the first frame update
     void Start()
     {
         easelPlaced = false;
-        planeSize = 10;
+        ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
+    }
+
+
+    // Called when AR Session Initializes
+    private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
+    {
+        _session = args.Session;
+        _session.Deinitialized += OnSessionDeinitialized;
+    }
+    // Called on AR Session DE-Initialize
+    private void OnSessionDeinitialized(ARSessionDeinitializedArgs args)
+    {
+        _session = null;
+    }
+
+    private void OnDestroy()
+    {
+        ARSessionFactory.SessionInitialized -= OnAnyARSessionDidInitialize;
+
+        _session = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PlatformAgnosticInput.touchCount > 0 && easelPlaced == false)
+        // && tryAgainUI.activeSelf == false && placeCanvasUI.activeSelf == false
+        if (easelPlaced == false && tryAgainUI.activeInHierarchy == false && placeCanvasUI.activeInHierarchy == false && PlatformAgnosticInput.touchCount > 0)
         {
             PlaceEasel();
         }
@@ -90,20 +110,36 @@ public class PlaceCanvas : MonoBehaviour
         );
         planeOrientation = HitTestType;
 
+        Debug.Log(planeOrientation);
+
         // place the plane
         // you can find the enum for hit test type here: https://lightship.dev/docs/archive/ardk/api-documentation/enum_Niantic_ARDK_AR_HitTest_ARHitTestResultType.html
         // if its horizontal, place and set the normal to be up
         if (planeOrientation == ARHitTestResultType.EstimatedHorizontalPlane)
         {
             easel = Instantiate(quad, hitPosition, Quaternion.identity);
-            //easel.SetNormalAndPosition(Vector3.up, hitPosition);
+            e_meshRenderer = easel.GetComponent<MeshRenderer>();
+            e_meshRenderer.material = easelMaterial;
             
             easelPlaced = true;
         }
         // if its vertical, place and set the normal to be perpendicular to gravity
         else if (planeOrientation == ARHitTestResultType.EstimatedVerticalPlane)
         {
+            easel = Instantiate(quad, hitPosition, Quaternion.identity);
+            e_meshRenderer = easel.GetComponent<MeshRenderer>();
+            e_meshRenderer.material = easelMaterial;
 
+            easelPlaced = true;
+        }
+        // if existing plane...
+        else if (planeOrientation == ARHitTestResultType.ExistingPlane)
+        {
+            easel = Instantiate(quad, hitPosition, Quaternion.identity);
+            e_meshRenderer = easel.GetComponent<MeshRenderer>();
+            e_meshRenderer.material = easelMaterial;
+
+            easelPlaced = true;
         }
         // otherwise: prompt the user to try again
         else
