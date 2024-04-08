@@ -51,6 +51,8 @@ public class ARLineRenderer : MonoBehaviour
 
     private bool CanDraw{ get; set; }
 
+    [SerializeField] GameObject easel;
+
     //
     //  METHODS
     //
