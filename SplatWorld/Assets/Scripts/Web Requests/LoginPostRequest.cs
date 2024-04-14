@@ -1,5 +1,4 @@
-// Moss Limpert
-// references: https://www.youtube.com/playlist?list=PLgdnKWI1HG5A6tCOPaVFXIfiL4H9_1wrU
+// Author: Moss Limpert
 
 using System;
 using System.Collections;
@@ -9,25 +8,28 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Events;
 
-public class PostRequest : MonoBehaviour
+public class LoginPostRequest : MonoBehaviour
 {
     //
     // FIELDS
     //
     [SerializeField]
-    [Tooltip("Where the text output of the web request will go.")]
     InputField output;
     [SerializeField]
-    [Tooltip("List of text fields. Very important: the naming of input fields in the hierarchy must match json field titles for web requests.")]
-    List<InputField> input;                 
-    List<(string fName, Text value)> args;  
-    [SerializeField]                    
+    List<InputField> input;                 // input fields. VERY IMPORTANT:
+                                            // naming of input fields MUST match json 
+                                            // field titles
+    List<(string fName, Text value)> args;  // list of tuples...
+    [SerializeField]
     string uri;
     [SerializeField]
     bool throwEvent;
 
 
     public UnityEvent RequestSucceeded;
+    [SerializeField]
+    public UserState userState;
+    //public LoginPlayerInfo loginInfo;
 
     //
     // METHODS
@@ -37,6 +39,8 @@ public class PostRequest : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        //userState.Login.AddListener(userState.LoadPlayerInfo);
+
         args = new List<(string fName, Text value)>();
 
         // fill args (list of tuples)
@@ -44,7 +48,7 @@ public class PostRequest : MonoBehaviour
         {
             args.Add((input[i].name, input[i].textComponent));
         }
-        
+
     }
 
     /// <summary>
@@ -56,7 +60,7 @@ public class PostRequest : MonoBehaviour
         output.text = "Loading...";
 
         WWWForm form = new WWWForm();
-        
+
         if (args.Count > 0)
         {
             for (int i = 0; i < args.Count; i++)
@@ -67,7 +71,7 @@ public class PostRequest : MonoBehaviour
         }
 
         UnityWebRequest req;
-        
+
         using (req = UnityWebRequest.Post(uri, form))
         {
             yield return req.SendWebRequest();
@@ -88,10 +92,15 @@ public class PostRequest : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     output.text = req.downloadHandler.text;
+                    Debug.Log(req.downloadHandler.text);
+                    userState.PushRequestData(req.downloadHandler.text);
+                    LoginPlayerInfo loginInfo = JsonUtility.FromJson<LoginPlayerInfo>(req.downloadHandler.text);
+                    userState.Login = loginInfo;
                     // success triggers an event, if you set bool throwEvent = true in inspector
                     if (throwEvent)
                     {
                         RequestSucceeded.Invoke();
+                        //userState.Login.Invoke();
                     }
                     break;
                 default:

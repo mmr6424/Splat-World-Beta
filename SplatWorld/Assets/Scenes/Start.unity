@@ -1197,6 +1197,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 632519438}
   m_CullTransparentMesh: 1
+--- !u!1 &644289516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 644289517}
+  - component: {fileID: 644289518}
+  - component: {fileID: 644289519}
+  m_Layer: 0
+  m_Name: User State
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &644289517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644289516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 133.12183, y: 311.57895, z: -585.4052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &644289518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644289516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0fe4b00f78b414c9a5609f3863645f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &644289519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644289516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747d9f543b5efbc41be07ba4e446e091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &910738471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5979696211063188113, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1175965367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &910738473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910738471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f83a42edb84d3a48942fbf3fec789ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  output: {fileID: 1324846909}
+  input:
+  - {fileID: 1380625538}
+  - {fileID: 1807108290}
+  uri: https://splatworld.alchemi.dev/login
+  throwEvent: 1
+  RequestSucceeded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 926018278}
+        m_TargetAssemblyTypeName: MainMenu, SplatWorldMain
+        m_MethodName: OnLoginEnableStartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  userState: {fileID: 644289518}
 --- !u!1 &926018273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,7 +1597,7 @@ PrefabInstance:
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: uri
-      value: https://splatworld.alchemi.dev/signup
+      value: http://127.0.0.1:3000/signup
       objectReference: {fileID: 0}
     - target: {fileID: 3564704481378751458, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -1731,7 +1827,7 @@ PrefabInstance:
     - target: {fileID: 7704476160410501728, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
       propertyPath: m_FontData.m_HorizontalOverflow
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8008312772181387718, guid: 113c95909361a244db55c75fdb135e7a,
         type: 3}
@@ -2294,6 +2390,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1324846909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5979696210964034149, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1175965367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1380625538 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5979696211392326732, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1175965367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1807108290 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5979696210384422176, guid: 551a33eea4d63ad41b2a784f20ae1bd7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1175965367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1887828018
 GameObject:
   m_ObjectHideFlags: 0
