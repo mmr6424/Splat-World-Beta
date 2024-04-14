@@ -83,6 +83,10 @@ public class SimpleGetRequest : MonoBehaviour
     //
     // FIELDS
     //
+    [Header("Object References")]
+    [SerializeField]
+    ProfileInfoManager currentUser;
+
     [Header("Temporary Fields")]
     [SerializeField]
     string userId;
@@ -120,6 +124,7 @@ public class SimpleGetRequest : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        userId = currentUser.UID.ToString();
         GetData();
     }
 

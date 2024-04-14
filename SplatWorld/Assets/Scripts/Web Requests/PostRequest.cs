@@ -15,6 +15,8 @@ public class PostRequest : MonoBehaviour
     // FIELDS
     //
     [SerializeField]
+    CurrentUserStorage userData;
+    [SerializeField]
     [Tooltip("Where the text output of the web request will go.")]
     InputField output;
     [SerializeField]
@@ -25,7 +27,6 @@ public class PostRequest : MonoBehaviour
     string uri;
     [SerializeField]
     bool throwEvent;
-
 
     public UnityEvent RequestSucceeded;
 
@@ -62,7 +63,7 @@ public class PostRequest : MonoBehaviour
             for (int i = 0; i < args.Count; i++)
             {
                 form.AddField(args[i].fName, args[i].value.text.ToString());
-                //Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
+                Debug.Log(args[i].fName + "," + args[i].value.text.ToString());
             }
         }
 
@@ -88,6 +89,7 @@ public class PostRequest : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     output.text = req.downloadHandler.text;
+
                     // success triggers an event, if you set bool throwEvent = true in inspector
                     if (throwEvent)
                     {
