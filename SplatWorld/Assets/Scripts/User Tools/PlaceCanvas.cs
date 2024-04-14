@@ -39,13 +39,14 @@ public class PlaceCanvas : MonoBehaviour
     [SerializeField]
     Material easelMaterial;
     MeshRenderer e_meshRenderer;
+    RaycastHit hit;
    
     [SerializeField]
     GameObject tryAgainUI;
     [SerializeField]
     GameObject placeCanvasUI;
 
-    private readonly Dictionary<Guid, GameObject> planeLookup = new Dictionary<Guid, GameObject>();
+    //private readonly Dictionary<Guid, GameObject> planeLookup = new Dictionary<Guid, GameObject>();
 
 
     // Start is called before the first frame update
@@ -79,6 +80,7 @@ public class PlaceCanvas : MonoBehaviour
     void Update()
     {
         // && tryAgainUI.activeSelf == false && placeCanvasUI.activeSelf == false
+        // if we havent placed an easel, and the ui isnt showing, and someone touched, then place it
         if (easelPlaced == false && tryAgainUI.activeInHierarchy == false && placeCanvasUI.activeInHierarchy == false && PlatformAgnosticInput.touchCount > 0)
         {
             PlaceEasel();
@@ -115,6 +117,11 @@ public class PlaceCanvas : MonoBehaviour
 
         Debug.Log(planeOrientation);
 
+        Vector3 rayDirection = hitPosition - Camera.transform.position;
+        // find normal angle of plane
+        Physics.Raycast(Camera.transform.position, rayDirection, out hit);
+        Debug.DrawRay(hitPosition, hit.normal);
+
         // place the plane
         // you can find the enum for hit test type here: https://lightship.dev/docs/archive/ardk/api-documentation/enum_Niantic_ARDK_AR_HitTest_ARHitTestResultType.html
         // if its horizontal, place and set the normal to be up
@@ -124,7 +131,7 @@ public class PlaceCanvas : MonoBehaviour
             e_meshRenderer = easel.GetComponent<MeshRenderer>();
             e_meshRenderer.material = easelMaterial;
             Transform e_obj = easel.gameObject.transform;
-            e_obj.Rotate(Vector3.right, 90.0f);
+            e_obj.forward = hit.normal;
 
             easelPlaced = true;
         }
@@ -134,6 +141,8 @@ public class PlaceCanvas : MonoBehaviour
             easel = Instantiate(quad, hitPosition, Quaternion.identity);
             e_meshRenderer = easel.GetComponent<MeshRenderer>();
             e_meshRenderer.material = easelMaterial;
+            Transform e_obj = easel.gameObject.transform;
+            e_obj.forward = hit.normal;
 
             easelPlaced = true;
         }
@@ -141,9 +150,12 @@ public class PlaceCanvas : MonoBehaviour
         else if (planeOrientation == ARHitTestResultType.ExistingPlane)
         {
             easel = Instantiate(quad, hitPosition, Quaternion.identity);
-            
+
             e_meshRenderer = easel.GetComponent<MeshRenderer>();
             e_meshRenderer.material = easelMaterial;
+
+            Transform e_obj = easel.gameObject.transform;
+            e_obj.forward = hit.normal;
 
             easelPlaced = true;
         }
@@ -152,6 +164,8 @@ public class PlaceCanvas : MonoBehaviour
         {
             tryAgainUI.SetActive(true);
         }
+
+
 
     }
 
@@ -190,40 +204,37 @@ public class PlaceCanvas : MonoBehaviour
 
     //
     //https://lightship.dev/docs/archive/ardk/ar_world_tracking/plane_detection.html
+    //private void AnchorsAdded(AnchorsArgs args)
+    //{
+    //    foreach (IARPlaneAnchor anchor in args.Anchors)
+    //    {
+    //        // If the anchor isn't a plane, don't instantiate a GameObject
+    //        if (anchor.AnchorType != AnchorType.Plane)
+    //            continue;
 
-    
+    //        // Remember this anchor and its GameObject so we can update its position
+    //        // if we receive an update.
+    //        planeLookup.Add(anchor.Identifier, Instantiate(quad));
+    //        var gameObject = planeLookup[anchor.Identifier];
 
-    private void AnchorsAdded(AnchorsArgs args)
-    {
-        foreach (IARPlaneAnchor anchor in args.Anchors)
-        {
-            // If the anchor isn't a plane, don't instantiate a GameObject
-            if (anchor.AnchorType != AnchorType.Plane)
-                continue;
+    //        // Display the plane GameObject in the same position, orientation, and scale as the detected plane
+    //        gameObject.transform.position = anchor.Transform.ToPosition();
+    //        gameObject.transform.rotation = anchor.Transform.ToRotation();
+    //        gameObject.transform.localScale = anchor.Extent;
+    //    }
+    //}
 
-            // Remember this anchor and its GameObject so we can update its position
-            // if we receive an update.
-            planeLookup.Add(anchor.Identifier, Instantiate(quad));
-            var gameObject = planeLookup[anchor.Identifier];
-
-            // Display the plane GameObject in the same position, orientation, and scale as the detected plane
-            gameObject.transform.position = anchor.Transform.ToPosition();
-            gameObject.transform.rotation = anchor.Transform.ToRotation();
-            gameObject.transform.localScale = anchor.Extent;
-        }
-    }
-
-    void AnchorsUpdated(AnchorsArgs args)
-    {
-        foreach (IARPlaneAnchor anchor in args.Anchors)
-        {
-            GameObject gameObject;
-            if (planeLookup.TryGetValue(anchor.Identifier, out gameObject))
-            {
-                gameObject.transform.position = anchor.Transform.ToPosition();
-                gameObject.transform.rotation = anchor.Transform.ToRotation();
-                gameObject.transform.localScale = anchor.Extent;
-            }
-        }
-    }
+    //void AnchorsUpdated(AnchorsArgs args)
+    //{
+    //    foreach (IARPlaneAnchor anchor in args.Anchors)
+    //    {
+    //        GameObject gameObject;
+    //        if (planeLookup.TryGetValue(anchor.Identifier, out gameObject))
+    //        {
+    //            gameObject.transform.position = anchor.Transform.ToPosition();
+    //            gameObject.transform.rotation = anchor.Transform.ToRotation();
+    //            gameObject.transform.localScale = anchor.Extent;
+    //        }
+    //    }
+    //}
 }
