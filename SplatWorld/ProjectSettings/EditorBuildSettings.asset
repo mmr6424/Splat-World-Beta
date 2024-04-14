@@ -29,4 +29,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/DebugServer.unity
     guid: a0169376bdf89f24fbf3fdf975b8ba1f
-  m_configObjects: {}
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: ffd3d26adac41fc4ebeecd647e27cf54,
+      type: 2}
+    UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: f00cb43c262080e419437e3e103f61d9,
+      type: 2}
