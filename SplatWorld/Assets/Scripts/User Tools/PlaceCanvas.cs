@@ -29,7 +29,7 @@ public class PlaceCanvas : MonoBehaviour
     private IARSession _session;
 
     [EnumFlagAttribute]
-    public ARHitTestResultType HitTestType = ARHitTestResultType.ExistingPlane;
+    public ARHitTestResultType HitTestType = ARHitTestResultType.ExistingPlaneUsingExtent;
 
     bool easelPlaced;
     [SerializeField]
@@ -106,6 +106,8 @@ public class PlaceCanvas : MonoBehaviour
         {
             throw new InvalidOperationException("Current Frame does not exist.");
         }
+        // you can find the enum for hit test type here: 
+        // https://lightship.dev/docs/archive/ardk/api-documentation/enum_Niantic_ARDK_AR_HitTest_ARHitTestResultType.html
         var results = currentFrame.HitTest
         (
             Camera.pixelWidth,
@@ -113,75 +115,31 @@ public class PlaceCanvas : MonoBehaviour
             touch.position,
             HitTestType
         );
-        planeOrientation = HitTestType;
+        // get information out of hit test
+        var anchor = (IARPlaneAnchor) results[0].Anchor;
+        var alignment = anchor.Alignment;
+        var geometry = anchor.Geometry;
+        //Debug.Log(anchor.Transform);
+        var hitTestType = results[0].Type;
+        planeOrientation = hitTestType;
+        //Debug.Log(planeOrientation);
 
-        Debug.Log(planeOrientation);
 
-        Vector3 rayDirection = hitPosition - Camera.transform.position;
-        // find normal angle of plane
-        Physics.Raycast(Camera.transform.position, rayDirection, out hit, Mathf.Infinity);
-        Debug.DrawRay(hitPosition, hit.normal);
-        Debug.Log(hit.normal);
+        // place closer to camera in x and z direction
+        Vector3 rayDirection = Camera.transform.position - hitPosition;
+        hitPosition = hitPosition + new Vector3(rayDirection.x *0.1f, 0, rayDirection.z *0.1f);
 
+        // create easel
         easel = Instantiate(quad, hitPosition, Quaternion.identity);
         e_meshRenderer = easel.GetComponent<MeshRenderer>();
         e_meshRenderer.material = easelMaterial;
         Transform e_obj = easel.gameObject.transform;
-        //e_obj.Rotate()
-        //e_obj.LookAt(hitPosition + rayDirection);
+
+        // rotate towards anchor's normal
+        e_obj.rotation = anchor.Transform.rotation;
+        e_obj.Rotate(new Vector3(90f, 0f, 0f));
         
-        //e_obj.LookAt(hitPosition);
-        e_obj.LookAt(hit.point, hit.transform.TransformDirection(Vector3.forward));
-
-        
-
-        easelPlaced = true;
-        //e_obj.LookAt()
-        // place the plane
-        // you can find the enum for hit test type here: https://lightship.dev/docs/archive/ardk/api-documentation/enum_Niantic_ARDK_AR_HitTest_ARHitTestResultType.html
-        // if its horizontal, place and set the normal to be up
-        //if (planeOrientation == ARHitTestResultType.EstimatedHorizontalPlane)
-        //{
-        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
-        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
-        //    e_meshRenderer.material = easelMaterial;
-        //    Transform e_obj = easel.gameObject.transform;
-        //    e_obj.forward = hit.normal;
-
-        //    easelPlaced = true;
-        //}
-        //// if its vertical, place and set the normal to be perpendicular to gravity
-        //else if (planeOrientation == ARHitTestResultType.EstimatedVerticalPlane)
-        //{
-        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
-        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
-        //    e_meshRenderer.material = easelMaterial;
-        //    Transform e_obj = easel.gameObject.transform;
-        //    e_obj.forward = hit.normal;
-
-        //    easelPlaced = true;
-        //}
-        //// if existing plane...
-        //else if (planeOrientation == ARHitTestResultType.ExistingPlane)
-        //{
-        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
-
-        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
-        //    e_meshRenderer.material = easelMaterial;
-
-        //    Transform e_obj = easel.gameObject.transform;
-        //    e_obj.forward = hit.normal;
-
-        //    easelPlaced = true;
-        //}
-        // otherwise: prompt the user to try again
-        //else
-        //{
-        //    tryAgainUI.SetActive(true);
-        //}
-
-
-
+        //easelPlaced = true;
     }
 
     // get current touch position - copied from ARLineRenderer.cs
