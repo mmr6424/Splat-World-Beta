@@ -119,51 +119,66 @@ public class PlaceCanvas : MonoBehaviour
 
         Vector3 rayDirection = hitPosition - Camera.transform.position;
         // find normal angle of plane
-        Physics.Raycast(Camera.transform.position, rayDirection, out hit);
+        Physics.Raycast(Camera.transform.position, rayDirection, out hit, Mathf.Infinity);
         Debug.DrawRay(hitPosition, hit.normal);
+        Debug.Log(hit.normal);
 
+        easel = Instantiate(quad, hitPosition, Quaternion.identity);
+        e_meshRenderer = easel.GetComponent<MeshRenderer>();
+        e_meshRenderer.material = easelMaterial;
+        Transform e_obj = easel.gameObject.transform;
+        //e_obj.Rotate()
+        //e_obj.LookAt(hitPosition + rayDirection);
+        
+        //e_obj.LookAt(hitPosition);
+        e_obj.LookAt(hit.point, hit.transform.TransformDirection(Vector3.forward));
+
+        
+
+        easelPlaced = true;
+        //e_obj.LookAt()
         // place the plane
         // you can find the enum for hit test type here: https://lightship.dev/docs/archive/ardk/api-documentation/enum_Niantic_ARDK_AR_HitTest_ARHitTestResultType.html
         // if its horizontal, place and set the normal to be up
-        if (planeOrientation == ARHitTestResultType.EstimatedHorizontalPlane)
-        {
-            easel = Instantiate(quad, hitPosition, Quaternion.identity);
-            e_meshRenderer = easel.GetComponent<MeshRenderer>();
-            e_meshRenderer.material = easelMaterial;
-            Transform e_obj = easel.gameObject.transform;
-            e_obj.forward = hit.normal;
+        //if (planeOrientation == ARHitTestResultType.EstimatedHorizontalPlane)
+        //{
+        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
+        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
+        //    e_meshRenderer.material = easelMaterial;
+        //    Transform e_obj = easel.gameObject.transform;
+        //    e_obj.forward = hit.normal;
 
-            easelPlaced = true;
-        }
-        // if its vertical, place and set the normal to be perpendicular to gravity
-        else if (planeOrientation == ARHitTestResultType.EstimatedVerticalPlane)
-        {
-            easel = Instantiate(quad, hitPosition, Quaternion.identity);
-            e_meshRenderer = easel.GetComponent<MeshRenderer>();
-            e_meshRenderer.material = easelMaterial;
-            Transform e_obj = easel.gameObject.transform;
-            e_obj.forward = hit.normal;
+        //    easelPlaced = true;
+        //}
+        //// if its vertical, place and set the normal to be perpendicular to gravity
+        //else if (planeOrientation == ARHitTestResultType.EstimatedVerticalPlane)
+        //{
+        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
+        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
+        //    e_meshRenderer.material = easelMaterial;
+        //    Transform e_obj = easel.gameObject.transform;
+        //    e_obj.forward = hit.normal;
 
-            easelPlaced = true;
-        }
-        // if existing plane...
-        else if (planeOrientation == ARHitTestResultType.ExistingPlane)
-        {
-            easel = Instantiate(quad, hitPosition, Quaternion.identity);
+        //    easelPlaced = true;
+        //}
+        //// if existing plane...
+        //else if (planeOrientation == ARHitTestResultType.ExistingPlane)
+        //{
+        //    easel = Instantiate(quad, hitPosition, Quaternion.identity);
 
-            e_meshRenderer = easel.GetComponent<MeshRenderer>();
-            e_meshRenderer.material = easelMaterial;
+        //    e_meshRenderer = easel.GetComponent<MeshRenderer>();
+        //    e_meshRenderer.material = easelMaterial;
 
-            Transform e_obj = easel.gameObject.transform;
-            e_obj.forward = hit.normal;
+        //    Transform e_obj = easel.gameObject.transform;
+        //    e_obj.forward = hit.normal;
 
-            easelPlaced = true;
-        }
+        //    easelPlaced = true;
+        //}
         // otherwise: prompt the user to try again
-        else
-        {
-            tryAgainUI.SetActive(true);
-        }
+        //else
+        //{
+        //    tryAgainUI.SetActive(true);
+        //}
 
 
 
