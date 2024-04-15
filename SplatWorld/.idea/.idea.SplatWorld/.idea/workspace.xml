@@ -5,6 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/chalk.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Images/chalk.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/paint brush.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Images/paint brush.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Images/spray can gradient.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Images/spray can gradient.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,6 +99,7 @@
       <workItem from="1710794437588" duration="213000" />
       <workItem from="1710796936046" duration="669000" />
       <workItem from="1712879621317" duration="1950000" />
+      <workItem from="1713216056017" duration="5065000" />
     </task>
     <servers />
   </component>

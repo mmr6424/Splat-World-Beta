@@ -37,9 +37,11 @@ public class ARLineRenderer : MonoBehaviour
     [SerializeField]
     private bool ifSimplify;
     [SerializeField]
-    private float startLineWidth = 0.02f;
+    private float startLineWidth = 0.2f;
     [SerializeField] 
-    private float endLineWidth = 0.02f;
+    private float endLineWidth = 0.2f;
+    [SerializeField] 
+    private Material paintCan, sprayCan;
 
     private LineRenderer prevLR;        // previous line
     private LineRenderer lineRender;    // new line
@@ -58,7 +60,11 @@ public class ARLineRenderer : MonoBehaviour
     void Start()
     {
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
-        AddNewLineRenderer(Vector3.zero);
+        AddNewLineRenderer(Vector3.zero, Quaternion.identity);
+        if (paintCan == null)
+            paintCan = new Material(Shader.Find("Sprites/Default"));
+        if (sprayCan == null)
+            sprayCan = new Material(Shader.Find("Sprites/Default"));
         CanDraw = true;
     }
     // Called when AR Session Initializes
@@ -103,9 +109,11 @@ public class ARLineRenderer : MonoBehaviour
 
         // get touch location and test for bad input
         var touch = PlatformAgnosticInput.GetTouch(0);
-        Vector3 hitPosition = GetPosition(touch);
-        if (hitPosition == new Vector3(float.MaxValue, float.MaxValue, float.MaxValue))
+        Matrix4x4 hit = GetPosition(touch);
+        if (hit == Matrix4x4.identity)
             return;
+        Vector3 hitPosition = hit.ToPosition();
+        Quaternion hitRotation = hit.ToRotation();
 
         // At a new touch, add a line renderer
         if (touch.phase == TouchPhase.Began) {
@@ -118,12 +126,12 @@ public class ARLineRenderer : MonoBehaviour
         else if (touch.phase == TouchPhase.Ended)
         {
             prevLR = lineRender;
-            AddNewLineRenderer(hitPosition);
+            AddNewLineRenderer(hitPosition, hitRotation);
         }
     }
 
     // Add New Line at Position
-    private void AddNewLineRenderer(Vector3 position) {
+    private void AddNewLineRenderer(Vector3 position, Quaternion rotation) {
         // set up line
         posCount = 2;
         // Create a new obj to attach LineRenderer to
@@ -132,8 +140,11 @@ public class ARLineRenderer : MonoBehaviour
         temp.transform.parent = Camera.transform;
         // set start position
         temp.transform.position = position;
+        temp.transform.rotation = rotation;
         // add the LR
         LineRenderer tempLineRenderer = temp.AddComponent<LineRenderer>();
+        tempLineRenderer.transform.position = position;
+        tempLineRenderer.transform.rotation = rotation;
         // Settings for the line
         SetLine(tempLineRenderer);
         Debug.Log("SetLine() called");
@@ -144,7 +155,8 @@ public class ARLineRenderer : MonoBehaviour
        /* tempLineRenderer.positionCount = posCount;
         tempLineRenderer.SetPosition(0, position);
         tempLineRenderer.SetPosition(1, position);*/
-        tempLineRenderer.transform.LookAt(Camera.transform);
+        
+       //tempLineRenderer.transform.LookAt(Camera.transform);
 
         // update references to current and previous line renderer
         prevLR = lineRender;
@@ -182,7 +194,7 @@ public class ARLineRenderer : MonoBehaviour
         lineRender.positionCount = posCount;
         lineRender.SetPosition(0, position);
         lineRender.SetPosition(1, position);
-        lineRender.transform.LookAt(Camera.transform);
+        //lineRender.transform.LookAt(Camera.transform);
         if (ifSimplify) lineRender.Simplify(0.1f);
         SetLine(lineRender);
     }
@@ -192,7 +204,7 @@ public class ARLineRenderer : MonoBehaviour
         posCount++; // increment counter
         lineRender.positionCount = posCount;
         lineRender.SetPosition(posCount - 1, position);
-        lineRender.transform.LookAt(Camera.transform);
+        //lineRender.transform.LookAt(Camera.transform);
         if (ifSimplify) lineRender.Simplify(0.1f);
         Debug.Log("Adding Point");
     }
@@ -216,16 +228,17 @@ public class ARLineRenderer : MonoBehaviour
         // Sets it to important basically
         currentLine.sortingOrder = 1;
         // Creates a new material!!!
-        currentLine.material = new Material(Shader.Find("Sprites/Default"));
+        currentLine.material = paintCan;
         // Set the colors
         currentLine.material.color = defaultColor;
         currentLine.startColor = defaultColor;
         currentLine.endColor = defaultColor;
+        currentLine.textureMode = LineTextureMode.Tile;
         currentLine.alignment = LineAlignment.TransformZ; // REQUIRED TO TURN OFF BILLBOARDING
     }
 
     // get current touch position
-    private Vector3 GetPosition(Touch touch) {
+    private Matrix4x4 GetPosition(Touch touch) {
         var currentFrame = _session.CurrentFrame;
         if (currentFrame == null)
         {
@@ -245,15 +258,18 @@ public class ARLineRenderer : MonoBehaviour
         //Debug.Log("Hit test results: " + count);
 
         if (count <= 0)
-           return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+           return Matrix4x4.identity;
 
         // Get the closest result
         var result = results[0];
 
         // Transform to the world space
-        var fresult = result.WorldTransform.ToPosition();
+        var position = result.WorldTransform;
+        //var orientation = result.WorldTransform.ToRotation();
 
-        return fresult;
+        //var fresult = orientation * position;
+
+        return position;
     }
 
 
