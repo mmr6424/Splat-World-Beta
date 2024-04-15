@@ -139,7 +139,7 @@ public class PlaceCanvas : MonoBehaviour
         e_obj.rotation = anchor.Transform.rotation;
         e_obj.Rotate(new Vector3(90f, 0f, 0f));
         
-        //easelPlaced = true;
+        easelPlaced = true;
     }
 
     // get current touch position - copied from ARLineRenderer.cs
