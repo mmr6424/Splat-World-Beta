@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="" />
+    <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,6 +94,7 @@
       <workItem from="1709589729701" duration="465000" />
       <workItem from="1710794437588" duration="213000" />
       <workItem from="1710796936046" duration="669000" />
+      <workItem from="1712879621317" duration="1950000" />
     </task>
     <servers />
   </component>
