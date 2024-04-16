@@ -46,7 +46,15 @@ public class PlaceCanvas : MonoBehaviour
     [SerializeField]
     GameObject placeCanvasUI;
 
-    //private readonly Dictionary<Guid, GameObject> planeLookup = new Dictionary<Guid, GameObject>();
+
+    //
+    // ACCESSORS
+    //
+
+    public GameObject Easel
+    {
+        get { return easel; }
+    }
 
 
     // Start is called before the first frame update
@@ -174,40 +182,4 @@ public class PlaceCanvas : MonoBehaviour
 
         return fresult;
     }
-
-    //
-    //https://lightship.dev/docs/archive/ardk/ar_world_tracking/plane_detection.html
-    //private void AnchorsAdded(AnchorsArgs args)
-    //{
-    //    foreach (IARPlaneAnchor anchor in args.Anchors)
-    //    {
-    //        // If the anchor isn't a plane, don't instantiate a GameObject
-    //        if (anchor.AnchorType != AnchorType.Plane)
-    //            continue;
-
-    //        // Remember this anchor and its GameObject so we can update its position
-    //        // if we receive an update.
-    //        planeLookup.Add(anchor.Identifier, Instantiate(quad));
-    //        var gameObject = planeLookup[anchor.Identifier];
-
-    //        // Display the plane GameObject in the same position, orientation, and scale as the detected plane
-    //        gameObject.transform.position = anchor.Transform.ToPosition();
-    //        gameObject.transform.rotation = anchor.Transform.ToRotation();
-    //        gameObject.transform.localScale = anchor.Extent;
-    //    }
-    //}
-
-    //void AnchorsUpdated(AnchorsArgs args)
-    //{
-    //    foreach (IARPlaneAnchor anchor in args.Anchors)
-    //    {
-    //        GameObject gameObject;
-    //        if (planeLookup.TryGetValue(anchor.Identifier, out gameObject))
-    //        {
-    //            gameObject.transform.position = anchor.Transform.ToPosition();
-    //            gameObject.transform.rotation = anchor.Transform.ToRotation();
-    //            gameObject.transform.localScale = anchor.Extent;
-    //        }
-    //    }
-    //}
 }
