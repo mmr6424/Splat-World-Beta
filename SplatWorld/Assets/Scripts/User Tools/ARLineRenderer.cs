@@ -1,6 +1,6 @@
 /*
  * Rose M. Rushton
- * Last Edit: 04/11/2024
+ * Last Edit: 04/17/2024
  */
 using System.Collections.Generic;
 using System;
@@ -13,6 +13,12 @@ using Niantic.ARDK.Utilities;
 using Niantic.ARDK.Utilities.Input.Legacy;
 using UnityEngine;
 
+public enum Tool
+{
+    Brush,
+    Can,
+    Chalk
+}
 public class ARLineRenderer : MonoBehaviour
 {
     //
@@ -41,6 +47,8 @@ public class ARLineRenderer : MonoBehaviour
     [SerializeField] 
     private float endLineWidth = 0.02f;
 
+    [SerializeField] private Material mBrush, mCan, mChalk;
+
     private LineRenderer prevLR;        // previous line
     private LineRenderer lineRender;    // new line
 
@@ -49,6 +57,8 @@ public class ARLineRenderer : MonoBehaviour
     private Vector3 distanceToPoint = Vector3.zero;                 // distance between old position and new position
 
     private bool CanDraw{ get; set; }
+    
+    private Tool currentTool;
 
     //
     //  METHODS
@@ -60,6 +70,7 @@ public class ARLineRenderer : MonoBehaviour
         ARSessionFactory.SessionInitialized += OnAnyARSessionDidInitialize;
         AddNewLineRenderer(Vector3.zero);
         CanDraw = true;
+        ChangeToolType(0);
     }
     // Called when AR Session Initializes
     private void OnAnyARSessionDidInitialize(AnyARSessionInitializedArgs args)
@@ -106,7 +117,9 @@ public class ARLineRenderer : MonoBehaviour
         Vector3 hitPosition = GetPosition(touch);
         if (hitPosition == new Vector3(float.MaxValue, float.MaxValue, float.MaxValue))
             return;
-
+        // Currently causes an issue wherein it creates an extra line renderer upon changing settings, not fixed yet
+        if (lineRender == prevLR)
+            AddNewLineRenderer(hitPosition);
         // At a new touch, add a line renderer
         if (touch.phase == TouchPhase.Began) {
             //AddNewLineRenderer(hitPosition);
@@ -118,7 +131,7 @@ public class ARLineRenderer : MonoBehaviour
         else if (touch.phase == TouchPhase.Ended)
         {
             prevLR = lineRender;
-            AddNewLineRenderer(hitPosition);
+            //AddNewLineRenderer(hitPosition);
         }
     }
 
@@ -202,6 +215,11 @@ public class ARLineRenderer : MonoBehaviour
         CanDraw = isAllowed;
     }
 
+    public void ChangeToolType(int type)
+    {
+        currentTool = (Tool)type;
+    }
+
     // Set current line attributes
     private void SetLine(LineRenderer currentLine) {
         Debug.Log("Original widths: " + currentLine.startWidth + ", " + currentLine.endWidth);
@@ -216,7 +234,23 @@ public class ARLineRenderer : MonoBehaviour
         // Sets it to important basically
         currentLine.sortingOrder = 1;
         // Creates a new material!!!
-        currentLine.material = new Material(Shader.Find("Sprites/Default"));
+        //currentLine.material = new Material(Shader.Find("Sprites/Default"));
+        switch (currentTool)
+        {
+            default:
+                currentLine.material = new Material(Shader.Find("Sprites/Default"));
+                Console.WriteLine("TOOL WAS NOT PROPERLY SELECTED!");
+                break;
+            case Tool.Brush:
+                currentLine.material = mBrush;
+                break;
+            case Tool.Can:
+                currentLine.material = mCan;
+                break;
+            case Tool.Chalk:
+                currentLine.material = mChalk;
+                break;
+        }
         // Set the colors
         currentLine.material.color = defaultColor;
         currentLine.startColor = defaultColor;
