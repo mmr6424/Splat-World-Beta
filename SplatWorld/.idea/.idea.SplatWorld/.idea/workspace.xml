@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +30,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;custom-paint-tools&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,6 +97,9 @@
       <workItem from="1710794437588" duration="213000" />
       <workItem from="1710796936046" duration="669000" />
       <workItem from="1712879621317" duration="1950000" />
+      <workItem from="1713373330516" duration="1201000" />
+      <workItem from="1713374598759" duration="14000" />
+      <workItem from="1713374623578" duration="1292000" />
     </task>
     <servers />
   </component>
