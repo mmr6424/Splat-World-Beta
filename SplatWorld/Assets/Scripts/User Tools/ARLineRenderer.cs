@@ -15,6 +15,7 @@ using UnityEngine;
 
 public enum Tool
 {
+    Basic,
     Brush,
     Can,
     Chalk
@@ -240,6 +241,9 @@ public class ARLineRenderer : MonoBehaviour
             default:
                 currentLine.material = new Material(Shader.Find("Sprites/Default"));
                 Console.WriteLine("TOOL WAS NOT PROPERLY SELECTED!");
+                break;
+            case Tool.Basic:
+                currentLine.material = new Material(Shader.Find("Sprites/Default"));
                 break;
             case Tool.Brush:
                 currentLine.material = mBrush;
