@@ -18,6 +18,7 @@ public class EaselCamera : MonoBehaviour
     [SerializeField]
     RenderTexture renderTexture;
     GameObject easel;
+    [SerializeField]
     Camera easelCam;
 
     //
