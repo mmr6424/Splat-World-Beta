@@ -118,17 +118,17 @@ public class ARLineRenderer : MonoBehaviour
         if (hitPosition == new Vector3(float.MaxValue, float.MaxValue, float.MaxValue))
             return;
         // Currently causes an issue wherein it creates an extra line renderer upon changing settings, not fixed yet
-        if (lineRender == prevLR)
+        if (lineRender == prevLR && CanDraw)
             AddNewLineRenderer(hitPosition);
         // At a new touch, add a line renderer
-        if (touch.phase == TouchPhase.Began) {
+        if (touch.phase == TouchPhase.Began && CanDraw) {
             //AddNewLineRenderer(hitPosition);
             AddFirstPoint(hitPosition);
         }   // update the line as touch moves
-        else if (touch.phase == TouchPhase.Moved) {
+        else if (touch.phase == TouchPhase.Moved && CanDraw) {
             UpdateLine(hitPosition);
         }   // end line at end of touch
-        else if (touch.phase == TouchPhase.Ended)
+        else if (touch.phase == TouchPhase.Ended && CanDraw)
         {
             prevLR = lineRender;
             //AddNewLineRenderer(hitPosition);
