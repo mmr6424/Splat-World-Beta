@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static UnityEditor.FilePathAttribute;
 using static UnityEngine.UI.Button;
 
 public class GalleryItem : MonoBehaviour
