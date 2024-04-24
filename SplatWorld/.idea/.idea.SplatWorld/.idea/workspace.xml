@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7bccb4fe-24ab-4948-adcc-81ecb8dbfd5f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SplatWorld/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Paint.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/User Tools/ARLineRenderer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +28,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "imagine-demo",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -103,6 +101,7 @@
       <workItem from="1713374623578" duration="1292000" />
       <workItem from="1713375935981" duration="140000" />
       <workItem from="1713823994546" duration="1069000" />
+      <workItem from="1713980089730" duration="116000" />
     </task>
     <servers />
   </component>
