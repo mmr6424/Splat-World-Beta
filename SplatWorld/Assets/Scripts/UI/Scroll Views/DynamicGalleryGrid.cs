@@ -5,24 +5,32 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
+/// DynamicGalleryGrid
 /// AUTHOR: Thomas Martinez
-/// Fills grid on gallery page with tag buttons
+/// Fills grid on gallery page with tag buttons/previews
+/// 
+/// This script only displays filler data and does not dynamically load gallery information
 /// </summary>
 public class DynamicGalleryGrid : MonoBehaviour
 {
+    // Unity scrolling element that displays gallery
     [SerializeField]
     private Transform scrollViewContent;
 
+    // prefab to create gallery items
     [SerializeField]
     private GameObject tagButtonPrefab;
 
+    // list of tag information
+    //  > can be changed from List<List<string>> to List<object> where each object is a collection of tag information whaterver form that may take
     [SerializeField]
     private List<List<string>> tags = new List<List<string>>();
 
+    // // Unity GridLayoutGroup that controls gallery content
     [SerializeField]
     private GridLayoutGroup gridlayoutgroup;
 
-    // tag panel references
+    // elements that display info in the tag panel that appears when a gallery item is tapped
     [SerializeField]
     private GameObject tagViewPanel;
     [SerializeField]
@@ -30,18 +38,19 @@ public class DynamicGalleryGrid : MonoBehaviour
     [SerializeField]
     private Text tagViewPanelLocation;
 
+    // function that triggers when button is clicked
     [SerializeField]
     private Button.ButtonClickedEvent showPanelAction;
 
     private void Start()
     {
-        // filler data
+        // populate filler data
         for (int i = 1; i < 20; i++)
         {
             tags.Add(new List<string>() { "artist" + i, "location" + i });
         }
 
-        // set grid item size
+        // set grid item size -> there is an issue here where this doedn't work on android
         gridlayoutgroup.cellSize = new Vector2(Screen.width / 3, Screen.width / 3);
 
         // populate gallery
