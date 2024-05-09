@@ -3,7 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/// <summary>
+/// Movement.cs
+/// 
+/// Moves UI panels between an active and inactive position
+/// 
+/// This could probably be rewritten to use coroutines like in MainMenuPageSwiper.cs but it still works well enough
+/// </summary>
 public class Movement : MonoBehaviour
 {
     public UnityEngine.GameObject menuOriginalPosR, menuActivePosR, menuOriginalPosL, menuActivePosL, menuPanel;
@@ -101,6 +107,10 @@ public class Movement : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Moves panel to its active position
+    /// </summary>
     public void MovePanel()
     {
         moveMenuPanelBack = false;
@@ -109,6 +119,9 @@ public class Movement : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Moves panel to its inactive position (usually somewhere offscreen)
+    /// </summary>
     public void MovePanelBack()
     {
         moveMenuPanel = false;

@@ -7,6 +7,13 @@ using UnityEngine.UI;
 using static UnityEditor.FilePathAttribute;
 using static UnityEngine.UI.Button;
 
+/// <summary>
+/// GalleryItem
+/// Author: Thomas Martinez
+/// Gallery Item that displays previews of tag w/ a location and open larger view when tapped
+/// 
+/// This script only displays filler data and does not dynamically load gallery information
+/// </summary>
 public class GalleryItem : MonoBehaviour
 {
     // this button
@@ -17,7 +24,7 @@ public class GalleryItem : MonoBehaviour
     [SerializeField]
     private Text locationText;
 
-    // Tag View panel
+    // Tag View panel information
     [SerializeField]
     private GameObject tagViewPanel;
     [SerializeField]
@@ -29,17 +36,33 @@ public class GalleryItem : MonoBehaviour
     private List<string> tagData;
     public List<string> TagData { set { tagData = value; } }
 
+    /// <summary>
+    /// Sets the info that is displayed by the tag view
+    /// </summary>
+    /// <param name="panel"></param>
+    /// <param name="artist"></param>
+    /// <param name="location"></param>
     public void SetTagViewPanelData(GameObject panel, Text artist, Text location)
     {
         locationText.text = tagData[1];
         tagViewPanel = panel;
     }
 
+    /// <summary>
+    /// stores tag information related to this gallery item
+    /// called by DynamicGalleryGrid that controls items
+    /// </summary>
     public void SetButtonData()
     {
         locationText.text = tagData[1];
     }
 
+    /// <summary>
+    /// sets the function that is called when gallery item is clicked
+    /// 
+    /// called by DynamicGalleryGrid that controls items
+    /// </summary>
+    /// <param name="action"> Tag View -> GameObject.SetActive(true) </param>
     public void AddOnclickFunction(Button.ButtonClickedEvent action)
     {
         button.onClick = action;
