@@ -1,5 +1,5 @@
 ![Spray can surrounded by splashes of paint](/SplatWorld/Assets/Images/Icons/icon.png)
-# Splat World (Beta 1.7.0)
+# Splat World (Beta 1.3.1)
 __Repository for storing the Unity files relating to the Beta design of Splat World, the hit new AR graffiti game!__
 > [!IMPORTANT]
 > This README.md file is being updated currently and is unfinished. Advice may be incomplete or out of date.
