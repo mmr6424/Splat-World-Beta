@@ -13,4 +13,12 @@ New Developers will need [Unity version 2020.3.34f1](https://unity.com/releases/
 > [!WARNING]
 > If gradle is not set correctly, project will __not__ build on your computer, regardless of other settings!
 
+## App UI
+> Home Screen Scrolling:
+>   Panels exist in a "grid" where each space is the size of the screen. A swipe between pages moves the entire grid across the camera space so that a new panel
+>   become visible.
+> Tag Gallery:
+>   Dynamically creates tag thumbnails in a flowing grid (similar to something like an instagram profile). Tag information is loaded from a filler dataset right now.
+>   Awaiting server implementation
+
 ## Current Known Issues
